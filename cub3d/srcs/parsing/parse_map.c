@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:06:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 01:10:47 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/19 10:38:23 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,13 +130,13 @@ static void	parse_config_line(t_game *game, t_map *map, char *line)
 	if (!trimmed || trimmed[0] == '\0')
 		;
 	else if (ft_strncmp(trimmed, "NO", 2) == 0)
-		process_texture_key(game, trimmed, "NO", &map->conf.tex_no);
+		process_texture_key(game, trimmed, "NO", &map->conf.text_no);
 	else if (ft_strncmp(trimmed, "SO", 2) == 0)
-		process_texture_key(game, trimmed, "SO", &map->conf.tex_so);
+		process_texture_key(game, trimmed, "SO", &map->conf.text_so);
 	else if (ft_strncmp(trimmed, "WE", 2) == 0)
-		process_texture_key(game, trimmed, "WE", &map->conf.tex_we);
+		process_texture_key(game, trimmed, "WE", &map->conf.text_we);
 	else if (ft_strncmp(trimmed, "EA", 2) == 0)
-		process_texture_key(game, trimmed, "EA", &map->conf.tex_ea);
+		process_texture_key(game, trimmed, "EA", &map->conf.text_ea);
 	else if (ft_strncmp(trimmed, "F", 1) == 0)
 		process_color_key(game, trimmed, "F", &map->conf.floor_color);
 	else if (ft_strncmp(trimmed, "C", 1) == 0)
@@ -180,8 +180,8 @@ static int	process_config(t_game *game, t_map *map, int i, int *map_start)
 
 static void	validate_config(t_game *game, t_map *map)
 {
-	if (!map->conf.tex_no || !map->conf.tex_so
-		|| !map->conf.tex_we || !map->conf.tex_ea)
+	if (!map->conf.text_no || !map->conf.text_so
+		|| !map->conf.text_we || !map->conf.text_ea)
 		error(game, "Missing texture configuration");
 	if (map->conf.floor_color == -1 || map->conf.ceiling_color == -1)
 		error(game, "Missing color configuration");
@@ -195,7 +195,7 @@ static void	check_map_chars(t_game *game, char c, int row, int col)
 	{
 		game->player.pos.x = col;
 		game->player.pos.y = row;
-		game->player.dir = c;
+		game->player.conf_dir = c;
 		game->map->player_count++;
 	}
 }

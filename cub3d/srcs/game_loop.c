@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asset_path.h                                       :+:      :+:    :+:   */
+/*   game_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/19 09:08:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 09:10:06 by nlouis           ###   ########.fr       */
+/*   Created: 2025/02/19 12:33:37 by nlouis            #+#    #+#             */
+/*   Updated: 2025/02/19 15:00:31 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ASSET_PATH_H
-# define ASSET_PATH_H
+#include "cub3d.h"
 
-# define NO_WALL "textures/wall_n.xpm"
-# define SO_WALL "textures/wall_s.xpm"
-# define WE_WALL "textures/wall_w.xpm"
-# define EA_WALL "textures/wall_e.xpm"
-
-#endif
+int	game_loop(t_game *game)
+{
+	if (!game->is_paused)
+	{
+		render_scene(game);
+	}
+	return (SUCCESS);
+}

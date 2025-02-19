@@ -6,7 +6,7 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/02/16 22:48:33 by nlouis           ###   ########.fr        #
+#    Updated: 2025/02/19 13:33:39 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,16 +17,22 @@ NAME = cub3d
 
 SRCS =  srcs/main.c \
 		srcs/init_game.c \
-		srcs/utils/error.c \
+		srcs/render_scene.c \
+		srcs/game_loop.c \
+		srcs/handle_hooks.c \
+		srcs/move_player.c \
+		srcs/rotate_camera.c \
+		srcs/utils/utils.c \
 		srcs/utils/free_memory.c \
 		srcs/utils/x_memory_utils.c \
+		srcs/load_textures.c \
 		srcs/parsing/parse_map.c
 
 OBJSDIR = objs
 OBJS   = $(addprefix $(OBJSDIR)/,$(SRCS:.c=.o))
 
 LIBFT   = libft/lib/libft.a
-LDFLAGS = -Llibft/lib -lft -Lmlx -lmlx -lXext -lX11
+LDFLAGS = -Llibft/lib -lft -Lmlx -lmlx -lXext -lX11 -lm
 
 all: $(NAME)
 

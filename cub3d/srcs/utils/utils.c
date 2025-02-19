@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 13:12:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 00:08:45 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/19 12:30:02 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,11 @@ void	error(t_game *game, char *err_msg)
 	if (errno)
 		perror("");
 	exit(EXIT_FAILURE);
+}
+
+int	close_game(t_game *game)
+{
+	free_game(game);
+	exit(EXIT_SUCCESS);
+	return (SUCCESS);
 }

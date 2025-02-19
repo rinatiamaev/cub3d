@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   load_images.c                                      :+:      :+:    :+:   */
+/*   load_textures.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:25:33 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 09:40:09 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/19 14:32:00 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	load_wall_textures(t_game *game, t_img *img, t_conf conf, void *mlx)
+static void	load_single_texture(t_game *game, t_texture *tex, char *path, void *mlx)
 {
-	t_point	size;
-
-	size = (t_point){TEXT_W, TEXT_H};
-	img->no_wall = mlx_xpm_file_to_image(mlx, conf.text_no, &size.x, &size.y);
-	img->so_wall = mlx_xpm_file_to_image(mlx, conf.text_so, &size.x, &size.y);
-	img->we_wall = mlx_xpm_file_to_image(mlx, conf.text_we, &size.x, &size.y);
-	img->ea_wall = mlx_xpm_file_to_image(mlx, conf.text_ea, &size.x, &size.y);
-	if (!img->no_wall || !img->so_wall || !img->we_wall || !img->ea_wall)
+	tex->ptr = mlx_xpm_file_to_image(mlx, path, &tex->width, &tex->height);
+	if (!tex->ptr)
 		error(game, "mlx_xpm_file_to_image() failed");
+	tex->addr = mlx_get_data_addr(tex->ptr, &tex->bpp, &tex->line_len, &tex->endian);
+	if (!tex->addr)
+		error(game, "mlx_get_data_addr() failed");
 }
 
-void	load_textures(t_game *game)
+void	load_textures(t_game *game, t_conf conf)
 {
-	load_wall_textures(game, &game->img, game->map->conf, game->mlx);
+	load_single_texture(game, &game->txt.no, conf.text_no, game->mlx);
+	load_single_texture(game, &game->txt.so, conf.text_so, game->mlx);
+	load_single_texture(game, &game->txt.we, conf.text_we, game->mlx);
+	load_single_texture(game, &game->txt.ea, conf.text_ea, game->mlx);
 }

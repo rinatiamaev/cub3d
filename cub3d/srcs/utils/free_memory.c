@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 13:28:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 09:41:54 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/19 14:35:37 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ static void	free_window(t_window *window, void *mlx)
 
 static void	free_textures(t_game *game)
 {
-	if (game->img.no_wall)
-		mlx_destroy_image(game->mlx, game->img.no_wall);
-	if (game->img.so_wall)
-		mlx_destroy_image(game->mlx, game->img.so_wall);
-	if (game->img.we_wall)
-		mlx_destroy_image(game->mlx, game->img.we_wall);
-	if (game->img.ea_wall)
-		mlx_destroy_image(game->mlx, game->img.ea_wall);
+	if (game->txt.no.ptr)
+		mlx_destroy_image(game->mlx, game->txt.no.ptr);
+	if (game->txt.so.ptr)
+		mlx_destroy_image(game->mlx, game->txt.so.ptr);
+	if (game->txt.we.ptr)
+		mlx_destroy_image(game->mlx, game->txt.we.ptr);
+	if (game->txt.ea.ptr)
+		mlx_destroy_image(game->mlx, game->txt.ea.ptr);
 }
 
 void	free_game(t_game *game)

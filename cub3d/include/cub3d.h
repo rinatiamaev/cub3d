@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 09:40:01 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/19 14:59:07 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define CUB3D_H
 
 # include "libft.h"
-# include "asset_path.h"
 
 # include <mlx.h>
 # include <errno.h>
@@ -23,19 +22,51 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <time.h>
+# include <math.h>
+
+# define SUCCESS	0
+# define FAILURE	1
+
+# define KEYPRESS			2
+# define KEYRELEASE			3
+# define FOCUS_IN			9
+# define FOCUS_OUT			10
+# define MINIMIZED			12
+# define DESTROY_NOTIFY		17
+# define CONFIGURE_NOTIFY	22
+
+# define KEYPRESS_MASK			1
+# define KEYRELEASE_MASK		2
+# define FOCUS_CHANGE_MASK		2097152
+# define STRUCTURE_NOTIFY_MASK	131072
+
+# define UP			122
+# define DOWN		115
+# define LEFT		113
+# define RIGHT		100
+# define ARR_LEFT	65361
+# define ARR_RIGHT	65363
+# define PAUSE		32
+# define ESC		65307
 
 # define WIN_NAME	"Cube3d"
-# define WIN_W	1600
-# define WIN_H	1200
+# define WIN_W		1600
+# define WIN_H		1200
 
-# define TEXT_W 128
-# define TEXT_H 128
+# define TEXT_W		128
+# define TEXT_H		128
 
 typedef struct s_point
 {
 	int	x;
 	int	y;
 }	t_point;
+
+typedef struct s_dpoint
+{
+	double  x;
+	double  y;
+}   t_dpoint;
 
 typedef struct s_conf
 {
@@ -69,18 +100,62 @@ typedef struct s_window
 
 typedef struct s_player
 {
-	t_point	pos;
-	char	dir;
+	char		conf_dir;
+	t_dpoint	pos;		// (x, y) in double precision
+	t_dpoint	dir;		// Direction vector: which way is "forward"
+	t_dpoint	plane;		// Camera plane vector: perpendicular to dir
+	double		rot_speed;	// Rotation speed per frame
+	double		move_speed;	// Movement speed per frame
 }	t_player;
+
+typedef struct s_texture
+{
+	void	*ptr;		// The MLX image pointer for this texture
+	char	*addr;		// Raw address of the texture data
+	int		width;		// Texture width (pixels)
+	int		height;		// Texture height (pixels)
+	int		bpp;		// Bits per pixel
+	int		line_len;	// Number of bytes in one row of the texture
+	int		endian;		// 0 = little-endian, 1 = big-endian
+}	t_texture;
+
+typedef struct s_txt
+{
+	t_texture	no;
+	t_texture	so;
+	t_texture	we;
+	t_texture	ea;
+}	t_txt;
 
 typedef struct s_img
 {
-	t_point		size;
-	void		*no_wall;
-	void		*so_wall;
-	void		*we_wall;
-	void		*ea_wall;
+	void	*ptr;		// The MLX image pointer for the *frame buffer*
+	char	*addr;		// Pointer to the image buffer
+	int		bpp;		// Bits per pixel
+	int		line_len;	// Number of bytes in one line of the *frame buffer*
+	int		endian;		// 0 = little-endian, 1 = big-endian
 }	t_img;
+
+typedef struct s_ray
+{
+	t_dpoint	rayDir;			// Ray direction
+	int			mapX;			// Current map square x
+	int			mapY;			// Current map square y
+	t_dpoint	deltaDist;		// Distance to next side in x and y
+	t_dpoint	sideDist;		// Initial distance to next x or y side
+	int			stepX;			// Step direction in x (+1 or -1)
+	int			stepY;			// Step direction in y (+1 or -1)
+	int			hit;			// 1 if a wall was hit
+	int			side;			// 0 for vertical side, 1 for horizontal side
+	double		perpWallDist;	// Perpendicular distance from player to wall
+	int			lineHeight;		// Height of wall line to draw
+	int			drawStart;		// Starting pixel for wall line
+	int			drawEnd;		// Ending pixel for wall line
+	double		wallX;			// Exact wall hit position (for texture mapping)
+	int			texX;			// X coordinate on texture
+	double		step;			// How much to increase texture coordinate per screen pixel
+	double		texPos;			// Initial texture coordinate position
+} t_ray;
 
 typedef struct s_game
 {
@@ -88,13 +163,27 @@ typedef struct s_game
 	void		*mlx;
 	t_window	*window;
 	t_player	player;
+	t_txt		txt;
 	t_img		img;
+	bool		is_paused;
+	bool		keys[66000];
 }	t_game;
 
 t_game	*init_game(char *filename);
 void	error(t_game *game, char *err_msg);
 void	free_game(t_game *game);
 void	parse_map(t_game *game, t_map *map);
+void	load_textures(t_game *game, t_conf conf);
+int		close_game(t_game *game);
+void	render_scene(t_game *game);
+int		game_loop(t_game *game);
+void	handle_event_hooks(t_game *game, t_window *window);
+void	move_forward(t_player *player, t_map *map, double move_speed);
+void	move_backward(t_player *player, t_map *map, double move_speed);
+void	strafe_left(t_player *player, t_map *map, double move_speed);
+void	strafe_right(t_player *player, t_map *map, double move_speed);
+void	rotate_left(t_player *player, double rot_speed);
+void	rotate_right(t_player *player, double rot_speed);
 
 void	*x_calloc(t_game *game, size_t count, size_t size);
 char	*x_strjoin_free(t_game *game, char *s1, char *s2);
