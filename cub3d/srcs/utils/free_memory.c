@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 13:28:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 14:35:37 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/19 20:49:45 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ static void	free_map(t_map *map)
 {
 	ft_free_array((void **)map->file_content);
 	ft_free_array((void **)map->map_layout);
-	ft_free_matrix(map->matrix, map->row_count);
-	free(map->conf.text_no);
-	free(map->conf.text_so);
-	free(map->conf.text_we);
-	free(map->conf.text_ea);
+	ft_free_matrix(map->matrix, map->size.y);
+	free(map->conf.tex_no);
+	free(map->conf.tex_so);
+	free(map->conf.tex_we);
+	free(map->conf.tex_ea);
 	free(map);
 }
 
@@ -36,14 +36,14 @@ static void	free_window(t_window *window, void *mlx)
 
 static void	free_textures(t_game *game)
 {
-	if (game->txt.no.ptr)
-		mlx_destroy_image(game->mlx, game->txt.no.ptr);
-	if (game->txt.so.ptr)
-		mlx_destroy_image(game->mlx, game->txt.so.ptr);
-	if (game->txt.we.ptr)
-		mlx_destroy_image(game->mlx, game->txt.we.ptr);
-	if (game->txt.ea.ptr)
-		mlx_destroy_image(game->mlx, game->txt.ea.ptr);
+	if (game->tex.no.ptr)
+		mlx_destroy_image(game->mlx, game->tex.no.ptr);
+	if (game->tex.so.ptr)
+		mlx_destroy_image(game->mlx, game->tex.so.ptr);
+	if (game->tex.we.ptr)
+		mlx_destroy_image(game->mlx, game->tex.we.ptr);
+	if (game->tex.ea.ptr)
+		mlx_destroy_image(game->mlx, game->tex.ea.ptr);
 }
 
 void	free_game(t_game *game)

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:34:30 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 14:48:48 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/19 21:26:37 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,23 @@
 */
 void	put_pixel(t_img *img, int x, int y, int color)
 {
+	char	*dst;
 	if (x < 0 || x >= WIN_W || y < 0 || y >= WIN_H)
-		return;
-	char *dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
+		return ;
+	dst = img->addr + (y * img->line_size + x * (img->bpp / 8));
 	*(unsigned int *)dst = color;
 }
 
 /*
 ** Retrieves a pixel color from a given texture at texture coordinate (x, y).
 ** - No longer calls mlx_get_data_addr each time.
-** - We assume x,y are within [0..(tex->width-1)] x [0..(tex->height-1)].
+** - We assume x,y are within [0..(tex->size.x-1)] x [0..(tex->size.y-1)].
 */
 static int	get_tex_color(t_texture *tex, int x, int y)
 {
 	char	*pixel;
 
-	pixel = tex->addr + (y * tex->line_len + x * (tex->bpp / 8));
+	pixel = tex->addr + (y * tex->line_size + x * (tex->bpp / 8));
 	return (*(unsigned int *)pixel);
 }
 
@@ -42,16 +43,16 @@ static int	get_tex_color(t_texture *tex, int x, int y)
 */
 void	init_ray(t_game *game, t_ray *ray, int x)
 {
-	double	cameraX;
+	double	camera_x;
 
-	cameraX = 2.0 * (double)x / (double)WIN_W - 1.0;
-	ray->rayDir.x = game->player.dir.x + game->player.plane.x * cameraX;
-	ray->rayDir.y = game->player.dir.y + game->player.plane.y * cameraX;
-	ray->mapX = (int)game->player.pos.x;
-	ray->mapY = (int)game->player.pos.y;
-	ray->deltaDist.x = fabs(1.0 / ray->rayDir.x);
-	ray->deltaDist.y = fabs(1.0 / ray->rayDir.y);
-	ray->hit = 0;
+	camera_x = 2.0 * (double)x / (double)WIN_W - 1.0;
+	ray->dir.x = game->player.dir.x + game->player.plane.x * camera_x;
+	ray->dir.y = game->player.dir.y + game->player.plane.y * camera_x;
+	ray->map.x = (int)game->player.pos.x;
+	ray->map.y = (int)game->player.pos.y;
+	ray->delta_dist.x = fabs(1.0 / ray->dir.x);
+	ray->delta_dist.y = fabs(1.0 / ray->dir.y);
+	ray->hit = false;
 }
 
 /*
@@ -60,25 +61,25 @@ void	init_ray(t_game *game, t_ray *ray, int x)
 */
 void	init_dda_ray(t_game *game, t_ray *ray)
 {
-	if (ray->rayDir.x < 0)
+	if (ray->dir.x < 0)
 	{
-		ray->stepX = -1;
-		ray->sideDist.x = (game->player.pos.x - ray->mapX) * ray->deltaDist.x;
+		ray->step_dir.x = -1;
+		ray->side_dist.x = (game->player.pos.x - ray->map.x) * ray->delta_dist.x;
 	}
 	else
 	{
-		ray->stepX = 1;
-		ray->sideDist.x = (ray->mapX + 1.0 - game->player.pos.x) * ray->deltaDist.x;
+		ray->step_dir.x = 1;
+		ray->side_dist.x = (ray->map.x + 1.0 - game->player.pos.x) * ray->delta_dist.x;
 	}
-	if (ray->rayDir.y < 0)
+	if (ray->dir.y < 0)
 	{
-		ray->stepY = -1;
-		ray->sideDist.y = (game->player.pos.y - ray->mapY) * ray->deltaDist.y;
+		ray->step_dir.y = -1;
+		ray->side_dist.y = (game->player.pos.y - ray->map.y) * ray->delta_dist.y;
 	}
 	else
 	{
-		ray->stepY = 1;
-		ray->sideDist.y = (ray->mapY + 1.0 - game->player.pos.y) * ray->deltaDist.y;
+		ray->step_dir.y = 1;
+		ray->side_dist.y = (ray->map.y + 1.0 - game->player.pos.y) * ray->delta_dist.y;
 	}
 }
 
@@ -89,19 +90,19 @@ void	perform_dda(t_game *game, t_ray *ray)
 {
 	while (ray->hit == 0)
 	{
-		if (ray->sideDist.x < ray->sideDist.y)
+		if (ray->side_dist.x < ray->side_dist.y)
 		{
-			ray->sideDist.x += ray->deltaDist.x;
-			ray->mapX += ray->stepX;
+			ray->side_dist.x += ray->delta_dist.x;
+			ray->map.x += ray->step_dir.x;
 			ray->side = 0;
 		}
 		else
 		{
-			ray->sideDist.y += ray->deltaDist.y;
-			ray->mapY += ray->stepY;
+			ray->side_dist.y += ray->delta_dist.y;
+			ray->map.y += ray->step_dir.y;
 			ray->side = 1;
 		}
-		if (game->map->matrix[ray->mapY][ray->mapX] == 1)
+		if (game->map->matrix[ray->map.y][ray->map.x] == 1)
 			ray->hit = 1;
 	}
 }
@@ -110,52 +111,49 @@ void	perform_dda(t_game *game, t_ray *ray)
 ** Calculates additional properties for the ray after DDA:
 ** perpendicular wall distance, line height, draw start/end, and initial texture mapping.
 ** We assume all wall textures share the same dimensions, e.g.:
-**   int texWidth  = game->txt.no.width;
-**   int texHeight = game->txt.no.height;
+**   int TEX_W  = game->tex.no.width;
+**   int TEX_H = game->tex.no.height;
 */
 void	calculate_ray_properties(t_game *game, t_ray *ray)
 {
-	int texWidth  = game->txt.no.width;   // or whichever texture
-	int texHeight = game->txt.no.height;  // or whichever texture
-
 	if (ray->side == 0)
-		ray->perpWallDist = (ray->mapX - game->player.pos.x
-				+ (1 - ray->stepX) / 2.0) / ray->rayDir.x;
+		ray->perp_w_dist = (ray->map.x - game->player.pos.x
+				+ (1 - ray->step_dir.x) / 2.0) / ray->dir.x;
 	else
-		ray->perpWallDist = (ray->mapY - game->player.pos.y
-				+ (1 - ray->stepY) / 2.0) / ray->rayDir.y;
+		ray->perp_w_dist = (ray->map.y - game->player.pos.y
+				+ (1 - ray->step_dir.y) / 2.0) / ray->dir.y;
 
-	ray->lineHeight = (int)((double)WIN_H / ray->perpWallDist);
+	ray->line_height = (int)((double)WIN_H / ray->perp_w_dist);
 
-	ray->drawStart = -ray->lineHeight / 2 + WIN_H / 2;
-	if (ray->drawStart < 0)
-		ray->drawStart = 0;
-	ray->drawEnd = ray->lineHeight / 2 + WIN_H / 2;
-	if (ray->drawEnd >= WIN_H)
-		ray->drawEnd = WIN_H - 1;
+	ray->draw_start = -ray->line_height / 2 + WIN_H / 2;
+	if (ray->draw_start < 0)
+		ray->draw_start = 0;
+	ray->draw_end = ray->line_height / 2 + WIN_H / 2;
+	if (ray->draw_end >= WIN_H)
+		ray->draw_end = WIN_H - 1;
 
 	// Calculate where exactly the wall was hit (for texture X coordinate).
 	if (ray->side == 0)
-		ray->wallX = game->player.pos.y + ray->perpWallDist * ray->rayDir.y;
+		ray->wall_x = game->player.pos.y + ray->perp_w_dist * ray->dir.y;
 	else
-		ray->wallX = game->player.pos.x + ray->perpWallDist * ray->rayDir.x;
-	ray->wallX -= floor(ray->wallX);
+		ray->wall_x = game->player.pos.x + ray->perp_w_dist * ray->dir.x;
+	ray->wall_x -= floor(ray->wall_x);
 
-	// Initial texX depends on side & direction
-	ray->texX = (int)(ray->wallX * (double)texWidth);
-	if (ray->side == 0 && ray->rayDir.x > 0)
-		ray->texX = texWidth - ray->texX - 1;
-	if (ray->side == 1 && ray->rayDir.y < 0)
-		ray->texX = texWidth - ray->texX - 1;
+	// Initial tex.x depends on side & direction
+	ray->tex.x = (int)(ray->wall_x * (double)TEX_W);
+	if (ray->side == 0 && ray->dir.x > 0)
+		ray->tex.x = TEX_W - ray->tex.x - 1;
+	if (ray->side == 1 && ray->dir.y < 0)
+		ray->tex.x = TEX_W - ray->tex.x - 1;
 
 	// Calculate vertical step for each pixel and the initial texture position
-	ray->step = (double)texHeight / ray->lineHeight;
-	ray->texPos = (ray->drawStart - WIN_H / 2 + ray->lineHeight / 2) * ray->step;
+	ray->step = (double)TEX_H / ray->line_height;
+	ray->texPos = (ray->draw_start - WIN_H / 2 + ray->line_height / 2) * ray->step;
 }
 
 /*
 ** Draws a vertical column (using wall texture) at screen column x.
-** We pick which texture to use based on ray->side and ray->rayDir.
+** We pick which texture to use based on ray->side and ray->dir.
 */
 void	draw_vertical_column(t_game *game, t_ray *ray, int x)
 {
@@ -164,28 +162,28 @@ void	draw_vertical_column(t_game *game, t_ray *ray, int x)
 	// Pick the correct texture:
 	if (ray->side == 0)
 	{
-		if (ray->rayDir.x > 0)
-			tex = &game->txt.ea;
+		if (ray->dir.x > 0)
+			tex = &game->tex.ea;
 		else
-			tex = &game->txt.we;
+			tex = &game->tex.we;
 	}
 	else
 	{
-		if (ray->rayDir.y > 0)
-			tex = &game->txt.so;
+		if (ray->dir.y > 0)
+			tex = &game->tex.so;
 		else
-			tex = &game->txt.no;
+			tex = &game->tex.no;
 	}
 
-	// Draw the wall slice from drawStart to drawEnd
-	int y = ray->drawStart;
-	while (y <= ray->drawEnd)
+	// Draw the wall slice from draw_start to draw_end
+	int y = ray->draw_start;
+	while (y <= ray->draw_end)
 	{
 		// Use the texture's actual height here
-		int texY = (int)ray->texPos & (tex->height - 1);
+		ray->tex.y = (int)ray->texPos & (tex->size.y - 1);
 		ray->texPos += ray->step;
 
-		int color = get_tex_color(tex, ray->texX, texY);
+		int color = get_tex_color(tex, ray->tex.x, ray->tex.y);
 		put_pixel(&game->img, x, y, color);
 		y++;
 	}
@@ -235,7 +233,7 @@ void	render_scene(t_game *game)
 
 	game->img.ptr = mlx_new_image(game->mlx, WIN_W, WIN_H);
 	game->img.addr = mlx_get_data_addr(game->img.ptr,
-		&game->img.bpp, &game->img.line_len, &game->img.endian);
+		&game->img.bpp, &game->img.line_size, &game->img.endian);
 
 	// Fill ceiling and floor
 	fill_ceiling_and_floor(&game->img,

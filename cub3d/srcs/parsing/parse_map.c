@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:06:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 10:38:23 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/19 20:46:53 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,13 +130,13 @@ static void	parse_config_line(t_game *game, t_map *map, char *line)
 	if (!trimmed || trimmed[0] == '\0')
 		;
 	else if (ft_strncmp(trimmed, "NO", 2) == 0)
-		process_texture_key(game, trimmed, "NO", &map->conf.text_no);
+		process_texture_key(game, trimmed, "NO", &map->conf.tex_no);
 	else if (ft_strncmp(trimmed, "SO", 2) == 0)
-		process_texture_key(game, trimmed, "SO", &map->conf.text_so);
+		process_texture_key(game, trimmed, "SO", &map->conf.tex_so);
 	else if (ft_strncmp(trimmed, "WE", 2) == 0)
-		process_texture_key(game, trimmed, "WE", &map->conf.text_we);
+		process_texture_key(game, trimmed, "WE", &map->conf.tex_we);
 	else if (ft_strncmp(trimmed, "EA", 2) == 0)
-		process_texture_key(game, trimmed, "EA", &map->conf.text_ea);
+		process_texture_key(game, trimmed, "EA", &map->conf.tex_ea);
 	else if (ft_strncmp(trimmed, "F", 1) == 0)
 		process_color_key(game, trimmed, "F", &map->conf.floor_color);
 	else if (ft_strncmp(trimmed, "C", 1) == 0)
@@ -180,8 +180,8 @@ static int	process_config(t_game *game, t_map *map, int i, int *map_start)
 
 static void	validate_config(t_game *game, t_map *map)
 {
-	if (!map->conf.text_no || !map->conf.text_so
-		|| !map->conf.text_we || !map->conf.text_ea)
+	if (!map->conf.tex_no || !map->conf.tex_so
+		|| !map->conf.tex_we || !map->conf.tex_ea)
 		error(game, "Missing texture configuration");
 	if (map->conf.floor_color == -1 || map->conf.ceiling_color == -1)
 		error(game, "Missing color configuration");
@@ -202,8 +202,8 @@ static void	check_map_chars(t_game *game, char c, int row, int col)
 
 static void	check_map_boundaries(t_game *game, t_map *map, int row, int col)
 {
-	if (row == 0 || row == map->row_count - 1
-		|| col == 0 || col == map->max_width - 1)
+	if (row == 0 || row == map->size.y - 1
+		|| col == 0 || col == map->size.x - 1)
 		error(game, "Map is not closed (cell on boundary)");
 	if (map->map_layout[row - 1][col] == ' '
 		|| map->map_layout[row + 1][col] == ' '
@@ -228,15 +228,15 @@ static void	calculate_map_dimension(t_game *game, t_map *map)
 	int	i;
 	int	current_length;
 
-	map->row_count = ft_arraysize((void **)map->map_layout);
-	if (map->row_count == 0)
+	map->size.y = ft_arraysize((void **)map->map_layout);
+	if (map->size.y == 0)
 		error(game, "Map layout is empty");
 	i = 0;
 	while (map->map_layout[i])
 	{
 		current_length = ft_strlen(map->map_layout[i]);
-		if (current_length > map->max_width)
-			map->max_width = current_length;
+		if (current_length > map->size.x)
+			map->size.x = current_length;
 		i++;
 	}
 }
@@ -248,14 +248,14 @@ static void	normalize_map_layout(t_game *game, t_map *map)
 	char	*new_line;
 
 	row = 0;
-	while (row < map->row_count)
+	while (row < map->size.y)
 	{
 		len = ft_strlen(map->map_layout[row]);
-		if (len < map->max_width)
+		if (len < map->size.x)
 		{
-			new_line = x_calloc(game, map->max_width + 1, sizeof(char));
+			new_line = x_calloc(game, map->size.x + 1, sizeof(char));
 			ft_memcpy(new_line, map->map_layout[row], len);
-			while (len < map->max_width)
+			while (len < map->size.x)
 			{
 				new_line[len] = ' ';
 				len++;
@@ -275,7 +275,7 @@ static void	parse_map_layout(t_game *game, t_map *map)
 	calculate_map_dimension(game, map);
 	normalize_map_layout(game, map);
 	row = 0;
-	while (row < map->row_count)
+	while (row < map->size.y)
 	{
 		col = 0;
 		while (col < (int)ft_strlen(map->map_layout[row]))
@@ -314,9 +314,9 @@ static void	map_layout_to_matrix(t_game *game, t_map *map)
 	int	i;
 	int	j;
 
-	map->matrix = x_create_matrix(game, map->row_count, map->max_width);
+	map->matrix = x_create_matrix(game, map->size.y, map->size.x);
 	i = 0;
-	while (i < map->row_count)
+	while (i < map->size.y)
 	{
 		j = 0;
 		while (j < (int)ft_strlen(map->map_layout[i]))

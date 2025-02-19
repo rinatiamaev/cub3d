@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 14:59:07 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/19 21:24:29 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@
 # define WIN_W		1600
 # define WIN_H		1200
 
-# define TEXT_W		128
-# define TEXT_H		128
+# define TEX_W		128
+# define TEX_H		128
 
 typedef struct s_point
 {
@@ -70,10 +70,10 @@ typedef struct s_dpoint
 
 typedef struct s_conf
 {
-	char	*text_no;
-	char	*text_so;
-	char	*text_we;
-	char	*text_ea;
+	char	*tex_no;
+	char	*tex_so;
+	char	*tex_we;
+	char	*tex_ea;
 	int		floor_color;
 	int		ceiling_color;
 } t_conf;
@@ -85,8 +85,7 @@ typedef struct s_map
 	char	**file_content;
 	t_conf	conf;
 	char	**map_layout;
-	int		row_count;
-	int		max_width;
+	t_point	size;
 	int		player_count;
 	int		**matrix;
 }	t_map;
@@ -112,47 +111,44 @@ typedef struct s_texture
 {
 	void	*ptr;		// The MLX image pointer for this texture
 	char	*addr;		// Raw address of the texture data
-	int		width;		// Texture width (pixels)
-	int		height;		// Texture height (pixels)
+	t_point	size;		// Texture size (pixels)
 	int		bpp;		// Bits per pixel
-	int		line_len;	// Number of bytes in one row of the texture
+	int		line_size;	// Number of bytes in one row of the texture
 	int		endian;		// 0 = little-endian, 1 = big-endian
 }	t_texture;
 
-typedef struct s_txt
+typedef struct s_tex
 {
 	t_texture	no;
 	t_texture	so;
 	t_texture	we;
 	t_texture	ea;
-}	t_txt;
+}	t_tex;
 
 typedef struct s_img
 {
 	void	*ptr;		// The MLX image pointer for the *frame buffer*
 	char	*addr;		// Pointer to the image buffer
 	int		bpp;		// Bits per pixel
-	int		line_len;	// Number of bytes in one line of the *frame buffer*
+	int		line_size;	// Number of bytes in one line of the *frame buffer*
 	int		endian;		// 0 = little-endian, 1 = big-endian
 }	t_img;
 
 typedef struct s_ray
 {
-	t_dpoint	rayDir;			// Ray direction
-	int			mapX;			// Current map square x
-	int			mapY;			// Current map square y
-	t_dpoint	deltaDist;		// Distance to next side in x and y
-	t_dpoint	sideDist;		// Initial distance to next x or y side
-	int			stepX;			// Step direction in x (+1 or -1)
-	int			stepY;			// Step direction in y (+1 or -1)
-	int			hit;			// 1 if a wall was hit
+	t_dpoint	dir;			// Ray direction
+	t_point 	map;			// Map square coordinates
+	t_dpoint	delta_dist;		// Distance to next side in x and y
+	t_dpoint	side_dist;		// Initial distance to next x or y side
+	t_point 	step_dir;		// Step direction in x and y (+1 or -1)
+	bool		hit;			// 1 if a wall was hit
 	int			side;			// 0 for vertical side, 1 for horizontal side
-	double		perpWallDist;	// Perpendicular distance from player to wall
-	int			lineHeight;		// Height of wall line to draw
-	int			drawStart;		// Starting pixel for wall line
-	int			drawEnd;		// Ending pixel for wall line
-	double		wallX;			// Exact wall hit position (for texture mapping)
-	int			texX;			// X coordinate on texture
+	double		perp_w_dist;	// Perpendicular distance from player to wall
+	int			line_height;	// Height of wall line to draw
+	int			draw_start;		// Starting pixel for wall line
+	int			draw_end;		// Ending pixel for wall line
+	double		wall_x;			// Exact wall hit position (for texture mapping)
+	t_point		tex;			// Texture coordinates 
 	double		step;			// How much to increase texture coordinate per screen pixel
 	double		texPos;			// Initial texture coordinate position
 } t_ray;
@@ -163,10 +159,10 @@ typedef struct s_game
 	void		*mlx;
 	t_window	*window;
 	t_player	player;
-	t_txt		txt;
+	t_tex		tex;
 	t_img		img;
 	bool		is_paused;
-	bool		keys[66000];
+	int			keys[66000];
 }	t_game;
 
 t_game	*init_game(char *filename);
