@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:49:24 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 19:28:20 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/19 23:12:01 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ void	move_forward(t_player *player, t_map *map, double move_speed)
 
 	next.x = player->pos.x + player->dir.x * move_speed;
 	next.y = player->pos.y;
-	if (map->matrix[(int)next.y][(int)next.x] == 0)
+	if (map->matrix[(int)next.y][(int)next.x] != 1)
 		player->pos.x = next.x;
 	next.x = player->pos.x;
 	next.y = player->pos.y + player->dir.y * move_speed;
-	if (map->matrix[(int)next.y][(int)next.x] == 0)
+	if (map->matrix[(int)next.y][(int)next.x] != 1)
 		player->pos.y = next.y;
 }
 
@@ -33,11 +33,11 @@ void	move_backward(t_player *player, t_map *map, double move_speed)
 	move_speed *= -1;
 	next.x = player->pos.x + player->dir.x * move_speed;
 	next.y = player->pos.y;
-	if (map->matrix[(int)next.y][(int)next.x] == 0)
+	if (map->matrix[(int)next.y][(int)next.x] != 1)
 		player->pos.x = next.x;
 	next.x = player->pos.x;
 	next.y = player->pos.y + player->dir.y * move_speed;
-	if (map->matrix[(int)next.y][(int)next.x] == 0)
+	if (map->matrix[(int)next.y][(int)next.x] != 1)
 		player->pos.y = next.y;
 }
 
@@ -50,11 +50,11 @@ void	strafe_left(t_player *player, t_map *map, double move_speed)
 	strafe.y = player->dir.x;
 	next.x = player->pos.x + strafe.x * move_speed;
 	next.y = player->pos.y;
-	if (map->matrix[(int)next.y][(int)next.x] == 0)
+	if (map->matrix[(int)next.y][(int)next.x] != 1)
 		player->pos.x = next.x;
 	next.x = player->pos.x;
 	next.y = player->pos.y + strafe.y * move_speed;
-	if (map->matrix[(int)next.y][(int)next.x] == 0)
+	if (map->matrix[(int)next.y][(int)next.x] != 1)
 		player->pos.y = next.y;
 }
 
@@ -67,10 +67,10 @@ void	strafe_right(t_player *player, t_map *map, double move_speed)
 	strafe.y = -player->dir.x;
 	next.x = player->pos.x + strafe.x * move_speed;
 	next.y = player->pos.y;
-	if (map->matrix[(int)next.y][(int)next.x] == 0)
+	if (map->matrix[(int)next.y][(int)next.x] != 1)
 		player->pos.x = next.x;
 	next.x = player->pos.x;
 	next.y = player->pos.y + strafe.y * move_speed;
-	if (map->matrix[(int)next.y][(int)next.x] == 0)
+	if (map->matrix[(int)next.y][(int)next.x] != 1)
 		player->pos.y = next.y;
 }

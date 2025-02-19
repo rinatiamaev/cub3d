@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:05 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 18:39:06 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/19 23:13:34 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	init_player(t_player *player)
 	player->dir = (t_dpoint){0, 0};
 	player->plane = (t_dpoint){0, 0};
 	player->rot_speed = 0.05;
-	player->move_speed = 1;
+	player->move_speed = 0.05;
 	if (player->conf_dir == 'N')
 	{
 		player->dir = (t_dpoint){0.0, -1.0};

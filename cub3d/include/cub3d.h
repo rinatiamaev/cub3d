@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 21:24:29 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/19 22:54:34 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <time.h>
+# include <sys/time.h>
 # include <math.h>
 
 # define SUCCESS	0
@@ -44,8 +45,8 @@
 # define DOWN		115
 # define LEFT		113
 # define RIGHT		100
-# define ARR_LEFT	65361
 # define ARR_RIGHT	65363
+# define ARR_LEFT	65361
 # define PAUSE		32
 # define ESC		65307
 
@@ -162,7 +163,6 @@ typedef struct s_game
 	t_tex		tex;
 	t_img		img;
 	bool		is_paused;
-	int			keys[66000];
 }	t_game;
 
 t_game	*init_game(char *filename);
