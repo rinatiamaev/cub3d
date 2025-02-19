@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:49:24 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 15:13:42 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/19 18:28:28 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	move_forward(t_player *player, t_map *map, double move_speed)
 {
 	t_dpoint	next;
 
+	printf("Player position: (%f, %f)\n", player->pos.x, player->pos.y);
 	next.x = player->pos.x + player->dir.x * move_speed;
 	next.y = player->pos.y;
 	if (map->matrix[(int)next.y][(int)next.x] == 0)
@@ -29,7 +30,19 @@ void	move_forward(t_player *player, t_map *map, double move_speed)
 
 void	move_backward(t_player *player, t_map *map, double move_speed)
 {
-	move_forward(player, map, -move_speed);
+	t_dpoint	next;
+
+	move_speed *= -1;
+	printf("Player position: (%f, %f)\n", player->pos.x, player->pos.y);
+	next.x = player->pos.x + player->dir.x * move_speed;
+	next.y = player->pos.y;
+	if (map->matrix[(int)next.y][(int)next.x] == 0)
+		player->pos.x = next.x;
+	next.x = player->pos.x;
+	next.y = player->pos.y + player->dir.y * move_speed;
+	if (map->matrix[(int)next.y][(int)next.x] == 0)
+		player->pos.y = next.y;
+	printf("Trying to move backwardward to (%f, %f)\n", next.x, next.y);
 }
 
 void	strafe_left(t_player *player, t_map *map, double move_speed)
