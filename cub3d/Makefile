@@ -6,27 +6,34 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/02/20 12:10:10 by nlouis           ###   ########.fr        #
+#    Updated: 2025/02/20 15:44:06 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC      = cc
-CFLAGS  = -Wall -Wextra -Werror -I libft/include -I ./include -I mlx/ -g -fsanitize=address -fsanitize=undefined
+CFLAGS  = -Wall -Wextra -Werror -I libft/include -I ./include -I mlx/ # -g -fsanitize=address -fsanitize=undefined
 
 NAME = cub3d
 
-SRCS =  srcs/main.c \
-		srcs/init_game.c \
-		srcs/raycasting/render_scene.c \
-		srcs/game_loop.c \
-		srcs/handle_hooks.c \
-		srcs/move_player.c \
-		srcs/rotate_camera.c \
-		srcs/utils/utils.c \
-		srcs/utils/free_memory.c \
-		srcs/utils/x_memory_utils.c \
-		srcs/load_textures.c \
-		srcs/parsing/parse_map.c
+SRCS =  mandatory/srcs/main.c \
+		mandatory/srcs/init_game.c \
+		mandatory/srcs/utils/utils.c \
+		mandatory/srcs/utils/free_memory.c \
+		mandatory/srcs/utils/x_memory_utils.c \
+		mandatory/srcs/textures/load_textures.c \
+		mandatory/srcs/rendering/render_scene.c \
+		mandatory/srcs/rendering/caluclate_ray_properties.c \
+		mandatory/srcs/rendering/utils.c \
+		mandatory/srcs/parsing/parse_map.c \
+		mandatory/srcs/parsing/extract_file_content.c \
+		mandatory/srcs/parsing/parse_map_layout_helpers.c \
+		mandatory/srcs/parsing/process_color_key.c \
+		mandatory/srcs/parsing/process_config.c \
+		mandatory/srcs/hooks/handle_hooks.c \
+		mandatory/srcs/hooks/utils.c \
+		mandatory/srcs/game/game_loop.c \
+		mandatory/srcs/game/moves/move_player.c \
+		mandatory/srcs/game/moves/rotate_camera.c
 
 OBJSDIR = objs
 OBJS   = $(addprefix $(OBJSDIR)/,$(SRCS:.c=.o))

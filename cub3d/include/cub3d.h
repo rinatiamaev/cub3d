@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/20 14:02:36 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/20 15:37:53 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@
 # define ESC		65307
 
 # define WIN_NAME	"Cube3d"
-# define WIN_W		1600
-# define WIN_H		1200
+# define WIN_W		1200
+# define WIN_H		900
 
 # define TEX_W		128
 # define TEX_H		128
@@ -96,6 +96,7 @@ typedef struct s_window
 	void	*ptr;
 	char	*name;
 	t_point	size;
+	t_point	offset;
 }	t_window;
 
 typedef struct s_player
@@ -169,16 +170,29 @@ typedef struct s_game
 t_game	*init_game(char *filename);
 void	error(t_game *game, char *err_msg);
 void	free_game(t_game *game);
+void	extract_file_content(t_game *game, t_map *map);
+char	*get_config_value(t_game *game, const char *trimmed, int key_len);
+int		process_config(t_game *game, t_map *map, int i, int *map_start);
+void	process_color_key(t_game *game, const char *trimmed,
+			const char *key, int *dest);
+void	normalize_map_layout(t_game *game, t_map *map);
+void	calculate_map_dimension(t_game *game, t_map *map);
+void	process_map_cell(t_game *game, t_map *map, int row, int col);
+void	check_map_boundaries(t_game *game, t_map *map, int row, int col);
+void	check_map_chars(t_game *game, char c, int row, int col);
 void	parse_map(t_game *game, t_map *map);
 void	load_textures(t_game *game, t_conf conf);
 int		close_game(t_game *game);
+void	calculate_ray_properties(t_game *game, t_ray *ray);
+void	put_pixel(t_img *img, int x, int y, int color);
+int		get_tex_color(t_texture *tex, int x, int y);
+void	init_ray(t_game *game, t_ray *ray, int x);
+void	init_dda_ray(t_game *game, t_ray *ray);
 void	render_scene(t_game *game);
 int		game_loop(t_game *game);
+int		pause_game(t_game *game);
 void	handle_event_hooks(t_game *game, t_window *window);
-void	move_forward(t_player *player, t_map *map, double move_speed);
-void	move_backward(t_player *player, t_map *map, double move_speed);
-void	strafe_left(t_player *player, t_map *map, double move_speed);
-void	strafe_right(t_player *player, t_map *map, double move_speed);
+void	handle_player_moves(t_game *game);
 void	rotate_left(t_player *player, double rot_speed);
 void	rotate_right(t_player *player, double rot_speed);
 
