@@ -6,7 +6,7 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/02/19 23:07:28 by nlouis           ###   ########.fr        #
+#    Updated: 2025/02/20 12:10:10 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ NAME = cub3d
 
 SRCS =  srcs/main.c \
 		srcs/init_game.c \
-		srcs/render_scene.c \
+		srcs/raycasting/render_scene.c \
 		srcs/game_loop.c \
 		srcs/handle_hooks.c \
 		srcs/move_player.c \

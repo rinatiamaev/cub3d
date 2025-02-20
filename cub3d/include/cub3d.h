@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 22:54:34 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/20 14:02:36 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ typedef struct s_point
 
 typedef struct s_dpoint
 {
-	double  x;
-	double  y;
-}   t_dpoint;
+	double	x;
+	double	y;
+}	t_dpoint;
 
 typedef struct s_conf
 {
@@ -77,7 +77,7 @@ typedef struct s_conf
 	char	*tex_ea;
 	int		floor_color;
 	int		ceiling_color;
-} t_conf;
+}	t_conf;
 
 typedef struct s_map
 {
@@ -138,10 +138,10 @@ typedef struct s_img
 typedef struct s_ray
 {
 	t_dpoint	dir;			// Ray direction
-	t_point 	map;			// Map square coordinates
+	t_point		map;			// Map square coordinates
 	t_dpoint	delta_dist;		// Distance to next side in x and y
 	t_dpoint	side_dist;		// Initial distance to next x or y side
-	t_point 	step_dir;		// Step direction in x and y (+1 or -1)
+	t_point		step_dir;		// Step direction in x and y (+1 or -1)
 	bool		hit;			// 1 if a wall was hit
 	int			side;			// 0 for vertical side, 1 for horizontal side
 	double		perp_w_dist;	// Perpendicular distance from player to wall
@@ -150,9 +150,9 @@ typedef struct s_ray
 	int			draw_end;		// Ending pixel for wall line
 	double		wall_x;			// Exact wall hit position (for texture mapping)
 	t_point		tex;			// Texture coordinates 
-	double		step;			// How much to increase texture coordinate per screen pixel
-	double		texPos;			// Initial texture coordinate position
-} t_ray;
+	double		step;			// How much to increase texture coordinate
+	double		tex_pos;		// Initial texture coordinate position
+}	t_ray;
 
 typedef struct s_game
 {
@@ -163,6 +163,7 @@ typedef struct s_game
 	t_tex		tex;
 	t_img		img;
 	bool		is_paused;
+	bool		keys[66000];
 }	t_game;
 
 t_game	*init_game(char *filename);
