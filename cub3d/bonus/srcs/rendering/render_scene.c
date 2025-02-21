@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:06:19 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/21 11:53:13 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/21 15:12:09 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,9 @@ void	render_scene(t_game *game)
 {
 	t_ray	ray;
 	int		x;
+	double	*z_buffer;
 
+	z_buffer = x_calloc(game, WIN_W, sizeof(double));
 	game->img.ptr = mlx_new_image(game->mlx, WIN_W, WIN_H);
 	game->img.addr = mlx_get_data_addr(game->img.ptr,
 			&game->img.bpp, &game->img.line_size, &game->img.endian);
@@ -158,9 +160,11 @@ void	render_scene(t_game *game)
 		perform_dda(game, &ray);
 		calculate_ray_properties(game, &ray);
 		draw_wall_column(game, &ray, x);
+		z_buffer[x] = ray.perp_w_dist;
 		x++;
 	}
-	draw_npc(game, game->witch_kitty);
+	draw_npc(game, game->witch_kitty, z_buffer);
 	mlx_put_image_to_window(game->mlx, game->window->ptr, game->img.ptr, 0, 0);
 	mlx_destroy_image(game->mlx, game->img.ptr);
+	free(z_buffer);
 }

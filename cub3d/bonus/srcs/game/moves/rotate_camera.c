@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:18 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/21 11:26:38 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/21 15:07:16 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,9 @@ double	wrap_angle(double angle)
 
 void	rotate_left(t_player *player, double rot_speed, double delta_time)
 {
-	// Update angle (rot_speed in radians per second)
 	player->angle = wrap_angle(player->angle + rot_speed * delta_time);
-	
-	// Recalculate direction and plane from angle:
 	player->dir.x = cos(player->angle);
 	player->dir.y = sin(player->angle);
-	// Example: if your camera plane is perpendicular to the direction,
-	// you might do:
 	player->plane.x = -sin(player->angle) * 0.66;
 	player->plane.y = cos(player->angle) * 0.66;
 }

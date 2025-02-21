@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:55:59 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/20 22:34:48 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/21 15:11:44 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,8 @@ int	get_tex_color(t_texture *tex, int x, int y)
 
 	pixel = tex->addr + (y * tex->line_size + x * (tex->bpp / 8));
 	color = *(unsigned int *)pixel;
-
-	// Check if the color is fully black (MiniLibX treats None as black)
 	if ((color & 0x00FFFFFF) == 0x000000)
-		return (42); // Return a special value for transparency
-
+		return (42);
 	return (color);
 }
 

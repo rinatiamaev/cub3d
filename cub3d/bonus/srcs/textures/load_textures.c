@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:25:33 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/21 09:41:06 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/21 15:12:40 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static void	load_single_texture(t_game *game, t_texture *tex,
 		error(game, "mlx_get_data_addr() failed");
 }
 
-void	load_textures_array(t_game *game, t_texture *tex_array, int n, char **paths)
+void	load_textures_array(t_game *game, t_texture *tex_array, int n,
+																char **paths)
 {
 	int	i;
 

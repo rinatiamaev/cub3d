@@ -6,7 +6,7 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/02/21 11:36:24 by nlouis           ###   ########.fr        #
+#    Updated: 2025/02/21 15:01:01 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/game_loop.c \
 				bonus/srcs/game/moves/move_player.c \
 				bonus/srcs/game/moves/rotate_camera.c \
-				bonus/srcs/game/npc/npc.c
+				bonus/srcs/game/npc/draw_npc.c
 
 OBJSDIR = mandatory/objs
 OBJSDIR_BONUS = bonus/objs

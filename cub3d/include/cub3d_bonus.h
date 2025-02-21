@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/21 11:42:45 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/21 14:59:35 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@
 
 # define UP			122
 # define DOWN		115
-# define LEFT		113
-# define RIGHT		100
-# define ARR_RIGHT	65363
-# define ARR_LEFT	65361
+# define LEFT		100
+# define RIGHT		113
+# define ARR_RIGHT	65361
+# define ARR_LEFT	65363
 # define PAUSE		32
 # define ESC		65307
 
@@ -124,6 +124,23 @@ typedef struct s_texture
 	int		line_size;	// Number of bytes in one row of the texture
 	int		endian;		// 0 = little-endian, 1 = big-endian
 }	t_texture;
+
+typedef struct s_sprite_draw_ctx
+{
+	t_point	step;				// Step size for iterating through the texture (X and Y)
+	t_point	tex;				// Current texture coordinates (X and Y)
+	int		current_screen_x;	// Current column on the screen where the sprite pixel is drawn
+	int		tex_pos_y;			// Vertical position in the texture (used for sampling pixels)
+	int		color;				// Color of the current pixel being drawn
+}	t_sprite_draw_ctx;
+
+typedef struct s_sprite_props
+{
+	t_dpoint	transform;	// Transformed NPC coordinates (camera space)
+	t_point		screen;		// Sprite screen coordinates
+	t_point		size;		// Sprite size (pixels)
+	double		depth;		// Depth (transform.y), used for occlusion
+}	t_sprite_props;
 
 typedef struct s_npc
 {
@@ -204,7 +221,7 @@ void	put_pixel(t_img *img, int x, int y, int color);
 int		get_tex_color(t_texture *tex, int x, int y);
 void	init_ray(t_game *game, t_ray *ray, int x);
 void	init_dda_ray(t_game *game, t_ray *ray);
-void	draw_npc(t_game *game, t_npc *npc);
+void	draw_npc(t_game *game, t_npc *npc, double *z_buffer);
 void	render_scene(t_game *game);
 int		game_loop(t_game *game);
 int		pause_game(t_game *game);
