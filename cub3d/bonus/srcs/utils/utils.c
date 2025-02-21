@@ -6,11 +6,11 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 13:12:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 12:30:02 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:55:55 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 void	error(t_game *game, char *err_msg)
 {

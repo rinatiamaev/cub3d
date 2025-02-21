@@ -6,11 +6,11 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 13:12:24 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 19:58:59 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:55:59 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 void	*x_calloc(t_game *game, size_t count, size_t size)
 {

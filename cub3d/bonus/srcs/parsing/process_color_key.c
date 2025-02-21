@@ -6,11 +6,11 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 15:02:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/20 15:05:33 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:55:21 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 static int	get_color_component(t_game *game, char *part)
 {

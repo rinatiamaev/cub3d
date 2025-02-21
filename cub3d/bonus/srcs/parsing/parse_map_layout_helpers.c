@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_map_layout_utils.c                           :+:      :+:    :+:   */
+/*   parse_map_layout_helpers.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 15:00:20 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/20 15:00:41 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/21 09:35:22 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 void	check_map_chars(t_game *game, char c, int row, int col)
 {
-	if (!ft_strchr(" 012NSEW", c))
+	if (!ft_strchr(" 012NSEWK", c))
 		error(game, "Invalid character in map layout");
 	if (ft_strchr("NSEW", c))
 	{
@@ -22,6 +22,11 @@ void	check_map_chars(t_game *game, char c, int row, int col)
 		game->player.pos.y = row;
 		game->player.conf_dir = c;
 		game->map->player_count++;
+	}
+	if (ft_strchr("K", c))
+	{
+		game->witch_kitty->pos.x = col;
+		game->witch_kitty->pos.y = row;
 	}
 }
 
@@ -44,7 +49,7 @@ void	process_map_cell(t_game *game, t_map *map, int row, int col)
 
 	c = map->map_layout[row][col];
 	check_map_chars(game, c, row, col);
-	if (c == '0' || ft_strchr("NSEW", c))
+	if (c == '0' || ft_strchr("NSEWK", c))
 		check_map_boundaries(game, map, row, col);
 }
 

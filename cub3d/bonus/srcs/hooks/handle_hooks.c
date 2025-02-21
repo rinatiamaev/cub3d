@@ -6,11 +6,11 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:17:07 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/20 14:52:08 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:55:04 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 static int	keypress_hook(int keycode, t_game *game)
 {

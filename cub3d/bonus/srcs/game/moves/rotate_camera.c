@@ -6,28 +6,40 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:18 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 22:54:03 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/21 11:26:38 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
-void	rotate_left(t_player *player, double rot_speed)
+double	wrap_angle(double angle)
 {
-	t_dpoint	prev_dir;
-	t_dpoint	prev_plane;
-
-	prev_dir = player->dir;
-	prev_plane = player->plane;
-	player->dir.x = prev_dir.x * cos(rot_speed) - prev_dir.y * sin(rot_speed);
-	player->dir.y = prev_dir.x * sin(rot_speed) + prev_dir.y * cos(rot_speed);
-	player->plane.x = prev_plane.x * cos(rot_speed)
-		- prev_plane.y * sin(rot_speed);
-	player->plane.y = prev_plane.x * sin(rot_speed)
-		+ prev_plane.y * cos(rot_speed);
+	while (angle < 0)
+		angle += 2 * M_PI;
+	while (angle >= 2 * M_PI)
+		angle -= 2 * M_PI;
+	return (angle);
 }
 
-void	rotate_right(t_player *player, double rot_speed)
+void	rotate_left(t_player *player, double rot_speed, double delta_time)
 {
-	rotate_left(player, -rot_speed);
+	// Update angle (rot_speed in radians per second)
+	player->angle = wrap_angle(player->angle + rot_speed * delta_time);
+	
+	// Recalculate direction and plane from angle:
+	player->dir.x = cos(player->angle);
+	player->dir.y = sin(player->angle);
+	// Example: if your camera plane is perpendicular to the direction,
+	// you might do:
+	player->plane.x = -sin(player->angle) * 0.66;
+	player->plane.y = cos(player->angle) * 0.66;
+}
+
+void	rotate_right(t_player *player, double rot_speed, double delta_time)
+{
+	player->angle = wrap_angle(player->angle - rot_speed * delta_time);
+	player->dir.x = cos(player->angle);
+	player->dir.y = sin(player->angle);
+	player->plane.x = -sin(player->angle) * 0.66;
+	player->plane.y = cos(player->angle) * 0.66;
 }

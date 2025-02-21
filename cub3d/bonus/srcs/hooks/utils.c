@@ -6,11 +6,11 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:51:19 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/20 14:52:10 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:55:07 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 static void	draw_pause_message(t_game *game)
 {

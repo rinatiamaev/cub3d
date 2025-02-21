@@ -6,11 +6,11 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 15:06:34 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/20 15:07:04 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:55:25 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 char	*get_config_value(t_game *game, const char *trimmed, int key_len)
 {

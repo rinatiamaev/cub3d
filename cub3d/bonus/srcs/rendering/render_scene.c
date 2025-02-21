@@ -6,11 +6,11 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:06:19 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/20 14:55:56 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/21 11:53:13 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 /*
 ** perform_dda:
@@ -160,6 +160,7 @@ void	render_scene(t_game *game)
 		draw_wall_column(game, &ray, x);
 		x++;
 	}
+	draw_npc(game, game->witch_kitty);
 	mlx_put_image_to_window(game->mlx, game->window->ptr, game->img.ptr, 0, 0);
 	mlx_destroy_image(game->mlx, game->img.ptr);
 }

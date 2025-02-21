@@ -6,11 +6,11 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:54:09 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/20 14:54:42 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:55:29 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 /*
 ** calculate_perpendicular_distance:

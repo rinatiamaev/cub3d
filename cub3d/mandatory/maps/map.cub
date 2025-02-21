@@ -1,7 +1,7 @@
-NO ./mandatory/textures/wall_n.xpm
-SO ./mandatory/textures/wall_s.xpm
-WE ./mandatory/textures/wall_w.xpm
-EA ./mandatory/textures/wall_e.xpm
+NO ./mandatory/assets/wall_n.xpm
+SO ./mandatory/assets/wall_s.xpm
+WE ./mandatory/assets/wall_w.xpm
+EA ./mandatory/assets/wall_e.xpm
 
 F 34,139,34 
 C 135,206,235

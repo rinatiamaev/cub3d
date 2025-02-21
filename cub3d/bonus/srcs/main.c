@@ -6,11 +6,11 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:04:48 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/19 19:28:07 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:56:05 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 int	main(int argc, char **argv)
 {

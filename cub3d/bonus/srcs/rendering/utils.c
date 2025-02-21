@@ -6,11 +6,11 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:55:59 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/20 15:37:15 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/20 22:34:48 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 /*
 ** put_pixel:
@@ -38,9 +38,16 @@ void	put_pixel(t_img *img, int x, int y, int color)
 int	get_tex_color(t_texture *tex, int x, int y)
 {
 	char	*pixel;
+	int		color;
 
 	pixel = tex->addr + (y * tex->line_size + x * (tex->bpp / 8));
-	return (*(unsigned int *)pixel);
+	color = *(unsigned int *)pixel;
+
+	// Check if the color is fully black (MiniLibX treats None as black)
+	if ((color & 0x00FFFFFF) == 0x000000)
+		return (42); // Return a special value for transparency
+
+	return (color);
 }
 
 /*

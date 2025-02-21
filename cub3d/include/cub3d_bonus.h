@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/20 15:56:12 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/21 11:42:45 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CUB3D_BONUS_H
 
 # include "libft.h"
+# include "assets_path.h"
 
 # include <mlx.h>
 # include <errno.h>
@@ -56,6 +57,10 @@
 
 # define TEX_W		128
 # define TEX_H		128
+
+#ifndef M_PI
+# define M_PI 3.14159265358979323846
+#endif
 
 typedef struct s_point
 {
@@ -105,8 +110,9 @@ typedef struct s_player
 	t_dpoint	pos;		// (x, y) in double precision
 	t_dpoint	dir;		// Direction vector: which way is "forward"
 	t_dpoint	plane;		// Camera plane vector: perpendicular to dir
-	double		rot_speed;	// Rotation speed per frame
+	double		rot_speed;	// Rotation speed in radians per second
 	double		move_speed;	// Movement speed per frame
+	double		angle;		// Player’s facing angle (in radians)
 }	t_player;
 
 typedef struct s_texture
@@ -118,6 +124,14 @@ typedef struct s_texture
 	int		line_size;	// Number of bytes in one row of the texture
 	int		endian;		// 0 = little-endian, 1 = big-endian
 }	t_texture;
+
+typedef struct s_npc
+{
+	t_dpoint	pos;			// NPC world position
+	t_texture	*idle_frames;	// Array of textures for idle animation
+	int			num_frames;		// Number of frames in the idle animation
+	long		anim_start;		// Timestamp (in microseconds) when animation started
+}	t_npc;
 
 typedef struct s_tex
 {
@@ -163,6 +177,7 @@ typedef struct s_game
 	t_player	player;
 	t_tex		tex;
 	t_img		img;
+	t_npc		*witch_kitty;
 	bool		is_paused;
 	bool		keys[66000];
 }	t_game;
@@ -181,20 +196,22 @@ void	process_map_cell(t_game *game, t_map *map, int row, int col);
 void	check_map_boundaries(t_game *game, t_map *map, int row, int col);
 void	check_map_chars(t_game *game, char c, int row, int col);
 void	parse_map(t_game *game, t_map *map);
-void	load_textures(t_game *game, t_conf conf);
+void	load_walls(t_game *game, t_conf conf);
+void	load_textures_array(t_game *game, t_texture *tex_array, int n, char **paths);
 int		close_game(t_game *game);
 void	calculate_ray_properties(t_game *game, t_ray *ray);
 void	put_pixel(t_img *img, int x, int y, int color);
 int		get_tex_color(t_texture *tex, int x, int y);
 void	init_ray(t_game *game, t_ray *ray, int x);
 void	init_dda_ray(t_game *game, t_ray *ray);
+void	draw_npc(t_game *game, t_npc *npc);
 void	render_scene(t_game *game);
 int		game_loop(t_game *game);
 int		pause_game(t_game *game);
 void	handle_event_hooks(t_game *game, t_window *window);
 void	handle_player_moves(t_game *game);
-void	rotate_left(t_player *player, double rot_speed);
-void	rotate_right(t_player *player, double rot_speed);
+void	rotate_left(t_player *player, double rot_speed, double delta_time);
+void	rotate_right(t_player *player, double rot_speed, double delta_time);
 
 void	*x_calloc(t_game *game, size_t count, size_t size);
 char	*x_strjoin_free(t_game *game, char *s1, char *s2);

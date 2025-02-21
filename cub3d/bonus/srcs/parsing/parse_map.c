@@ -6,11 +6,11 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:06:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/20 15:06:15 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/21 09:51:09 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 static void	validate_config(t_game *game, t_map *map)
 {
@@ -79,6 +79,8 @@ static void	map_layout_to_matrix(t_game *game, t_map *map)
 				map->matrix[i][j] = 1;
 			else if (ft_strchr("NSEW", map->map_layout[i][j]))
 				map->matrix[i][j] = 2;
+			else if (map->map_layout[i][j] == 'K')
+				map->matrix[i][j] = 4;
 			else if (map->map_layout[i][j] == '0')
 				map->matrix[i][j] = 0;
 			else
