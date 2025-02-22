@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:05 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/21 15:10:20 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/22 15:58:20 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ static void	init_player(t_player *player)
 
 static void	init_witch_kitty(t_game *game, t_npc *npc)
 {
-	char			*paths[] = {WITCH_REST1, WITCH_REST2, WITCH_REST3,
-						WITCH_REST4, WITCH_REST5, WITCH_REST6};
+	char			*paths[] = {WS0, WS1, WS2, WS3, WS4, WS5, WS6, WS7, WS8, WS9, WS10, WS11, WS12, WS13};
 	int				num_frames;
 	struct timeval	tv;
 	
