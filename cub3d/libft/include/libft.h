@@ -152,7 +152,7 @@ int			handle_width(t_fmt *fmt, size_t len);
 void		format_and_print_c(t_fmt *fmt, va_list *args, t_pf *pf);
 void		format_and_print_s(t_fmt *fmt, va_list *args, t_pf *pf);
 void		format_and_print_percent(t_fmt *fmt, t_pf *pf);
-void		format_and_print_p(t_fmt *fmt, va_list *args, t_pf *pf);
+
 char		*handle_precision_p(t_fmt *fmt, char *str, int *len, t_pf *pf);
 void		handle_space_flag_p(t_pf *pf, int *padding);
 void		handle_minus_flag_p(char *str, int padding, t_pf *pf);

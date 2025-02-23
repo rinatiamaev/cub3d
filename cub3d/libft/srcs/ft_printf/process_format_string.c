@@ -18,8 +18,6 @@ static void	parse_and_handle_specifier(t_fmt *fmt, va_list *args, t_pf *pf)
 		format_and_print_c(fmt, args, pf);
 	else if (fmt->specifier == 's')
 		format_and_print_s(fmt, args, pf);
-	else if (fmt->specifier == 'p')
-		format_and_print_p(fmt, args, pf);
 	else if (fmt->specifier == 'i' || fmt->specifier == 'd')
 		format_and_print_id(fmt, args, pf);
 	else if (fmt->specifier == 'u')

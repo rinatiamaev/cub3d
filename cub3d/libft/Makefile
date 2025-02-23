@@ -97,8 +97,6 @@ SRCS	=	srcs/array/ft_arraysize.c \
 			srcs/ft_printf/print_idux_print.c \
 			srcs/ft_printf/print_idux_zero_padding.c \
 			srcs/ft_printf/print_idux.c \
-			srcs/ft_printf/print_p_utils.c \
-			srcs/ft_printf/print_p.c \
 			srcs/ft_printf/process_format_string.c \
 			srcs/ft_printf/setup_format.c \
 			srcs/ft_printf/write_safely.c \
