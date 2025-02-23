@@ -26,6 +26,19 @@
 # include <sys/time.h>
 # include <math.h>
 
+# define FLOOR_COLOR 0x00FF00
+# define MINIMAP_SIZE 150
+# define MINIMAP_OFFSET_X 20
+# define MINIMAP_OFFSET_Y 20
+# define WALL_SCALE 0.6
+# define PLAYER_SCALE 0.8 
+
+// Colors (ARGB format for transparency)
+#define BACKGROUND_COLOR 0x55332200 // Brown transparent background
+#define WALL_COLOR 0xFFFFFF // White walls
+#define PLAYER_COLOR 0xFFFF00 // Yellow player
+#define TRANSPARENCY 0x33000000 // Extra transparency
+
 # define SUCCESS	0
 # define FAILURE	1
 
@@ -199,6 +212,16 @@ typedef struct s_game
 	bool		keys[66000];
 }	t_game;
 
+typedef struct s_minimap
+{
+    int tile_w; // Tile width
+    int tile_h; // Tile height
+    int wall_size; // Wall size
+    int wall_offset; // Centering walls
+    int player_radius; // Player radius
+} t_minimap;
+
+void	draw_minimap(t_game *game);
 t_game	*init_game(char *filename);
 void	error(t_game *game, char *err_msg);
 void	free_game(t_game *game);

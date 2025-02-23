@@ -164,6 +164,7 @@ void	render_scene(t_game *game)
 		x++;
 	}
 	draw_npc(game, game->witch_kitty, z_buffer);
+	draw_minimap(game);
 	mlx_put_image_to_window(game->mlx, game->window->ptr, game->img.ptr, 0, 0);
 	mlx_destroy_image(game->mlx, game->img.ptr);
 	free(z_buffer);

@@ -38,6 +38,7 @@ SRCS =  mandatory/srcs/main.c \
 
 SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/init_game.c \
+				bonus/srcs/minimap.c \
 				bonus/srcs/utils/utils.c \
 				bonus/srcs/utils/free_memory.c \
 				bonus/srcs/utils/x_memory_utils.c \
