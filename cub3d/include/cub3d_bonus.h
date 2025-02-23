@@ -26,18 +26,26 @@
 # include <sys/time.h>
 # include <math.h>
 
-# define FLOOR_COLOR 0x00FF00
-# define MINIMAP_SIZE 150
-# define MINIMAP_OFFSET_X 20
-# define MINIMAP_OFFSET_Y 20
-# define WALL_SCALE 0.6
-# define PLAYER_SCALE 0.8 
+
+// # define MINIMAP_SIZE 200    // Size of the minimap (200x200)
+// # define MINIMAP_OFFSET_X 100 // Horizontal offset for the minimap (right corner)
+// # define MINIMAP_OFFSET_Y 50  // Vertical offset for the minimap (top)
+// # define PLAYER_COLOR 0xFF0000  // Color for the player (red)
+// # define WALL_COLOR 0x0000FF    // Color for the walls (blue)
+# define FLOOR_COLOR 0x00FF00   // Color for the floor (green)
+
+#define MINIMAP_SIZE 150
+#define MINIMAP_OFFSET_X 20
+#define MINIMAP_OFFSET_Y 20
+#define WALL_SCALE 0.6
+#define PLAYER_SCALE 0.8 
 
 // Colors (ARGB format for transparency)
 #define BACKGROUND_COLOR 0x55332200 // Brown transparent background
 #define WALL_COLOR 0xFFFFFF // White walls
 #define PLAYER_COLOR 0xFFFF00 // Yellow player
 #define TRANSPARENCY 0x33000000 // Extra transparency
+
 
 # define SUCCESS	0
 # define FAILURE	1
@@ -55,14 +63,15 @@
 # define FOCUS_CHANGE_MASK		2097152
 # define STRUCTURE_NOTIFY_MASK	131072
 
-# define UP			122
-# define DOWN		115
-# define LEFT		100
-# define RIGHT		113
-# define ARR_RIGHT	65361
-# define ARR_LEFT	65363
-# define PAUSE		32
-# define ESC		65307
+# define UP				122
+# define DOWN			115
+# define LEFT			100
+# define RIGHT			113
+# define ARR_RIGHT		65361
+# define ARR_LEFT		65363
+# define PAUSE			32
+# define ESC			65307
+# define TOGGLE_MINIMAP	109
 
 # define WIN_NAME	"Cube3d"
 # define WIN_W		1200
@@ -71,9 +80,8 @@
 # define TEX_W		128
 # define TEX_H		128
 
-#ifndef M_PI
+
 # define M_PI 3.14159265358979323846
-#endif
 
 typedef struct s_point
 {
@@ -209,6 +217,7 @@ typedef struct s_game
 	t_img		img;
 	t_npc		*witch_kitty;
 	bool		is_paused;
+	bool		minimap_visible;
 	bool		keys[66000];
 }	t_game;
 
@@ -221,7 +230,7 @@ typedef struct s_minimap
     int player_radius; // Player radius
 } t_minimap;
 
-void	draw_minimap(t_game *game);
+void draw_minimap(t_game *game);
 t_game	*init_game(char *filename);
 void	error(t_game *game, char *err_msg);
 void	free_game(t_game *game);

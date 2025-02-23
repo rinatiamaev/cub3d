@@ -20,6 +20,8 @@ static int	keypress_hook(int keycode, t_game *game)
 		close_game(game);
 	else if (keycode == PAUSE)
 		pause_game(game);
+	else if (keycode == TOGGLE_MINIMAP)
+		game->minimap_visible = !game->minimap_visible;
 	return (SUCCESS);
 }
 
