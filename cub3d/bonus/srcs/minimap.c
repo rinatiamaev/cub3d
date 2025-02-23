@@ -106,6 +106,8 @@ void	draw_minimap(t_game *game)
 {
 	t_minimap	minimap;
 
+	if (!game->minimap_visible)
+		return ;
 	minimap.tile_w = MINIMAP_SIZE / game->map->size.x;
 	minimap.tile_h = MINIMAP_SIZE / game->map->size.y;
 	minimap.wall_size = minimap.tile_w * WALL_SCALE;
