@@ -3,117 +3,92 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: riamaev <riamaev@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 15:47:15 by riamaev           #+#    #+#             */
-/*   Updated: 2025/02/23 15:47:17 by riamaev          ###   ########.fr       */
+/*   Updated: 2025/02/24 10:57:13 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static void	fill_minimap_background(t_game *game, t_minimap *minimap)
+static void	draw_wall_block(t_game *game, t_point minimap_pos, int tile_size)
 {
-	int	x;
-	int	y;
+	t_point	offset;
 
-	(void)minimap;
-	y = MINIMAP_OFFSET_Y;
-	while (y < MINIMAP_OFFSET_Y + MINIMAP_SIZE)
+	offset.y = 0;
+	while (offset.y < tile_size)
 	{
-		x = MINIMAP_OFFSET_X;
-		while (x < MINIMAP_OFFSET_X + MINIMAP_SIZE)
+		offset.x = 0;
+		while (offset.x < tile_size)
 		{
-			put_pixel(&game->img, x, y, BACKGROUND_COLOR | TRANSPARENCY);
-			x++;
+			put_pixel(&game->img, minimap_pos.x + offset.x,
+					minimap_pos.y + offset.y, WALL_COLOR);
+			offset.x++;
 		}
-		y++;
+		offset.y++;
 	}
 }
 
-static void	draw_wall_block(t_game *game, int draw_x, int draw_y, \
-			t_minimap *minimap)
+static void	draw_walls(t_game *game, int tile_size)
 {
-	int	dx;
-	int	dy;
+	t_point	map_pos;
+	t_point	minimap_pos;
 
-	dy = 0;
-	while (dy < minimap->wall_size)
+	map_pos.y = 0;
+	while (map_pos.y < game->map->size.y)
 	{
-		dx = 0;
-		while (dx < minimap->wall_size)
+		map_pos.x = 0;
+		while (map_pos.x < game->map->size.x)
 		{
-			put_pixel(&game->img, draw_x + dx, draw_y + dy, WALL_COLOR);
-			dx++;
+			minimap_pos.x = MINIMAP_OFFSET_X + map_pos.x * tile_size;
+			minimap_pos.y = MINIMAP_OFFSET_Y + map_pos.y * tile_size;
+			if (game->map->matrix[map_pos.y][map_pos.x] == 1)
+				draw_wall_block(game, minimap_pos, tile_size);
+			map_pos.x++;
 		}
-		dy++;
+		map_pos.y++;
 	}
 }
 
-static void	draw_walls(t_game *game, t_minimap *minimap)
+
+static void	draw_player(t_game *game, int tile_size, int player_radius)
 {
-	int	map_x;
-	int	map_y;
-	int	draw_x;
-	int	draw_y;
+	t_point	player_pos;
+	t_point player_offset;
 
-	map_y = 0;
-	while (map_y < game->map->size.y)
+
+	player_offset.y = -player_radius;
+	player_pos.x = MINIMAP_OFFSET_X + game->player.pos.x * tile_size;
+	player_pos.y = MINIMAP_OFFSET_Y + game->player.pos.y * tile_size;
+	while (player_offset.y <= player_radius)
 	{
-		map_x = 0;
-		while (map_x < game->map->size.x)
+		player_offset.x = -player_radius;
+		while (player_offset.x <= player_radius)
 		{
-			draw_x = MINIMAP_OFFSET_X + map_x * minimap->tile_w \
-			+ minimap->wall_offset;
-			draw_y = MINIMAP_OFFSET_Y + map_y * minimap->tile_h \
-			+ minimap->wall_offset;
-			if (game->map->matrix[map_y][map_x] == 1)
-				draw_wall_block(game, draw_x, draw_y, minimap);
-			map_x++;
-		}
-		map_y++;
-	}
-}
-
-static void	draw_player(t_game *game, t_minimap *minimap)
-{
-	int	dx;
-	int	dy;
-	int	player_x;
-	int	player_y;
-
-	dy = -minimap->player_radius;
-	player_x = MINIMAP_OFFSET_X + game->player.pos.x * minimap->tile_w;
-	player_y = MINIMAP_OFFSET_Y + game->player.pos.y * minimap->tile_h;
-	while (dy <= minimap->player_radius)
-	{
-		dx = -minimap->player_radius;
-		while (dx <= minimap->player_radius)
-		{
-			if (dx * dx + dy * dy <= minimap->player_radius \
-			* minimap->player_radius)
+			if (player_offset.x * player_offset.x
+				+ player_offset.y * player_offset.y
+				<= player_radius * player_radius)
 			{
-				put_pixel(&game->img, player_x + dx, player_y \
-				+ dy, PLAYER_COLOR);
+				put_pixel(&game->img, player_pos.x + player_offset.x,
+					player_pos.y + player_offset.y, PLAYER_COLOR);
 			}
-			dx++;
+			player_offset.x++;
 		}
-		dy++;
+		player_offset.y++;
 	}
 }
 
 void	draw_minimap(t_game *game)
 {
-	t_minimap	minimap;
-
+	int	tile_size;
+	int	player_radius;
+	
 	if (!game->minimap_visible)
 		return ;
-	minimap.tile_w = MINIMAP_SIZE / game->map->size.x;
-	minimap.tile_h = MINIMAP_SIZE / game->map->size.y;
-	minimap.wall_size = minimap.tile_w * WALL_SCALE;
-	minimap.wall_offset = (minimap.tile_w - minimap.wall_size) / 2;
-	minimap.player_radius = minimap.tile_w * PLAYER_SCALE;
-	fill_minimap_background(game, &minimap);
-	draw_walls(game, &minimap);
-	draw_player(game, &minimap);
+	tile_size = fmin(MINIMAP_SIZE / game->map->size.x,
+					MINIMAP_SIZE / game->map->size.y);
+	player_radius = tile_size * PLAYER_SCALE;
+	draw_walls(game, tile_size);
+	draw_player(game, tile_size, player_radius);
 }

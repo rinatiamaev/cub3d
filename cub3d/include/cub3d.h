@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/20 15:37:53 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/24 09:46:22 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 # define PAUSE		32
 # define ESC		65307
 
-# define WIN_NAME	"Cube3d"
+# define WIN_NAME	"Cube3D"
 # define WIN_W		1200
 # define WIN_H		900
 

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/22 22:46:28 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/24 10:40:23 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,17 @@
 // # define MINIMAP_OFFSET_Y 50  // Vertical offset for the minimap (top)
 // # define PLAYER_COLOR 0xFF0000  // Color for the player (red)
 // # define WALL_COLOR 0x0000FF    // Color for the walls (blue)
-# define FLOOR_COLOR 0x00FF00   // Color for the floor (green)
-
-#define MINIMAP_SIZE 150
-#define MINIMAP_OFFSET_X 20
-#define MINIMAP_OFFSET_Y 20
-#define WALL_SCALE 0.6
-#define PLAYER_SCALE 0.8 
+# define FLOOR_COLOR		0x00FF00   // Color for the floor (green)
+#define MINIMAP_SIZE		250
+#define MINIMAP_OFFSET_X	20
+#define MINIMAP_OFFSET_Y	20
+#define PLAYER_SCALE		0.6
 
 // Colors (ARGB format for transparency)
-#define BACKGROUND_COLOR 0x55332200 // Brown transparent background
-#define WALL_COLOR 0xFFFFFF // White walls
-#define PLAYER_COLOR 0xFFFF00 // Yellow player
-#define TRANSPARENCY 0x33000000 // Extra transparency
+#define BACKGROUND_COLOR	0x55332200 // Brown transparent background
+#define WALL_COLOR			0xFFFFFF // White walls
+#define PLAYER_COLOR		0xFFFF00 // Yellow player
+#define TRANSPARENCY 		0x33000000 // Extra transparency
 
 
 # define SUCCESS	0
@@ -65,15 +63,15 @@
 
 # define UP				122
 # define DOWN			115
-# define LEFT			100
-# define RIGHT			113
+# define LEFT			113
+# define RIGHT			100
 # define ARR_RIGHT		65361
 # define ARR_LEFT		65363
 # define PAUSE			32
 # define ESC			65307
 # define TOGGLE_MINIMAP	109
 
-# define WIN_NAME	"Cube3d"
+# define WIN_NAME	"Cube3D"
 # define WIN_W		1200
 # define WIN_H		900
 
@@ -242,15 +240,6 @@ typedef struct s_game
 	bool		minimap_visible;
 	bool		keys[66000];
 }	t_game;
-
-typedef struct s_minimap
-{
-    int tile_w; // Tile width
-    int tile_h; // Tile height
-    int wall_size; // Wall size
-    int wall_offset; // Centering walls
-    int player_radius; // Player radius
-} t_minimap;
 
 void draw_minimap(t_game *game);
 t_game	*init_game(char *filename);

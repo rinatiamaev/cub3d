@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:17:07 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/20 20:55:04 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/24 09:44:06 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static int	keypress_hook(int keycode, t_game *game)
 		game->keys[keycode] = true;
 	if (keycode == ESC)
 		close_game(game);
-	else if (keycode == PAUSE)
+	if (keycode == PAUSE)
 		pause_game(game);
-	else if (keycode == TOGGLE_MINIMAP)
+	if (keycode == TOGGLE_MINIMAP)
 		game->minimap_visible = !game->minimap_visible;
 	return (SUCCESS);
 }
