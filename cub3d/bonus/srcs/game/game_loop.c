@@ -17,6 +17,7 @@ int	game_loop(t_game *game)
 	if (!game->is_paused)
 	{
 		handle_player_moves(game);
+		handle_mouse_movement(game);
 		render_scene(game);
 	}
 	return (SUCCESS);

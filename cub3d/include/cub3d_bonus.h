@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/21 14:59:35 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/24 10:40:23 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,17 @@
 // # define MINIMAP_OFFSET_Y 50  // Vertical offset for the minimap (top)
 // # define PLAYER_COLOR 0xFF0000  // Color for the player (red)
 // # define WALL_COLOR 0x0000FF    // Color for the walls (blue)
-# define FLOOR_COLOR 0x00FF00   // Color for the floor (green)
-
-#define MINIMAP_SIZE 150
-#define MINIMAP_OFFSET_X 20
-#define MINIMAP_OFFSET_Y 20
-#define WALL_SCALE 0.6
-#define PLAYER_SCALE 0.8 
+# define FLOOR_COLOR		0x00FF00   // Color for the floor (green)
+#define MINIMAP_SIZE		250
+#define MINIMAP_OFFSET_X	20
+#define MINIMAP_OFFSET_Y	20
+#define PLAYER_SCALE		0.6
 
 // Colors (ARGB format for transparency)
-#define BACKGROUND_COLOR 0x55332200 // Brown transparent background
-#define WALL_COLOR 0xFFFFFF // White walls
-#define PLAYER_COLOR 0xFFFF00 // Yellow player
-#define TRANSPARENCY 0x33000000 // Extra transparency
+#define BACKGROUND_COLOR	0x55332200 // Brown transparent background
+#define WALL_COLOR			0xFFFFFF // White walls
+#define PLAYER_COLOR		0xFFFF00 // Yellow player
+#define TRANSPARENCY 		0x33000000 // Extra transparency
 
 
 # define SUCCESS	0
@@ -65,15 +63,15 @@
 
 # define UP				122
 # define DOWN			115
-# define LEFT			100
-# define RIGHT			113
+# define LEFT			113
+# define RIGHT			100
 # define ARR_RIGHT		65361
 # define ARR_LEFT		65363
 # define PAUSE			32
 # define ESC			65307
 # define TOGGLE_MINIMAP	109
 
-# define WIN_NAME	"Cube3d"
+# define WIN_NAME	"Cube3D"
 # define WIN_W		1200
 # define WIN_H		900
 
@@ -136,16 +134,6 @@ typedef struct s_player
 	double		angle;		// Player’s facing angle (in radians)
 }	t_player;
 
-typedef struct s_texture
-{
-	void	*ptr;		// The MLX image pointer for this texture
-	char	*addr;		// Raw address of the texture data
-	t_point	size;		// Texture size (pixels)
-	int		bpp;		// Bits per pixel
-	int		line_size;	// Number of bytes in one row of the texture
-	int		endian;		// 0 = little-endian, 1 = big-endian
-}	t_texture;
-
 typedef struct s_sprite_draw_ctx
 {
 	t_point	step;				// Step size for iterating through the texture (X and Y)
@@ -163,29 +151,35 @@ typedef struct s_sprite_props
 	double		depth;		// Depth (transform.y), used for occlusion
 }	t_sprite_props;
 
-typedef struct s_npc
-{
-	t_dpoint	pos;			// NPC world position
-	t_texture	*idle_frames;	// Array of textures for idle animation
-	int			num_frames;		// Number of frames in the idle animation
-	long		anim_start;		// Timestamp (in microseconds) when animation started
-}	t_npc;
-
-typedef struct s_tex
-{
-	t_texture	no;
-	t_texture	so;
-	t_texture	we;
-	t_texture	ea;
-}	t_tex;
-
+/*
+ * The s_img structure holds all the necessary information to manage an image in MiniLibX.
+ * This structure is used to store and manipulate the frame buffer where rendering takes place.
+ *
+ * Variables:
+ *  - ptr: Pointer to the MLX image object. This is the handle returned by mlx_new_image,
+ *         representing the allocated frame buffer used for drawing the scene.
+ *
+ *  - addr: Pointer to the beginning of the image's pixel data in memory. This is obtained
+ *          via mlx_get_data_addr and allows direct access to individual pixels for rendering.
+ *
+ *  - bpp: Bits per pixel. This value specifies the number of bits used to represent each pixel,
+ *         determining the color depth of the image. For example, a value of 32 means each pixel
+ *         is represented by 32 bits (or 4 bytes).
+ *
+ *  - line_size: The number of bytes in one horizontal line of the frame buffer. This includes
+ *               all the pixel data in a row and any padding added to meet memory alignment requirements.
+ *
+ *  - endian: Endianness of the pixel data. A value of 0 indicates little-endian format (least significant byte first),
+ *            while a value of 1 indicates big-endian format (most significant byte first). This is crucial for
+ *            correctly interpreting multi-byte color values.
+ */
 typedef struct s_img
 {
-	void	*ptr;		// The MLX image pointer for the *frame buffer*
-	char	*addr;		// Pointer to the image buffer
-	int		bpp;		// Bits per pixel
-	int		line_size;	// Number of bytes in one line of the *frame buffer*
-	int		endian;		// 0 = little-endian, 1 = big-endian
+	void	*ptr;		// Pointer to the MLX image object (frame buffer)
+	char	*addr;		// Starting address of the image pixel data in memory
+	int		bpp;		// Number of bits used to represent each pixel (color depth)
+	int		line_size;	// Total number of bytes in one horizontal line of the frame buffer; this includes the pixel data and any padding added for memory alignment.
+	int		endian;		// Endianness of the pixel data: 0 for little-endian, 1 for big-endian
 }	t_img;
 
 typedef struct s_ray
@@ -207,6 +201,32 @@ typedef struct s_ray
 	double		tex_pos;		// Initial texture coordinate position
 }	t_ray;
 
+typedef struct s_texture
+{
+	void	*ptr;
+	char	*addr;
+	t_point	size;
+	int		bpp;
+	int		line_size;
+	int		endian;
+}	t_texture;
+
+typedef struct s_npc
+{
+	t_dpoint	pos;			// NPC world position
+	t_texture	*idle_frames;	// Array of textures for idle animation
+	int			num_frames;		// Number of frames in the idle animation
+	long		anim_start;		// Timestamp (in microseconds) when animation started
+}	t_npc;
+
+typedef struct s_tex
+{
+	t_texture	no;
+	t_texture	so;
+	t_texture	we;
+	t_texture	ea;
+}	t_tex;
+
 typedef struct s_game
 {
 	t_map		*map;
@@ -221,16 +241,8 @@ typedef struct s_game
 	bool		keys[66000];
 }	t_game;
 
-typedef struct s_minimap
-{
-    int tile_w; // Tile width
-    int tile_h; // Tile height
-    int wall_size; // Wall size
-    int wall_offset; // Centering walls
-    int player_radius; // Player radius
-} t_minimap;
-
-void draw_minimap(t_game *game);
+void	handle_mouse_movement(t_game *game);
+void	draw_minimap(t_game *game);
 t_game	*init_game(char *filename);
 void	error(t_game *game, char *err_msg);
 void	free_game(t_game *game);

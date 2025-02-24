@@ -6,15 +6,15 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/02/21 15:01:01 by nlouis           ###   ########.fr        #
+#    Updated: 2025/02/24 09:27:28 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC      = cc
 CFLAGS  = -Wall -Wextra -Werror -I libft/include -I ./include -I mlx/ # -g -fsanitize=address -fsanitize=undefined
 
-NAME = cub3d
-NAME_BONUS = cub3d_bonus
+NAME = cub3D
+NAME_BONUS = cub3D_bonus
 
 SRCS =  mandatory/srcs/main.c \
 		mandatory/srcs/init_game.c \
@@ -52,6 +52,7 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/parsing/process_color_key.c \
 				bonus/srcs/parsing/process_config.c \
 				bonus/srcs/hooks/handle_hooks.c \
+				bonus/srcs/hooks/handle_mouse.c \
 				bonus/srcs/hooks/utils.c \
 				bonus/srcs/game/game_loop.c \
 				bonus/srcs/game/moves/move_player.c \
