@@ -52,6 +52,7 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/parsing/process_color_key.c \
 				bonus/srcs/parsing/process_config.c \
 				bonus/srcs/hooks/handle_hooks.c \
+				bonus/srcs/hooks/handle_mouse.c \
 				bonus/srcs/hooks/utils.c \
 				bonus/srcs/game/game_loop.c \
 				bonus/srcs/game/moves/move_player.c \

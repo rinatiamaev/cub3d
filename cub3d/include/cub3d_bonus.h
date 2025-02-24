@@ -241,7 +241,8 @@ typedef struct s_game
 	bool		keys[66000];
 }	t_game;
 
-void draw_minimap(t_game *game);
+void	handle_mouse_movement(t_game *game);
+void	draw_minimap(t_game *game);
 t_game	*init_game(char *filename);
 void	error(t_game *game, char *err_msg);
 void	free_game(t_game *game);
