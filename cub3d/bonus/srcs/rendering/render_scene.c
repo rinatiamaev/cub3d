@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:06:19 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/24 12:17:22 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/25 10:06:50 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,47 +40,47 @@
 */
 void perform_dda(t_game *game, t_ray *ray)
 {
-    /*
-    ** Step 1: Keep stepping through the grid until we hit a wall (`ray->hit == 1`).
-    */
-    while (ray->hit == 0)
-    {
-        /*
-        ** Step 2: Compare `side_dist.x` and `side_dist.y` to determine 
-        ** which grid boundary the ray crosses first.
-        */
-        if (ray->side_dist.x < ray->side_dist.y)
-        {
-            /*
-            ** Step 3a: The ray crosses a vertical boundary (X-side first).
-            ** - Move the ray to the next tile in the X direction (`map.x`).
-            ** - Increase `side_dist.x` by `delta_dist.x`, since we moved one step in X.
-            ** - Mark `ray->side = 0`, indicating an X-side wall was hit.
-            */
-            ray->side_dist.x += ray->delta_dist.x;
-            ray->map.x += ray->step_dir.x;
-            ray->side = 0;
-        }
-        else
-        {
-            /*
-            ** Step 3b: The ray crosses a horizontal boundary (Y-side first).
-            ** - Move the ray to the next tile in the Y direction (`map.y`).
-            ** - Increase `side_dist.y` by `delta_dist.y`, since we moved one step in Y.
-            ** - Mark `ray->side = 1`, indicating a Y-side wall was hit.
-            */
-            ray->side_dist.y += ray->delta_dist.y;
-            ray->map.y += ray->step_dir.y;
-            ray->side = 1;
-        }
+	/*
+	** Step 1: Keep stepping through the grid until we hit a wall (`ray->hit == 1`).
+	*/
+	while (ray->hit == 0)
+	{
+		/*
+		** Step 2: Compare `side_dist.x` and `side_dist.y` to determine 
+		** which grid boundary the ray crosses first.
+		*/
+		if (ray->side_dist.x < ray->side_dist.y)
+		{
+			/*
+			** Step 3a: The ray crosses a vertical boundary (X-side first).
+			** - Move the ray to the next tile in the X direction (`map.x`).
+			** - Increase `side_dist.x` by `delta_dist.x`, since we moved one step in X.
+			** - Mark `ray->side = 0`, indicating an X-side wall was hit.
+			*/
+			ray->side_dist.x += ray->delta_dist.x;
+			ray->map.x += ray->step_dir.x;
+			ray->side = 0;
+		}
+		else
+		{
+			/*
+			** Step 3b: The ray crosses a horizontal boundary (Y-side first).
+			** - Move the ray to the next tile in the Y direction (`map.y`).
+			** - Increase `side_dist.y` by `delta_dist.y`, since we moved one step in Y.
+			** - Mark `ray->side = 1`, indicating a Y-side wall was hit.
+			*/
+			ray->side_dist.y += ray->delta_dist.y;
+			ray->map.y += ray->step_dir.y;
+			ray->side = 1;
+		}
 
-        /*
-        ** Step 4: Check if the new tile (`map[x][y]`) contains a wall (`1`).
-        ** - If the new position contains a wall, stop the loop (`ray->hit = 1`).
-        */
-        if (game->map->matrix[ray->map.y][ray->map.x] == 1)
-            ray->hit = 1;
-    }
+		/*
+		** Step 4: Check if the new tile (`map[x][y]`) contains a wall (`1`).
+		** - If the new position contains a wall, stop the loop (`ray->hit = 1`).
+		*/
+		if (game->map->matrix[ray->map.y][ray->map.x] == 1)
+			ray->hit = 1;
+	}
 }
 
 
@@ -110,35 +110,35 @@ void perform_dda(t_game *game, t_ray *ray)
 */
 static t_texture	*select_wall_texture(t_game *game, t_ray *ray)
 {
-    /*
-    ** Step 1: Determine whether the ray hit a vertical wall (X-side) or a horizontal wall (Y-side).
-    ** - `ray->side == 0` → The ray hit a vertical wall (East or West).
-    ** - `ray->side == 1` → The ray hit a horizontal wall (North or South).
-    */
-    if (ray->side == 0) // Vertical wall (East or West)
-    {
-        /*
-        ** Step 2: Check which direction the ray was traveling in.
-        ** - If `ray->dir.x > 0`, the ray was moving right, so it hit an East-facing wall.
-        ** - If `ray->dir.x < 0`, the ray was moving left, so it hit a West-facing wall.
-        */
-        if (ray->dir.x > 0)
-            return (&game->tex.ea); // East wall texture
-        else
-            return (&game->tex.we); // West wall texture
-    }
-    else // Horizontal wall (North or South)
-    {
-        /*
-        ** Step 3: Check which direction the ray was traveling in.
-        ** - If `ray->dir.y > 0`, the ray was moving down, so it hit a South-facing wall.
-        ** - If `ray->dir.y < 0`, the ray was moving up, so it hit a North-facing wall.
-        */
-        if (ray->dir.y > 0)
-            return (&game->tex.so); // South wall texture
-        else
-            return (&game->tex.no); // North wall texture
-    }
+	/*
+	** Step 1: Determine whether the ray hit a vertical wall (X-side) or a horizontal wall (Y-side).
+	** - `ray->side == 0` → The ray hit a vertical wall (East or West).
+	** - `ray->side == 1` → The ray hit a horizontal wall (North or South).
+	*/
+	if (ray->side == 0) // Vertical wall (East or West)
+	{
+		/*
+		** Step 2: Check which direction the ray was traveling in.
+		** - If `ray->dir.x > 0`, the ray was moving right, so it hit an East-facing wall.
+		** - If `ray->dir.x < 0`, the ray was moving left, so it hit a West-facing wall.
+		*/
+		if (ray->dir.x > 0)
+			return (&game->tex.ea); // East wall texture
+		else
+			return (&game->tex.we); // West wall texture
+	}
+	else // Horizontal wall (North or South)
+	{
+		/*
+		** Step 3: Check which direction the ray was traveling in.
+		** - If `ray->dir.y > 0`, the ray was moving down, so it hit a South-facing wall.
+		** - If `ray->dir.y < 0`, the ray was moving up, so it hit a North-facing wall.
+		*/
+		if (ray->dir.y > 0)
+			return (&game->tex.so); // South wall texture
+		else
+			return (&game->tex.no); // North wall texture
+	}
 }
 
 
@@ -164,54 +164,54 @@ static t_texture	*select_wall_texture(t_game *game, t_ray *ray)
 */
 void	draw_wall_column(t_game *game, t_ray *ray, int x)
 {
-    t_texture	*tex;
-    int			y;
-    int			color;
+	t_texture	*tex;
+	int			y;
+	int			color;
 
-    /*
-    ** Step 1: Select the correct texture for this wall.
-    ** - Walls may have different textures depending on the hit direction (N/S/E/W).
-    ** - `select_wall_texture` determines the correct texture to use.
-    */
-    tex = select_wall_texture(game, ray);
+	/*
+	** Step 1: Select the correct texture for this wall.
+	** - Walls may have different textures depending on the hit direction (N/S/E/W).
+	** - `select_wall_texture` determines the correct texture to use.
+	*/
+	tex = select_wall_texture(game, ray);
 
-    /*
-    ** Step 2: Loop through all pixels in the visible wall slice.
-    ** - `draw_start`: The topmost pixel of the wall slice.
-    ** - `draw_end`: The bottom-most pixel of the wall slice.
-    ** - The loop ensures only visible pixels are drawn (avoiding overdraw).
-    */
-    y = ray->draw_start;
-    while (y <= ray->draw_end)
-    {
-        /*
-        ** Step 3: Compute the Y-coordinate in the texture (`ray->tex.y`).
-        ** - `ray->tex_pos` keeps track of which part of the texture we are currently sampling.
-        ** - We convert `tex_pos` to an integer to get the corresponding row in the texture.
-        ** - The `& (tex->size.y - 1)` ensures we stay within the texture bounds (power-of-2 textures).
-        */
-        ray->tex.y = (int)ray->tex_pos & (tex->size.y - 1);
+	/*
+	** Step 2: Loop through all pixels in the visible wall slice.
+	** - `draw_start`: The topmost pixel of the wall slice.
+	** - `draw_end`: The bottom-most pixel of the wall slice.
+	** - The loop ensures only visible pixels are drawn (avoiding overdraw).
+	*/
+	y = ray->draw_start;
+	while (y <= ray->draw_end)
+	{
+		/*
+		** Step 3: Compute the Y-coordinate in the texture (`ray->tex.y`).
+		** - `ray->tex_pos` keeps track of which part of the texture we are currently sampling.
+		** - We convert `tex_pos` to an integer to get the corresponding row in the texture.
+		** - The `& (tex->size.y - 1)` ensures we stay within the texture bounds (power-of-2 textures).
+		*/
+		ray->tex.y = (int)ray->tex_pos & (tex->size.y - 1);
 
-        /*
-        ** Step 4: Move `ray->tex_pos` downward to the next row.
-        ** - `ray->step` determines how much we advance in the texture per screen pixel.
-        */
-        ray->tex_pos += ray->step;
+		/*
+		** Step 4: Move `ray->tex_pos` downward to the next row.
+		** - `ray->step` determines how much we advance in the texture per screen pixel.
+		*/
+		ray->tex_pos += ray->step;
 
-        /*
-        ** Step 5: Get the correct texture color for this pixel.
-        ** - We sample the texture at (`ray->tex.x`, `ray->tex.y`).
-        */
-        color = get_tex_color(tex, ray->tex.x, ray->tex.y);
+		/*
+		** Step 5: Get the correct texture color for this pixel.
+		** - We sample the texture at (`ray->tex.x`, `ray->tex.y`).
+		*/
+		color = get_tex_color(tex, ray->tex.x, ray->tex.y);
 
-        /*
-        ** Step 6: Draw the pixel to the screen at (`x`, `y`).
-        ** - `put_pixel` places the retrieved color at the correct screen location.
-        */
-        put_pixel(&game->img, x, y, color);
+		/*
+		** Step 6: Draw the pixel to the screen at (`x`, `y`).
+		** - `put_pixel` places the retrieved color at the correct screen location.
+		*/
+		put_pixel(&game->img, x, y, color);
 
-        y++; // Move to the next pixel row
-    }
+		y++; // Move to the next pixel row
+	}
 }
 
 
@@ -230,36 +230,36 @@ void	draw_wall_column(t_game *game, t_ray *ray, int x)
 */
 static void fill_ceiling_and_floor(t_img *img, int ceiling_color, int floor_color)
 {
-    int x;  // Horizontal coordinate for iterating over each pixel in a row.
-    int y;  // Vertical coordinate for iterating over each row in the image.
+	int x;  // Horizontal coordinate for iterating over each pixel in a row.
+	int y;  // Vertical coordinate for iterating over each row in the image.
 
-    y = 0;
-    // Loop over the top half of the image rows for the ceiling.
-    while (y < WIN_H / 2)
-    {
-        x = 0;
-        // For the current row, iterate through each column (pixel) from 0 to WIN_W-1.
-        while (x < WIN_W)
-        {
-            // Set the pixel at (x, y) to the ceiling_color.
-            put_pixel(img, x, y, ceiling_color);
-            x++;  // Move to the next pixel in the row.
-        }
-        y++;  // Move to the next row.
-    }
-    // Loop over the bottom half of the image rows for the floor.
-    while (y < WIN_H)
-    {
-        x = 0;
-        // For the current row, iterate through each column (pixel) from 0 to WIN_W-1.
-        while (x < WIN_W)
-        {
-            // Set the pixel at (x, y) to the floor_color.
-            put_pixel(img, x, y, floor_color);
-            x++;  // Move to the next pixel in the row.
-        }
-        y++;  // Move to the next row.
-    }
+	y = 0;
+	// Loop over the top half of the image rows for the ceiling.
+	while (y < WIN_H / 2)
+	{
+		x = 0;
+		// For the current row, iterate through each column (pixel) from 0 to WIN_W-1.
+		while (x < WIN_W)
+		{
+			// Set the pixel at (x, y) to the ceiling_color.
+			put_pixel(img, x, y, ceiling_color);
+			x++;  // Move to the next pixel in the row.
+		}
+		y++;  // Move to the next row.
+	}
+	// Loop over the bottom half of the image rows for the floor.
+	while (y < WIN_H)
+	{
+		x = 0;
+		// For the current row, iterate through each column (pixel) from 0 to WIN_W-1.
+		while (x < WIN_W)
+		{
+			// Set the pixel at (x, y) to the floor_color.
+			put_pixel(img, x, y, floor_color);
+			x++;  // Move to the next pixel in the row.
+		}
+		y++;  // Move to the next row.
+	}
 }
 
 
@@ -269,22 +269,22 @@ void	render_scene(t_game *game)
 	int		x;			// Variable to iterate over each vertical screen column.
 	
 	// Allocate a z-buffer array to store the perpendicular distance for each column.
-    // This will be used later for depth calculations (e.g., drawing sprites or NPCs).
+	// This will be used later for depth calculations (e.g., drawing sprites or NPCs).
 	double	*z_buffer = x_calloc(game, WIN_W, sizeof(double));
 
 	// Create a new image with width WIN_W and height WIN_H.
-    // This image will be drawn onto the window later.
+	// This image will be drawn onto the window later.
 	game->img.ptr = mlx_new_image(game->mlx, WIN_W, WIN_H);
 
 	// Retrieve the memory address of the image's pixel data.
-    // Also get additional parameters: bits per pixel, line size, and endian information.
+	// Also get additional parameters: bits per pixel, line size, and endian information.
 	game->img.addr = mlx_get_data_addr(game->img.ptr,
 										&game->img.bpp,
 										&game->img.line_size,
 										&game->img.endian);
 
 	// Fill the image with ceiling and floor colors.
-    // This sets the background for the upper (ceiling) and lower (floor) parts of the scene.
+	// This sets the background for the upper (ceiling) and lower (floor) parts of the scene.
 	fill_ceiling_and_floor(&game->img,
 							game->map->conf.ceiling_color,
 							game->map->conf.floor_color);
@@ -296,7 +296,7 @@ void	render_scene(t_game *game)
 		init_ray(game, &ray, x);
 
 		// Set up initial variables for the DDA (Digital Differential Analysis) algorithm.
-        // This prepares the ray for stepping through the grid.
+		// This prepares the ray for stepping through the grid.
 		init_dda_ray(game, &ray);
 
 		// Execute the DDA algorithm to step through the grid cell by cell until a wall is hit.
@@ -304,7 +304,7 @@ void	render_scene(t_game *game)
 		perform_dda(game, &ray);
 
 		// After hitting a wall, calculate properties of the ray such as the perpendicular
-        // distance to the wall, the exact hit location, and texture coordinates.
+		// distance to the wall, the exact hit location, and texture coordinates.
 		calculate_ray_properties(game, &ray);
 
 		// Use the calculated ray properties to draw a vertical slice of the wall on the screen.
@@ -316,7 +316,7 @@ void	render_scene(t_game *game)
 	}
 
 	// After processing all wall columns, draw any NPCs (or sprites) in the scene.
-    // The z-buffer is used to correctly handle depth, ensuring NPCs appear in front or behind walls as needed.
+	// The z-buffer is used to correctly handle depth, ensuring NPCs appear in front or behind walls as needed.
 	draw_npc(game, game->witch_kitty, z_buffer);
 	draw_minimap(game);
 

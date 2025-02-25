@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:05 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/24 13:15:47 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/25 10:54:30 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ static void	init_player(t_player *player)
 	**   - If `dir` is (cos(angle), sin(angle))
 	**   - Then `plane` is (-sin(angle) * 0.66, cos(angle) * 0.66)
 	*/
-	player->plane.x = -sin(player->angle) * 0.66; // Perpendicular X to `dir`
-	player->plane.y = cos(player->angle) * 0.66;  // Perpendicular Y to `dir`
+	player->plane.x = -sin(player->angle) * FOV; // Perpendicular X to `dir`
+	player->plane.y = cos(player->angle) * FOV;  // Perpendicular Y to `dir`
 }
 
 

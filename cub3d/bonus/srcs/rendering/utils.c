@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:55:59 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/24 12:18:04 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/25 10:06:43 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,22 @@
 */
 void put_pixel(t_img *img, int x, int y, int color)
 {
-    char *dst;
+	char *dst;
 
-    // Check if the coordinates (x, y) are within the bounds of the window.
-    // If x or y is out of bounds, exit the function early.
-    if (x < 0 || x >= WIN_W || y < 0 || y >= WIN_H)
-        return ;
+	// Check if the coordinates (x, y) are within the bounds of the window.
+	// If x or y is out of bounds, exit the function early.
+	if (x < 0 || x >= WIN_W || y < 0 || y >= WIN_H)
+		return ;
 
-    // Calculate the memory address for the pixel at (x, y):
-    // 1. Multiply y by img->line_size to move to the correct row.
-    // 2. Multiply x by (img->bpp / 8) to move to the correct column within the row.
-    // The sum of these two gives the offset from the start of the image's buffer.
-    dst = img->addr + ((y * img->line_size) + (x * (img->bpp / 8)));
+	// Calculate the memory address for the pixel at (x, y):
+	// 1. Multiply y by img->line_size to move to the correct row.
+	// 2. Multiply x by (img->bpp / 8) to move to the correct column within the row.
+	// The sum of these two gives the offset from the start of the image's buffer.
+	dst = img->addr + ((y * img->line_size) + (x * (img->bpp / 8)));
 
-    // Write the color value into the calculated memory address.
-    // Cast the pointer to unsigned int* because we are writing a 32-bit color value.
-    *(unsigned int *)dst = color;
+	// Write the color value into the calculated memory address.
+	// Cast the pointer to unsigned int* because we are writing a 32-bit color value.
+	*(unsigned int *)dst = color;
 }
 
 /*
@@ -58,33 +58,33 @@ void put_pixel(t_img *img, int x, int y, int color)
 */
 int	get_tex_color(t_texture *tex, int x, int y)
 {
-    char	*pixel;
-    int		color;
+	char	*pixel;
+	int		color;
 
-    /*
-    ** Step 1: Compute the pixel's memory address.
-    ** - `tex->addr` is the **starting address** of the texture data.
-    ** - Each row (y) has `tex->line_size` bytes.
-    ** - Each pixel (x) takes `tex->bpp / 8` bytes.
-    **
-    ** The formula calculates the **exact byte offset** in the texture buffer.
-    */
-    pixel = tex->addr + (y * tex->line_size + x * (tex->bpp / 8));
+	/*
+	** Step 1: Compute the pixel's memory address.
+	** - `tex->addr` is the **starting address** of the texture data.
+	** - Each row (y) has `tex->line_size` bytes.
+	** - Each pixel (x) takes `tex->bpp / 8` bytes.
+	**
+	** The formula calculates the **exact byte offset** in the texture buffer.
+	*/
+	pixel = tex->addr + (y * tex->line_size + x * (tex->bpp / 8));
 
-    /*
-    ** Step 2: Read the color from memory.
-    ** - The memory at `pixel` is cast to an `unsigned int *`, so we read a full **32-bit color value**.
-    */
-    color = *(unsigned int *)pixel;
+	/*
+	** Step 2: Read the color from memory.
+	** - The memory at `pixel` is cast to an `unsigned int *`, so we read a full **32-bit color value**.
+	*/
+	color = *(unsigned int *)pixel;
 
-    /*
-    ** Step 3: Check for transparency.
-    ** - If the color is exactly **black (0x000000)**, return `42` instead, as a transparency key.
-    */
-    if ((color & 0x00FFFFFF) == 0x000000) // Ignore alpha, check only RGB
-        return (42); // Transparency indicator
+	/*
+	** Step 3: Check for transparency.
+	** - If the color is exactly **black (0x000000)**, return `42` instead, as a transparency key.
+	*/
+	if ((color & 0x00FFFFFF) == 0x000000) // Ignore alpha, check only RGB
+		return (42); // Transparency indicator
 
-    return (color); // Return the actual texture color
+	return (color); // Return the actual texture color
 }
 
 
@@ -107,57 +107,57 @@ int	get_tex_color(t_texture *tex, int x, int y)
 */
 void init_ray(t_game *game, t_ray *ray, int x)
 {
-    /*
-    ** Step 1: Normalize the screen column 'x' to `camera_x`, a range from -1 to 1.
-    ** - The center column (middle of the screen) corresponds to `camera_x = 0`.
-    ** - The leftmost column corresponds to `camera_x = -1`.
-    ** - The rightmost column corresponds to `camera_x = 1`.
-    **
-    ** This value determines how far left or right the ray is cast relative to the player's view.
-    */
-    double camera_x = 2.0 * (double)x / (double)WIN_W - 1.0;
+	/*
+	** Step 1: Normalize the screen column 'x' to `camera_x`, a range from -1 to 1.
+	** - The center column (middle of the screen) corresponds to `camera_x = 0`.
+	** - The leftmost column corresponds to `camera_x = -1`.
+	** - The rightmost column corresponds to `camera_x = 1`.
+	**
+	** This value determines how far left or right the ray is cast relative to the player's view.
+	*/
+	double camera_x = 2.0 * (double)x / (double)WIN_W - 1.0;
 
-    /*
-    ** Step 2: Calculate the direction of the ray in the game world.
-    ** - The player's direction vector (`dir.x`, `dir.y`) represents where they are facing.
-    ** - The camera plane vector (`plane.x`, `plane.y`) determines the field of view.
-    ** - Multiplying `plane` by `camera_x` shifts the ray's direction based on its screen position.
-    **
-    ** This gives each column its unique ray direction.
-    */
-    ray->dir.x = game->player.dir.x + game->player.plane.x * camera_x;
-    ray->dir.y = game->player.dir.y + game->player.plane.y * camera_x;
+	/*
+	** Step 2: Calculate the direction of the ray in the game world.
+	** - The player's direction vector (`dir.x`, `dir.y`) represents where they are facing.
+	** - The camera plane vector (`plane.x`, `plane.y`) determines the field of view.
+	** - Multiplying `plane` by `camera_x` shifts the ray's direction based on its screen position.
+	**
+	** This gives each column its unique ray direction.
+	*/
+	ray->dir.x = game->player.dir.x + game->player.plane.x * camera_x;
+	ray->dir.y = game->player.dir.y + game->player.plane.y * camera_x;
 
-    /*
-    ** Step 3: Determine the grid cell (map position) where the ray starts.
-    ** - The player's exact position (`pos.x`, `pos.y`) is stored as floating-point values.
-    ** - Casting them to `int` gives the **grid cell coordinates (`map.x`, `map.y`).
-    ** - This tells us which tile in the map the player is standing on when casting the ray.
-    */
-    ray->map.x = (int)game->player.pos.x;
-    ray->map.y = (int)game->player.pos.y;
+	/*
+	** Step 3: Determine the grid cell (map position) where the ray starts.
+	** - The player's exact position (`pos.x`, `pos.y`) is stored as floating-point values.
+	** - Casting them to `int` gives the **grid cell coordinates (`map.x`, `map.y`).
+	** - This tells us which tile in the map the player is standing on when casting the ray.
+	*/
+	ray->map.x = (int)game->player.pos.x;
+	ray->map.y = (int)game->player.pos.y;
 
-    /*
-    ** Step 4: Compute `delta_dist.x` and `delta_dist.y`.
-    ** - These values represent how far the ray must travel in the x or y direction
-    **   to cross the next grid line.
-    ** - They are calculated as the absolute inverse of the ray direction components.
-    ** - The reason we take `fabs(1.0 / dir.x)` instead of just `1.0 / dir.x`:
-    **   - If the ray is moving left, `dir.x` is negative, so we take `fabs` to ensure it's positive.
-    **   - If the ray is moving right, `dir.x` is positive, so the result remains positive.
-    ** - The same applies for the y-direction.
-    **
-    ** This ensures that we can correctly determine which direction the ray will step first.
-    */
-    ray->delta_dist.x = fabs(1.0 / ray->dir.x);
-    ray->delta_dist.y = fabs(1.0 / ray->dir.y);
+	/*
+	** Step 4: Compute `delta_dist.x` and `delta_dist.y`.
+	** - These values represent how far the ray must travel in the x or y direction
+	**   to cross the next grid line.
+	** - They are calculated as the absolute inverse of the ray direction components.
+	** - The reason we take `fabs(1.0 / dir.x)` instead of just `1.0 / dir.x`:
+	**   - If the ray is moving left, `dir.x` is negative, so we take `fabs` to ensure it's positive.
+	**   - If the ray is moving right, `dir.x` is positive, so the result remains positive.
+	** - The same applies for the y-direction.
+	**
+	** This ensures that we can correctly determine which direction the ray will step first.
+	*/
+	ray->delta_dist.x = fabs(1.0 / ray->dir.x);
+	ray->delta_dist.y = fabs(1.0 / ray->dir.y);
 
-    /*
-    ** Step 5: Initialize the ray hit status.
-    ** - `ray->hit = false` means the ray has not yet hit a wall.
-    ** - This will be updated in the DDA loop once the ray collides with a wall.
-    */
-    ray->hit = false;
+	/*
+	** Step 5: Initialize the ray hit status.
+	** - `ray->hit = false` means the ray has not yet hit a wall.
+	** - This will be updated in the DDA loop once the ray collides with a wall.
+	*/
+	ray->hit = false;
 }
 
 

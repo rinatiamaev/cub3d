@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/25 09:57:03 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/25 11:03:23 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,15 @@
 // # define PLAYER_COLOR 0xFF0000  // Color for the player (red)
 // # define WALL_COLOR 0x0000FF    // Color for the walls (blue)
 # define FLOOR_COLOR		0x00FF00   // Color for the floor (green)
-#define MINIMAP_SIZE		250
-#define MINIMAP_OFFSET_X	20
-#define MINIMAP_OFFSET_Y	20
-#define PLAYER_SCALE		0.6
+# define MINIMAP_SIZE		250
+# define MINIMAP_OFFSET_X	20
+# define MINIMAP_OFFSET_Y	20
+# define PLAYER_SCALE		0.6
 
-// Colors (ARGB format for transparency)
-#define BACKGROUND_COLOR	0x55332200 // Brown transparent background
-#define WALL_COLOR			0xFFFFFF // White walls
-#define PLAYER_COLOR		0xFFFF00 // Yellow player
-#define TRANSPARENCY 		0x33000000 // Extra transparency
-
+# define BACKGROUND_COLOR	0x55332200	// Brown transparent background
+# define WALL_COLOR			0xFFFFFF	// White walls
+# define PLAYER_COLOR		0xFFFF00	// Yellow player
+# define TRANSPARENCY 		0x33000000 // Extra transparency
 
 # define SUCCESS	0
 # define FAILURE	1
@@ -60,6 +58,8 @@
 # define KEYRELEASE_MASK		2
 # define FOCUS_CHANGE_MASK		2097152
 # define STRUCTURE_NOTIFY_MASK	131072
+
+# define FOV				0.4
 
 # define UP				122
 # define DOWN			115
