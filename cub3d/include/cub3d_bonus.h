@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/24 10:40:23 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/25 09:57:03 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,7 +241,6 @@ typedef struct s_game
 	bool		keys[66000];
 }	t_game;
 
-void	handle_mouse_movement(t_game *game);
 void	draw_minimap(t_game *game);
 t_game	*init_game(char *filename);
 void	error(t_game *game, char *err_msg);
@@ -270,6 +269,7 @@ void	render_scene(t_game *game);
 int		game_loop(t_game *game);
 int		pause_game(t_game *game);
 void	handle_event_hooks(t_game *game, t_window *window);
+void	handle_mouse_movement(t_game *game, t_window *window);
 void	handle_player_moves(t_game *game);
 void	rotate_left(t_player *player, double rot_speed, double delta_time);
 void	rotate_right(t_player *player, double rot_speed, double delta_time);
