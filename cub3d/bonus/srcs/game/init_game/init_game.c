@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:05 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/25 10:54:30 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/25 22:31:03 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,22 +78,6 @@ static void	init_player(t_player *player)
 	player->plane.y = cos(player->angle) * FOV;  // Perpendicular Y to `dir`
 }
 
-
-static void	init_witch_kitty(t_game *game, t_npc *npc)
-{
-	char			*paths[] = {WS0, WS1, WS2, WS3, WS4, WS5, WS6, WS7, WS8, WS9, WS10, WS11, WS12, WS13};
-	int				num_frames;
-	struct timeval	tv;
-	
-	num_frames = sizeof(paths) / sizeof(paths[0]);
-	npc->pos = (t_dpoint){npc->pos.x + 0.5, npc->pos.y + 0.5};
-	npc->num_frames = num_frames;
-	npc->idle_frames = x_calloc(game, num_frames, sizeof(t_texture));
-	load_textures_array(game, npc->idle_frames, num_frames, paths);
-	gettimeofday(&tv, NULL);
-	npc->anim_start = tv.tv_sec * 1000000L + tv.tv_usec;
-}
-
 t_game	*init_game(char *filename)
 {
 	t_game	*game;
@@ -103,12 +87,10 @@ t_game	*init_game(char *filename)
 	if (!game->mlx)
 		error(game, "mlx_init() failed");
 	game->map = init_map(game, filename);
-	game->witch_kitty = x_calloc(game, 1, sizeof(t_npc));
 	parse_map(game, game->map);
 	game->window = x_calloc(game, 1, sizeof(t_window));
 	init_window(game, game->window);
-	load_walls(game, game->map->conf);
-	init_witch_kitty(game, game->witch_kitty);
+	load_walls_texture(game, game->map->conf);
 	init_player(&game->player);
 	game->is_paused = false;
 	return (game);

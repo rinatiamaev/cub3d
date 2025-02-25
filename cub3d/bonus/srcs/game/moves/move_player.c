@@ -6,33 +6,43 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:49:24 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/21 15:11:13 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/25 23:05:37 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static bool	is_candidate_near_npc(t_dpoint candidate, t_npc *npc,
-	double min_distance)
+static bool is_candidate_near_any_npc(t_dpoint candidate, t_game *game,
+														double min_distance)
 {
+	t_npc		*npc;
 	t_dpoint	dist;
 	double		distance;
+    int			i;
 
-	dist.x = candidate.x - npc->pos.x;
-	dist.y = candidate.y - npc->pos.y;
-	distance = sqrt(dist.x * dist.x + dist.y * dist.y);
-	return (distance < min_distance);
+	i = 0;
+    while (i < game->npc_count)
+    {
+        npc = game->npcs[i];
+        dist.x = candidate.x - npc->pos.x;
+        dist.y = candidate.y - npc->pos.y;
+        distance = sqrt(dist.x * dist.x + dist.y * dist.y);
+        if (distance < min_distance)
+            return (true);
+        i++;
+    }
+    return (false);
 }
 
-static bool	can_move(t_game *game, double next_x, double next_y)
+static bool can_move(t_game *game, double next_x, double next_y)
 {
-	t_dpoint	candidate;
+	t_dpoint candidate;
 
 	candidate.x = next_x;
 	candidate.y = next_y;
 	if (game->map->matrix[(int)next_y][(int)next_x] == 1)
 		return (false);
-	if (is_candidate_near_npc(candidate, game->witch_kitty, 1))
+	if (is_candidate_near_any_npc(candidate, game, 0.5))
 		return (false);
 	return (true);
 }

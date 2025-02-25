@@ -6,7 +6,7 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/02/24 09:27:28 by nlouis           ###   ########.fr        #
+#    Updated: 2025/02/26 00:23:04 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,27 +37,30 @@ SRCS =  mandatory/srcs/main.c \
 		mandatory/srcs/game/moves/rotate_camera.c
 
 SRCS_BONUS =	bonus/srcs/main.c \
-				bonus/srcs/init_game.c \
-				bonus/srcs/minimap.c \
 				bonus/srcs/utils/utils.c \
 				bonus/srcs/utils/free_memory.c \
 				bonus/srcs/utils/x_memory_utils.c \
-				bonus/srcs/textures/load_textures.c \
-				bonus/srcs/rendering/render_scene.c \
-				bonus/srcs/rendering/caluclate_ray_properties.c \
-				bonus/srcs/rendering/utils.c \
 				bonus/srcs/parsing/parse_map.c \
 				bonus/srcs/parsing/extract_file_content.c \
 				bonus/srcs/parsing/parse_map_layout_helpers.c \
 				bonus/srcs/parsing/process_color_key.c \
 				bonus/srcs/parsing/process_config.c \
-				bonus/srcs/hooks/handle_hooks.c \
-				bonus/srcs/hooks/handle_mouse.c \
-				bonus/srcs/hooks/utils.c \
-				bonus/srcs/game/game_loop.c \
+				bonus/srcs/game/hooks/handle_hooks.c \
+				bonus/srcs/game/hooks/handle_mouse.c \
+				bonus/srcs/game/hooks/hooks_utils.c \
+				bonus/srcs/game/init_game/init_game.c \
+				bonus/srcs/game/init_game/load_textures.c \
+				bonus/srcs/game/init_game/init_npcs.c \
 				bonus/srcs/game/moves/move_player.c \
 				bonus/srcs/game/moves/rotate_camera.c \
-				bonus/srcs/game/npc/draw_npc.c
+				bonus/srcs/game/rendering/raycasting/caluclate_ray_properties.c \
+				bonus/srcs/game/rendering/raycasting/render_scene.c \
+				bonus/srcs/game/rendering/raycasting/utils.c \
+				bonus/srcs/game/rendering/draw_minimap.c \
+				bonus/srcs/game/rendering/draw_npcs.c \
+				bonus/srcs/game/game_loop.c 
+				
+				
 
 OBJSDIR = mandatory/objs
 OBJSDIR_BONUS = bonus/objs

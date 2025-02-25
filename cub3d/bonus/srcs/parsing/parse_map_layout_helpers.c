@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 15:00:20 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/21 09:35:22 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/26 00:21:08 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	check_map_chars(t_game *game, char c, int row, int col)
 {
-	if (!ft_strchr(" 012NSEWK", c))
+	if (!ft_strchr(" 012NSEWKF", c))
 		error(game, "Invalid character in map layout");
 	if (ft_strchr("NSEW", c))
 	{
@@ -22,11 +22,6 @@ void	check_map_chars(t_game *game, char c, int row, int col)
 		game->player.pos.y = row;
 		game->player.conf_dir = c;
 		game->map->player_count++;
-	}
-	if (ft_strchr("K", c))
-	{
-		game->witch_kitty->pos.x = col;
-		game->witch_kitty->pos.y = row;
 	}
 }
 

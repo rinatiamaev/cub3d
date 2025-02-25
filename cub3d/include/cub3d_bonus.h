@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/25 11:03:23 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/26 00:01:31 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # include <time.h>
 # include <sys/time.h>
 # include <math.h>
-
 
 // # define MINIMAP_SIZE 200    // Size of the minimap (200x200)
 // # define MINIMAP_OFFSET_X 100 // Horizontal offset for the minimap (right corner)
@@ -59,7 +58,7 @@
 # define FOCUS_CHANGE_MASK		2097152
 # define STRUCTURE_NOTIFY_MASK	131072
 
-# define FOV				0.4
+# define FOV				0.66
 
 # define UP				122
 # define DOWN			115
@@ -211,12 +210,22 @@ typedef struct s_texture
 	int		endian;
 }	t_texture;
 
+typedef struct s_object
+{
+	char		*type;
+	t_dpoint	pos;
+	t_texture	texture;
+}	t_object;
+
 typedef struct s_npc
 {
+	char		*type;
 	t_dpoint	pos;			// NPC world position
+	t_point		size;
+	char		**paths;
 	t_texture	*idle_frames;	// Array of textures for idle animation
 	int			num_frames;		// Number of frames in the idle animation
-	long		anim_start;		// Timestamp (in microseconds) when animation started
+	double		anim_start;		// Timestamp (in microseconds) when animation started
 }	t_npc;
 
 typedef struct s_tex
@@ -235,16 +244,20 @@ typedef struct s_game
 	t_player	player;
 	t_tex		tex;
 	t_img		img;
-	t_npc		*witch_kitty;
+	t_npc		**npcs;
+	int			npc_count;
+	t_object	**objects;
+	int			object_count;
 	bool		is_paused;
 	bool		minimap_visible;
 	bool		keys[66000];
 }	t_game;
 
-void	draw_minimap(t_game *game);
-t_game	*init_game(char *filename);
+// UTILS
 void	error(t_game *game, char *err_msg);
 void	free_game(t_game *game);
+
+// PARSING
 void	extract_file_content(t_game *game, t_map *map);
 char	*get_config_value(t_game *game, const char *trimmed, int key_len);
 int		process_config(t_game *game, t_map *map, int i, int *map_start);
@@ -256,25 +269,44 @@ void	process_map_cell(t_game *game, t_map *map, int row, int col);
 void	check_map_boundaries(t_game *game, t_map *map, int row, int col);
 void	check_map_chars(t_game *game, char c, int row, int col);
 void	parse_map(t_game *game, t_map *map);
-void	load_walls(t_game *game, t_conf conf);
-void	load_textures_array(t_game *game, t_texture *tex_array, int n, char **paths);
-int		close_game(t_game *game);
+
+// INITIALIZATION
+t_game	*init_game(char *filename);
+void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx);
+void	load_walls_texture(t_game *game, t_conf conf);
+void	load_npc_frames(t_game *game, t_npc *npc);
+void	spawn_witch_kitty(t_game *game, double x, double y);
+void	spawn_well(t_game *game, double x, double y);
+
+// RENDERING
 void	calculate_ray_properties(t_game *game, t_ray *ray);
 void	put_pixel(t_img *img, int x, int y, int color);
 int		get_tex_color(t_texture *tex, int x, int y);
 void	init_ray(t_game *game, t_ray *ray, int x);
 void	init_dda_ray(t_game *game, t_ray *ray);
-void	draw_npc(t_game *game, t_npc *npc, double *z_buffer);
+bool	compute_sprite_props(t_game *game, t_npc *npc, t_sprite_props *props);
+void	draw_texture_at_scaled(t_game *game, t_texture *tex,
+		t_sprite_props *props, double *z_buffer);
 void	render_scene(t_game *game);
-int		game_loop(t_game *game);
+void	draw_npcs(t_game *game, double *z_buffer);
+void	draw_objects(t_game *game, double *z_buffer);
+void	draw_minimap(t_game *game);
+
+// HOOKS
+int		close_game(t_game *game);
 int		pause_game(t_game *game);
 void	handle_event_hooks(t_game *game, t_window *window);
+
+// GAME LOOP
+int		game_loop(t_game *game);
 void	handle_mouse_movement(t_game *game, t_window *window);
 void	handle_player_moves(t_game *game);
 void	rotate_left(t_player *player, double rot_speed, double delta_time);
 void	rotate_right(t_player *player, double rot_speed, double delta_time);
 
+// MEMORY UTILS
 void	*x_calloc(t_game *game, size_t count, size_t size);
+void	*x_realloc(t_game *game, void *ptr, size_t old_size, size_t new_size);
 char	*x_strjoin_free(t_game *game, char *s1, char *s2);
 char	*x_strdup(t_game *game, const char *s);
 char	**x_copy_strarray(t_game *game, char **array);

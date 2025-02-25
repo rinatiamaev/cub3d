@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 13:12:24 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/20 20:55:59 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/25 22:18:23 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,17 @@ void	*x_calloc(t_game *game, size_t count, size_t size)
 		error(game, "ft_calloc() failed");
 	return (ptr);
 }
+
+void	*x_realloc(t_game *game, void *ptr, size_t old_size, size_t new_size)
+{
+	void *new_ptr;
+
+	new_ptr = ft_realloc(ptr, old_size, new_size);
+	if (!new_ptr && new_size > 0)
+		error(game, "ft_realloc() failed");
+	return (new_ptr);
+}
+
 
 char	*x_strjoin_free(t_game *game, char *s1, char *s2)
 {
@@ -56,14 +67,4 @@ char	**x_copy_strarray(t_game *game, char **array)
 	if (!copy)
 		error(game, "ft_copy_strarray() failed");
 	return (copy);
-}
-
-int	**x_create_matrix(t_game *game, int row_count, int col_count)
-{
-	int	**matrix;
-
-	matrix = ft_create_matrix(row_count, col_count);
-	if (!matrix)
-		error(game, "ft_create_matrix() failed");
-	return (matrix);
 }

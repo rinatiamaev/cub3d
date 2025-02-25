@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_npc.c                                         :+:      :+:    :+:   */
+/*   draw_npcs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 21:05:31 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/25 10:47:59 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/25 23:55:57 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	get_current_npc_frame(t_npc *npc, int frame_duration_ms)
  *   - The function uses fixed-point arithmetic (with shifts by 8) to compute
  *     scaling steps (step.x and step.y) for the texture coordinates.
  */
-static void	draw_texture_at_scaled(t_game *game, t_texture *tex,
+void	draw_texture_at_scaled(t_game *game, t_texture *tex,
 	t_sprite_props *props, double *z_buffer)
 {
 	t_sprite_draw_ctx	ctx;
@@ -108,8 +108,7 @@ static void	draw_texture_at_scaled(t_game *game, t_texture *tex,
  *   - The screen position (props->screen) where the sprite will be placed
  *   Returns true if the sprite is visible, false otherwise.
  */
-static bool	compute_sprite_props(t_game *game, t_npc *npc,
-		t_sprite_props *props)
+bool	compute_sprite_props(t_game *game, t_npc *npc, t_sprite_props *props)
 {
 	double		det, inv_det;
 	t_dpoint	sprite;
@@ -138,11 +137,11 @@ static bool	compute_sprite_props(t_game *game, t_npc *npc,
 		return (false);
 
 	// Compute the sprite's scaled height and width on screen.
-	props->size.y = abs((int)(WIN_H / props->depth));
-	props->size.x = (props->size.y * TEX_W) / TEX_H;
+	props->size.y = abs((int)(WIN_H / props->depth)) / 2;
+	props->size.x = (props->size.y * npc->size.x) / npc->size.y;
 	
 	// Calculate vertical offset to center the sprite on screen.
-	props->screen.y = (WIN_H - props->size.y) / 2;
+	props->screen.y = ((WIN_H - props->size.y) / 2) + (props->size.y / 2);
 	// Calculate horizontal screen position using the transformed x value.
 	props->screen.x = (int)((WIN_W / 2.0) * (1 + props->transform.x / props->depth));
 	return (true);
@@ -157,7 +156,7 @@ static bool	compute_sprite_props(t_game *game, t_npc *npc,
  *   4. Draw the scaled texture with occlusion checks using the provided
  *      z-buffer via draw_texture_at_scaled().
  */
-void	draw_npc(t_game *game, t_npc *npc, double *z_buffer)
+static void	draw_npc(t_game *game, t_npc *npc, double *z_buffer)
 {
 	int				frame;
 	t_texture		*tex;
@@ -174,4 +173,16 @@ void	draw_npc(t_game *game, t_npc *npc, double *z_buffer)
 	
 	// Draw the NPC sprite with scaling and occlusion.
 	draw_texture_at_scaled(game, tex, &props, z_buffer);
+}
+
+void draw_npcs(t_game *game, double *z_buffer)
+{
+	int i;
+
+	i = 0;
+	while (i < game->npc_count)
+	{
+		draw_npc(game, game->npcs[i], z_buffer);
+		i++;
+	}
 }

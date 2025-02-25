@@ -5,13 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/02 18:40:32 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/18 23:58:52 by nlouis           ###   ########.fr       */
+/*   Created: 2025/02/25 13:53:52 by nlouis            #+#    #+#             */
+/*   Updated: 2025/02/25 13:53:56 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+/**
+ * read_and_store()
+ * Reads from a file descriptor and stores the content in a buffer.
+ * It dynamically expands the remainder until a newline is found or EOF.
+ *
+ * @fd: The file descriptor to read from.
+ * @remainder: A pointer to the remainder string, storing unprocessed content.
+ *
+ * Returns: The number of bytes read, or -1 on failure.
+ *
+ * - Uses a buffer of size BUFFER_SIZE for reading.
+ * - Concatenates new data to the remainder and checks for newline.
+ * - If a read error occurs, frees allocated memory and returns -1.
+ */
 static ssize_t	read_and_store(int fd, char **remainder)
 {
 	ssize_t	bytes_read;
@@ -40,6 +54,19 @@ static ssize_t	read_and_store(int fd, char **remainder)
 	return (bytes_read);
 }
 
+/**
+ * extract_line()
+ * Extracts a single line (ending with '\n' if present) from the remainder.
+ *
+ * @remainder: The remainder string containing buffered content.
+ *
+ * Returns: A newly allocated string containing the next line,
+ * or NULL if no valid line is found.
+ *
+ * - The function scans for the first newline character (`\n`).
+ * - If found, it includes the newline in the extracted line.
+ * - If the remainder is empty, returns NULL.
+ */
 static char	*extract_line(char *remainder)
 {
 	size_t	line_len;
@@ -58,6 +85,19 @@ static char	*extract_line(char *remainder)
 	return (line);
 }
 
+/**
+ * update_remainder()
+ * Updates the remainder by removing the extracted line,
+ * keeping only the unprocessed content.
+ *
+ * @remainder: The current remainder string.
+ *
+ * Returns: A newly allocated string with the remaining content,
+ * or NULL if there is no leftover data.
+ *
+ * - Frees the previous remainder and returns a new trimmed version.
+ * - If no extra content remains after extracting the line, returns NULL.
+ */
 static char	*update_remainder(char *remainder)
 {
 	char	*new_remainder;
@@ -84,6 +124,21 @@ static char	*update_remainder(char *remainder)
 	return (new_remainder);
 }
 
+/**
+ * get_next_line()
+ * Reads the next line from a file descriptor.
+ *
+ * @fd: The file descriptor to read from.
+ *
+ * Returns: A dynamically allocated string containing the next line,
+ * or NULL if there is nothing left to read or an error occurs.
+ *
+ * Usage:
+ * - Use `get_next_line()` in a loop to read a file line by line.
+ * - The function manages a static buffer (`remainder`) per file descriptor.
+ * - Supports multiple file descriptors simultaneously.
+ * - The caller is responsible for freeing the returned line.
+ */
 char	*get_next_line(int fd)
 {
 	static char	*remainder[MAX_FD];
