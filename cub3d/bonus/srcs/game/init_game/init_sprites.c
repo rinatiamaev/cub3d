@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_npcs.c                                        :+:      :+:    :+:   */
+/*   init_sprites.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,43 +12,62 @@
 
 #include "cub3d_bonus.h"
 
-static void update_npcs_list(t_game *game, t_npc *npc)
+static void update_sprites_list(t_game *game, t_sprite *sprite)
 {
-	game->npcs = x_realloc(game, game->npcs,
-			game->npc_count * sizeof(t_npc *),
-			(game->npc_count + 1) * sizeof(t_npc *));
-	game->npcs[game->npc_count] = npc;
-	game->npc_count++;
+	game->sprites = x_realloc(game, game->sprites,
+			game->sprite_count * sizeof(t_sprite *),
+			(game->sprite_count + 1) * sizeof(t_sprite *));
+	game->sprites[game->sprite_count] = sprite;
+	game->sprite_count++;
 }
 
-static void	init_npc_frames_and_animation(t_game *game, t_npc *npc)
+static void	init_sprite_frames_and_animation(t_game *game, t_sprite *sprite)
 {
 	struct timeval	tv;
 	int				i;
 	
-	load_npc_frames(game, npc);
+	load_sprite_frames(game, sprite);
 	i = 0;
-	while (i < npc->num_frames)
-		npc->idle_frames[i++].size = npc->size;
+	while (i < sprite->num_frames)
+		sprite->idle_frames[i++].size = sprite->size;
 	gettimeofday(&tv, NULL);
-	npc->anim_start = tv.tv_sec * 1000000L + tv.tv_usec;
+	sprite->anim_start = tv.tv_sec * 1000000L + tv.tv_usec;
 }
 
 void spawn_witch_kitty(t_game *game, double x, double y)
 {
-	t_npc *npc;
+	t_sprite *sprite;
 	static char *frames[] = {
 		WS0, WS1, WS2, WS3, WS4, WS5, WS6, WS7, WS8, WS9, WS10, WS11, WS12, WS13
 	};
 
-	npc = x_calloc(game, 1, sizeof(t_npc));
-	*npc = (t_npc){
+	sprite = x_calloc(game, 1, sizeof(t_sprite));
+	*sprite = (t_sprite){
 		.pos = (t_dpoint){x + 0.5, y + 0.5},
 		.type = "witch_kitty",
 		.paths = frames,
 		.num_frames = sizeof(frames) / sizeof(frames[0]),
 		.size = (t_point){64, 64}
 	};
-	init_npc_frames_and_animation(game, npc);
-	update_npcs_list(game, npc);
+	init_sprite_frames_and_animation(game, sprite);
+	update_sprites_list(game, sprite);
+}
+
+void spawn_well(t_game *game, double x, double y)
+{
+	t_sprite *sprite;
+	static char *frames[] = {
+		IO
+	};
+
+	sprite = x_calloc(game, 1, sizeof(t_sprite));
+	*sprite = (t_sprite){
+		.pos = (t_dpoint){x + 0.5, y + 0.5},
+		.type = "well",
+		.paths = frames,
+		.num_frames = sizeof(frames) / sizeof(frames[0]),
+		.size = (t_point){128, 128}
+	};
+	init_sprite_frames_and_animation(game, sprite);
+	update_sprites_list(game, sprite);
 }

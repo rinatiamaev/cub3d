@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:06:19 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/26 00:20:38 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/26 14:56:51 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,7 +317,7 @@ void	render_scene(t_game *game)
 
 	// After processing all wall columns, draw any NPCs (or sprites) in the scene.
 	// The z-buffer is used to correctly handle depth, ensuring NPCs appear in front or behind walls as needed.
-	draw_npcs(game, z_buffer);
+	draw_sprites(game, z_buffer);
 	draw_minimap(game);
 
 	// Render the final image to the window.

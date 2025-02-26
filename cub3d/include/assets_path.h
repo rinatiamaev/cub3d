@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:37:18 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/26 00:22:24 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/26 15:07:29 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@
 # define WS11 "./bonus/assets/NPC/witchKitty/sleepy/witchKittySleep011.xpm"
 # define WS12 "./bonus/assets/NPC/witchKitty/sleepy/witchKittySleep012.xpm"
 # define WS13 "./bonus/assets/NPC/witchKitty/sleepy/witchKittySleep013.xpm"
+
+# define IO "./bonus/assets/items/well.xpm"
 
 #endif

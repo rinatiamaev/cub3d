@@ -6,26 +6,26 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:49:24 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/25 23:05:37 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/26 15:09:15 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static bool is_candidate_near_any_npc(t_dpoint candidate, t_game *game,
+static bool is_candidate_near_any_sprite(t_dpoint candidate, t_game *game,
 														double min_distance)
 {
-	t_npc		*npc;
-	t_dpoint	dist;
-	double		distance;
-    int			i;
+	t_sprite		*sprite;
+	t_dpoint		dist;
+	double			distance;
+    int				i;
 
 	i = 0;
-    while (i < game->npc_count)
+    while (i < game->sprite_count)
     {
-        npc = game->npcs[i];
-        dist.x = candidate.x - npc->pos.x;
-        dist.y = candidate.y - npc->pos.y;
+        sprite = game->sprites[i];
+        dist.x = candidate.x - sprite->pos.x;
+        dist.y = candidate.y - sprite->pos.y;
         distance = sqrt(dist.x * dist.x + dist.y * dist.y);
         if (distance < min_distance)
             return (true);
@@ -42,7 +42,7 @@ static bool can_move(t_game *game, double next_x, double next_y)
 	candidate.y = next_y;
 	if (game->map->matrix[(int)next_y][(int)next_x] == 1)
 		return (false);
-	if (is_candidate_near_any_npc(candidate, game, 0.5))
+	if (is_candidate_near_any_sprite(candidate, game, 0.5))
 		return (false);
 	return (true);
 }

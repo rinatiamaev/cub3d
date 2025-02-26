@@ -6,7 +6,7 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/02/26 00:23:04 by nlouis           ###   ########.fr        #
+#    Updated: 2025/02/26 15:04:33 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,14 +50,14 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/hooks/hooks_utils.c \
 				bonus/srcs/game/init_game/init_game.c \
 				bonus/srcs/game/init_game/load_textures.c \
-				bonus/srcs/game/init_game/init_npcs.c \
+				bonus/srcs/game/init_game/init_sprites.c \
 				bonus/srcs/game/moves/move_player.c \
 				bonus/srcs/game/moves/rotate_camera.c \
 				bonus/srcs/game/rendering/raycasting/caluclate_ray_properties.c \
 				bonus/srcs/game/rendering/raycasting/render_scene.c \
 				bonus/srcs/game/rendering/raycasting/utils.c \
 				bonus/srcs/game/rendering/draw_minimap.c \
-				bonus/srcs/game/rendering/draw_npcs.c \
+				bonus/srcs/game/rendering/draw_sprites.c \
 				bonus/srcs/game/game_loop.c 
 				
 				

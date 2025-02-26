@@ -6,27 +6,11 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 13:28:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/25 23:58:43 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/26 15:08:45 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
-
-void free_objects(t_game *game)
-{
-	int i;
-
-	i = 0;
-	while (i < game->object_count)
-	{
-		mlx_destroy_image(game->mlx, game->objects[i]->texture.ptr);
-		free(game->objects[i]);
-		i++;
-	}
-	free(game->objects);
-	game->objects = NULL;
-	game->object_count = 0;
-}
 
 static void	free_map(t_map *map)
 {
@@ -62,40 +46,39 @@ static void	free_textures(t_game *game)
 		mlx_destroy_image(game->mlx, game->tex.ea.ptr);
 }
 
-static void free_npcs(t_game *game)
+static void free_sprites(t_game *game)
 {
-	t_npc *npc;
+	t_sprite *sprite;
 	int i;
 	int j;
 
-	if (!game->npcs)
+	if (!game->sprites)
 		return;
 	i = 0;
-	while (i < game->npc_count)
+	while (i < game->sprite_count)
 	{
-		npc = game->npcs[i];
-		if (npc)
+		sprite = game->sprites[i];
+		if (sprite)
 		{
 			j = 0;
-			while (j < npc->num_frames)
+			while (j < sprite->num_frames)
 			{
-				if (npc->idle_frames[j].ptr)
-					mlx_destroy_image(game->mlx, npc->idle_frames[j].ptr);
+				if (sprite->idle_frames[j].ptr)
+					mlx_destroy_image(game->mlx, sprite->idle_frames[j].ptr);
 				j++;
 			}
-			free(npc->idle_frames);
-			free(npc);
+			free(sprite->idle_frames);
+			free(sprite);
 		}
 		i++;
 	}
-	free(game->npcs);
+	free(game->sprites);
 }
 
 void	free_game(t_game *game)
 {
-	free_npcs(game);
+	free_sprites(game);
 	free_map(game->map);
-	free_objects(game);
 	if (game->window)
 		free_window(game->window, game->mlx);
 	free_textures(game);

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/26 00:01:31 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/26 15:06:11 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,14 +210,7 @@ typedef struct s_texture
 	int		endian;
 }	t_texture;
 
-typedef struct s_object
-{
-	char		*type;
-	t_dpoint	pos;
-	t_texture	texture;
-}	t_object;
-
-typedef struct s_npc
+typedef struct s_sprite
 {
 	char		*type;
 	t_dpoint	pos;			// NPC world position
@@ -226,7 +219,7 @@ typedef struct s_npc
 	t_texture	*idle_frames;	// Array of textures for idle animation
 	int			num_frames;		// Number of frames in the idle animation
 	double		anim_start;		// Timestamp (in microseconds) when animation started
-}	t_npc;
+}	t_sprite;
 
 typedef struct s_tex
 {
@@ -244,10 +237,8 @@ typedef struct s_game
 	t_player	player;
 	t_tex		tex;
 	t_img		img;
-	t_npc		**npcs;
-	int			npc_count;
-	t_object	**objects;
-	int			object_count;
+	t_sprite	**sprites;
+	int			sprite_count;
 	bool		is_paused;
 	bool		minimap_visible;
 	bool		keys[66000];
@@ -274,7 +265,7 @@ void	parse_map(t_game *game, t_map *map);
 t_game	*init_game(char *filename);
 void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx);
 void	load_walls_texture(t_game *game, t_conf conf);
-void	load_npc_frames(t_game *game, t_npc *npc);
+void	load_sprite_frames(t_game *game, t_sprite *sprite);
 void	spawn_witch_kitty(t_game *game, double x, double y);
 void	spawn_well(t_game *game, double x, double y);
 
@@ -284,12 +275,12 @@ void	put_pixel(t_img *img, int x, int y, int color);
 int		get_tex_color(t_texture *tex, int x, int y);
 void	init_ray(t_game *game, t_ray *ray, int x);
 void	init_dda_ray(t_game *game, t_ray *ray);
-bool	compute_sprite_props(t_game *game, t_npc *npc, t_sprite_props *props);
+bool 	compute_sprite_props(t_game *game, t_dpoint pos, t_point size,	
+		t_sprite_props *props);
 void	draw_texture_at_scaled(t_game *game, t_texture *tex,
 		t_sprite_props *props, double *z_buffer);
 void	render_scene(t_game *game);
-void	draw_npcs(t_game *game, double *z_buffer);
-void	draw_objects(t_game *game, double *z_buffer);
+void	draw_sprites(t_game *game, double *z_buffer);
 void	draw_minimap(t_game *game);
 
 // HOOKS
