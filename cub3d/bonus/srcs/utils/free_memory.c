@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 13:28:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/26 15:08:45 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/26 23:49:40 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ static void	free_textures(t_game *game)
 		mlx_destroy_image(game->mlx, game->tex.ea.ptr);
 }
 
-static void free_sprites(t_game *game)
+static void	free_sprites(t_game *game)
 {
-	t_sprite *sprite;
-	int i;
-	int j;
+	t_sprite	*sprite;
+	int			i;
+	int			j;
 
 	if (!game->sprites)
-		return;
+		return ;
 	i = 0;
 	while (i < game->sprite_count)
 	{
@@ -61,7 +61,7 @@ static void free_sprites(t_game *game)
 		if (sprite)
 		{
 			j = 0;
-			while (j < sprite->num_frames)
+			while (j < sprite->num_idle_frames)
 			{
 				if (sprite->idle_frames[j].ptr)
 					mlx_destroy_image(game->mlx, sprite->idle_frames[j].ptr);

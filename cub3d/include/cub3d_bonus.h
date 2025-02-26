@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/26 15:06:11 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/26 23:53:32 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,15 @@ typedef struct s_dpoint
 	double	y;
 }	t_dpoint;
 
+typedef struct s_mouse_data
+{
+	t_point	position;
+	t_point	center;
+	double	delta_x;
+	double	rotation_speed;
+	double	sensitivity;
+}	t_mouse_data;
+
 typedef struct s_conf
 {
 	char	*tex_no;
@@ -132,23 +141,6 @@ typedef struct s_player
 	double		move_speed;	// Movement speed per frame
 	double		angle;		// Player’s facing angle (in radians)
 }	t_player;
-
-typedef struct s_sprite_draw_ctx
-{
-	t_point	step;				// Step size for iterating through the texture (X and Y)
-	t_point	tex;				// Current texture coordinates (X and Y)
-	int		current_screen_x;	// Current column on the screen where the sprite pixel is drawn
-	int		tex_pos_y;			// Vertical position in the texture (used for sampling pixels)
-	int		color;				// Color of the current pixel being drawn
-}	t_sprite_draw_ctx;
-
-typedef struct s_sprite_props
-{
-	t_dpoint	transform;	// Transformed NPC coordinates (camera space)
-	t_point		screen;		// Sprite screen coordinates
-	t_point		size;		// Sprite size (pixels)
-	double		depth;		// Depth (transform.y), used for occlusion
-}	t_sprite_props;
 
 /*
  * The s_img structure holds all the necessary information to manage an image in MiniLibX.
@@ -210,15 +202,54 @@ typedef struct s_texture
 	int		endian;
 }	t_texture;
 
+typedef struct s_sprite_draw
+{
+    t_dpoint    relative_position;    // (sprite.x - player.x, sprite.y - player.y)
+    double      inverse_determinant;  // 1 / (plane.x*dir.y - dir.x*plane.y)
+    double      transform_x;          // Sprite X in camera space
+    double      transform_y;          // Sprite Y in camera space
+    int         screen_x;             // X coordinate of sprite center on screen
+    int         height;               // Calculated sprite height on screen
+    int         width;                // Calculated sprite width on screen
+    t_point     draw_start;           // (top-left) of the sprite bounding box
+    t_point     draw_end;             // (bottom-right) of the sprite bounding box
+
+    int         current_frame;        // Chosen animation frame
+    t_texture   *texture;             // Pointer to the sprite texture
+    t_point     texture_size;         // (width, height) of the sprite texture
+
+    // Variables used in the drawing loops
+    int         stripe_x;             // Current vertical stripe in screen space
+    int         texture_x;            // Corresponding x in the sprite texture
+    int         y;                    // Loop index for screen Y
+    int         d;                    // Helper for fixed-point texture Y
+    int         texture_y;            // Corresponding y in the sprite texture
+    int         color;                // Final color from texture
+}   t_sprite_draw;
+
+typedef enum e_npc_state
+{
+	NPC_STATE_IDLE,
+	NPC_STATE_WALKING,
+}	t_npc_state;
+
 typedef struct s_sprite
 {
 	char		*type;
-	t_dpoint	pos;			// NPC world position
+	t_dpoint	pos;
 	t_point		size;
-	char		**paths;
-	t_texture	*idle_frames;	// Array of textures for idle animation
-	int			num_frames;		// Number of frames in the idle animation
-	double		anim_start;		// Timestamp (in microseconds) when animation started
+	t_npc_state	state;
+	char		**idle_paths;
+	t_texture	*idle_frames;
+	int			num_idle_frames;
+	char		**move_paths;
+	t_texture	*move_frames;
+	int			move_frames_count;
+	int			anim_index;
+	double		anim_start;
+	double		anim_timer;
+	int			move_dir;
+	double		speed;
 }	t_sprite;
 
 typedef struct s_tex
@@ -273,14 +304,14 @@ void	spawn_well(t_game *game, double x, double y);
 void	calculate_ray_properties(t_game *game, t_ray *ray);
 void	put_pixel(t_img *img, int x, int y, int color);
 int		get_tex_color(t_texture *tex, int x, int y);
+int		get_current_frame(double anim_start, int num_frames,
+		int frame_duration_ms);
 void	init_ray(t_game *game, t_ray *ray, int x);
 void	init_dda_ray(t_game *game, t_ray *ray);
-bool 	compute_sprite_props(t_game *game, t_dpoint pos, t_point size,	
-		t_sprite_props *props);
-void	draw_texture_at_scaled(t_game *game, t_texture *tex,
-		t_sprite_props *props, double *z_buffer);
 void	render_scene(t_game *game);
-void	draw_sprites(t_game *game, double *z_buffer);
+bool	init_sprite_draw_data(t_sprite_draw *data, t_player player,
+		t_sprite *sprite);
+void	draw_sprites(t_game *game, t_player player, double *z_buffer);
 void	draw_minimap(t_game *game);
 
 // HOOKS
@@ -290,7 +321,11 @@ void	handle_event_hooks(t_game *game, t_window *window);
 
 // GAME LOOP
 int		game_loop(t_game *game);
+void	update_all_sprites(t_game *game, double delta_time);
 void	handle_mouse_movement(t_game *game, t_window *window);
+bool	is_candidate_near_any_sprite(t_dpoint candidate, t_game *game,
+		double min_distance);
+bool	can_move(t_game *game, double next_x, double next_y);
 void	handle_player_moves(t_game *game);
 void	rotate_left(t_player *player, double rot_speed, double delta_time);
 void	rotate_right(t_player *player, double rot_speed, double delta_time);

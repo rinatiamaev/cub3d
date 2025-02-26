@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minimap.c                                          :+:      :+:    :+:   */
+/*   draw_minimap.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 15:47:15 by riamaev           #+#    #+#             */
-/*   Updated: 2025/02/24 10:57:13 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/26 21:24:17 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	draw_wall_block(t_game *game, t_point minimap_pos, int tile_size)
 		while (offset.x < tile_size)
 		{
 			put_pixel(&game->img, minimap_pos.x + offset.x,
-					minimap_pos.y + offset.y, WALL_COLOR);
+				minimap_pos.y + offset.y, WALL_COLOR);
 			offset.x++;
 		}
 		offset.y++;
@@ -51,12 +51,10 @@ static void	draw_walls(t_game *game, int tile_size)
 	}
 }
 
-
 static void	draw_player(t_game *game, int tile_size, int player_radius)
 {
 	t_point	player_pos;
-	t_point player_offset;
-
+	t_point	player_offset;
 
 	player_offset.y = -player_radius;
 	player_pos.x = MINIMAP_OFFSET_X + game->player.pos.x * tile_size;
@@ -83,11 +81,11 @@ void	draw_minimap(t_game *game)
 {
 	int	tile_size;
 	int	player_radius;
-	
+
 	if (!game->minimap_visible)
 		return ;
 	tile_size = fmin(MINIMAP_SIZE / game->map->size.x,
-					MINIMAP_SIZE / game->map->size.y);
+			MINIMAP_SIZE / game->map->size.y);
 	player_radius = tile_size * PLAYER_SCALE;
 	draw_walls(game, tile_size);
 	draw_player(game, tile_size, player_radius);

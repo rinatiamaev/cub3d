@@ -6,190 +6,133 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 21:05:31 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/26 15:43:37 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/26 23:41:58 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-
-/*   get_current_sprite_frame
-*   Computes the current animation frame for the sprite based on elapsed
-*   time. It uses gettimeofday() to measure how many milliseconds have
-*   passed since the sprite animation started (sprite->anim_start) and then
-*   calculates the frame index using the provided frame_duration_ms.
-*/
-static int	get_current_frame(double anim_start, int num_frames, int frame_duration_ms)
+static void	sort_sprites(t_game *game, t_player player, t_sprite **sprites)
 {
-	struct timeval	tv;
-	long			current_time;
-	long			elapsed_ms;
-	int				frame_index;
+	int		i;
+	int		j;
+	double	dist_i;
+	double	dist_j;
 
-	// Get current time in microseconds.
-	gettimeofday(&tv, NULL);
-	current_time = tv.tv_sec * 1000000L + tv.tv_usec;
-	
-	// Calculate elapsed time (in milliseconds) since animation start.
-	elapsed_ms = (current_time - anim_start) / 1000;
-	
-	// Calculate the frame index by dividing elapsed time by frame duration,
-	// then take modulo the number of frames.
-	frame_index = (elapsed_ms / frame_duration_ms) % num_frames;
-	return (frame_index);
-}
-
-/*   draw_texture_at_scaled
-*   Draws a scaled version of a texture (tex) onto the game image (game->img)
-*   using precomputed sprite properties (props) and a z-buffer for occlusion.
-*   - props->size contains the scaled width and height of the sprite.
-*   - props->screen contains the top-left screen coordinates where the sprite
-*     should be drawn.
-*   - props->depth is used for comparing against the z-buffer to occlude
-*     sprite pixels behind walls.
-*   - The function uses fixed-point arithmetic (with shifts by 8) to compute
-*     scaling steps (step.x and step.y) for the texture coordinates.
-*/
-void	draw_texture_at_scaled(t_game *game, t_texture *tex,
-	t_sprite_props *props, double *z_buffer)
-{
-	t_sprite_draw_ctx	ctx;
-	int					x;
-	int					y;
-
-	// Calculate fixed-point scaling steps for texture Y and X
-	// based on the sprite's scaled size (props->size).
-	ctx.step.y = tex->size.y * 256 / props->size.y;
-	ctx.step.x = tex->size.x * 256 / props->size.x;
-	ctx.tex_pos_y = 0; // Initialize the texture vertical position accumulator
-
-	y = 0;
-	while (y < props->size.y)
+	i = 0;
+	while (i < game->sprite_count - 1)
 	{
-		// Compute current texture Y coordinate from the fixed-point accumulator.
-		ctx.tex.y = (ctx.tex_pos_y >> 8) & (tex->size.y - 1);
-		ctx.tex_pos_y += ctx.step.y;
-		
-		x = 0;
-		while (x < props->size.x)
+		j = 0;
+		while (j < game->sprite_count - i - 1)
 		{
-			// Calculate the current screen x position for this pixel column.
-			ctx.current_screen_x = props->screen.x + x;
-			// Skip drawing if outside screen bounds.
-			if (ctx.current_screen_x < 0 || ctx.current_screen_x >= WIN_W)
-			{
-				x++;
-				continue;
-			}
-			// Compute current texture X coordinate using fixed-point arithmetic.
-			ctx.tex.x = (x * ctx.step.x) >> 8;
-			// Retrieve the color from the texture at (tex.x, tex.y).
-			ctx.color = get_tex_color(tex, ctx.tex.x, ctx.tex.y);
-			
-			// Check transparency: here we assume the value 42 represents transparency.
-			if (ctx.color != 42)
-			{
-				// Only draw the pixel if the sprite is closer than the wall (using z-buffer).
-				if (props->depth < z_buffer[ctx.current_screen_x])
-					put_pixel(&game->img, ctx.current_screen_x,
-						props->screen.y + y, ctx.color);
-			}
-			x++;
+			dist_i = (sprites[j]->pos.x - player.pos.x)
+				* (sprites[j]->pos.x - player.pos.x)
+				+ (sprites[j]->pos.y - player.pos.y)
+				* (sprites[j]->pos.y - player.pos.y);
+			dist_j = (sprites[j + 1]->pos.x - player.pos.x)
+				* (sprites[j + 1]->pos.x - player.pos.x)
+				+ (sprites[j + 1]->pos.y - player.pos.y)
+				* (sprites[j + 1]->pos.y - player.pos.y);
+			if (dist_i < dist_j)
+				ft_swap(&sprites[j], &sprites[j + 1], sizeof(t_sprite *));
+			j++;
 		}
-		y++;
+		i++;
 	}
 }
 
-/*   compute_sprite_props
-*   Computes all the necessary properties for rendering the sprite sprite:
-*   - Transformed coordinates in camera space (props->transform)
-*   - Depth (props->depth), which is used for scaling and occlusion
-*   - The final size (props->size) of the sprite when drawn on screen
-*   - The screen position (props->screen) where the sprite will be placed
-*   Returns true if the sprite is visible, false otherwise.
-*/
-bool compute_sprite_props(t_game *game, t_dpoint pos, t_point size, t_sprite_props *props)
+static void	draw_sprite_column(t_game *game, t_sprite_draw *data)
 {
-	double    det, inv_det;
-	t_dpoint  sprite;
-
-	// Translate the entity's position relative to the player's position.
-	sprite.x = pos.x - game->player.pos.x;
-	sprite.y = pos.y - game->player.pos.y;
-
-	// Compute determinant of the camera matrix.
-	det = game->player.plane.x * game->player.dir.y
-		- game->player.dir.x * game->player.plane.y;
-	if (fabs(det) < 1e-6)
-		return (false);
-	inv_det = 1.0 / det;
-
-	// Transform entity position to camera space.
-	props->transform.x = inv_det * (game->player.dir.y * sprite.x
-						- game->player.dir.x * sprite.y);
-	props->transform.y = inv_det * (-game->player.plane.y * sprite.x
-						+ game->player.plane.x * sprite.y);
-	props->depth = props->transform.y;
-
-	// If behind player or too close, not visible.
-	if (props->depth <= 0.1)
-		return (false);
-
-	// Compute sprite size on screen (height scaled by depth).
-	props->size.y = abs((int)(WIN_H / props->depth)) / 2;
-
-	// Use the entity’s “logical” size to get the correct aspect ratio:
-	// (props->size.y * entity_width) / entity_height
-	// In your code, `entity_width = size.x` and `entity_height = size.y`.
-	props->size.x = (props->size.y * size.x) / size.y;
-
-	// Adjust vertical offset so sprite appears on the ground
-	props->screen.y = ((WIN_H - props->size.y) / 2) + (props->size.y / 2);
-
-	// Calculate horizontal screen position from transform.x
-	props->screen.x = (int)((WIN_W / 2.0)
-						* (1 + props->transform.x / props->depth));
-
-	return (true);
+	data->y = data->draw_start.y;
+	while (data->y < data->draw_end.y)
+	{
+		data->d = (data->y * 256) - (WIN_H * 128) + (data->height * 128);
+		data->texture_y
+			= (int)((data->d * data->texture_size.y) / data->height) / 256;
+		data->color = get_tex_color(data->texture, data->texture_x,
+				data->texture_y);
+		if (data->color != 42)
+			put_pixel(&game->img, data->stripe_x, data->y, data->color);
+		data->y++;
+	}
 }
 
-
-/*   draw_sprite
-*   Renders the sprite sprite with occlusion by performing the following steps:
-*   1. Compute sprite properties (transformed coordinates, size, screen
-*      position, and depth) using compute_sprite_props().
-*   2. Determine the current animation frame based on elapsed time.
-*   3. Retrieve the corresponding texture from sprite->idle_frames.
-*   4. Draw the scaled texture with occlusion checks using the provided
-*      z-buffer via draw_texture_at_scaled().
-*/
-static void	draw_sprite(t_game *game, t_sprite *sprite, double *z_buffer)
+static void	draw_sprite_stripe(t_game *game, t_sprite_draw *data,
+														double *z_buffer)
 {
-	int				frame;
-	t_texture		*tex;
-	t_sprite_props	props;
+	data->texture_x = (int)((256 * (data->stripe_x
+					- (-data->width / 2 + data->screen_x))
+				* data->texture_size.x / data->width) / 256
+			);
+	if (data->transform_y > 0
+		&& data->stripe_x >= 0
+		&& data->stripe_x < WIN_W
+		&& data->transform_y < z_buffer[data->stripe_x])
+		draw_sprite_column(game, data);
+}
 
-	// Compute all necessary properties for rendering the sprite sprite.
-	// If the sprite is not visible, exit early.
-	if (!compute_sprite_props(game, sprite->pos, sprite->size, &props))
+static void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
+														double *z_buffer)
+{
+	t_sprite_draw	data;
+
+	if (!init_sprite_draw_data(&data, player, sprite))
 		return ;
-	
-	// Get the current animation frame (using a frame duration of 200ms).
-	frame = get_current_frame(sprite->anim_start, sprite->num_frames, 200);
-	tex = &sprite->idle_frames[frame];
-	
-	// Draw the sprite sprite with scaling and occlusion.
-	draw_texture_at_scaled(game, tex, &props, z_buffer);
+	data.stripe_x = data.draw_start.x;
+	while (data.stripe_x < data.draw_end.x)
+	{
+		draw_sprite_stripe(game, &data, z_buffer);
+		data.stripe_x++;
+	}
 }
 
-void draw_sprites(t_game *game, double *z_buffer)
+void draw_witch_kitty(t_game *game, t_sprite *kitty, double *z_buffer)
 {
-	int i;
+	t_texture *tex;
+	int        index;
 
+	if (kitty->state == NPC_STATE_IDLE)
+	{
+		index = kitty->anim_index; // 0..(num_idle_frames-1)
+		if (index < 0 || index >= kitty->num_idle_frames)
+			index = 0; // safety check
+		tex = &kitty->idle_frames[index];
+	}
+	else // NPC_STATE_WALKING
+	{
+		// We have 4 frames per direction
+		if (kitty->move_dir < 0 || kitty->move_dir > 3)
+			kitty->move_dir = 0; // default to South
+		index = (kitty->move_dir * 4) + kitty->anim_index; 
+		// e.g. move_dir=2 => West block, anim_index=1 => the second West frame => index=8+1=9
+		if (index < 0 || index >= kitty->move_frames_count)
+			index = 0; // safety check
+		tex = &kitty->move_frames[index];
+	}
+
+	// Now we do the Wolf3D sprite draw
+	// 1) Build a "temporary" sprite or reuse your logic
+	t_sprite temp = *kitty;
+
+	// override so we pass exactly 1 frame to your existing "draw_sprite" code:
+	temp.num_idle_frames = 1;     // not strictly used by 'draw_sprite', but for safety
+	temp.idle_frames     = tex;   // set the single frame
+
+	draw_sprite(game, game->player, &temp, z_buffer);
+}
+
+void	draw_sprites(t_game *game, t_player player, double *z_buffer)
+{
+	int	i;
+
+	sort_sprites(game, player, game->sprites);
 	i = 0;
 	while (i < game->sprite_count)
 	{
-		draw_sprite(game, game->sprites[i], z_buffer);
+		if (ft_strcmp(game->sprites[i]->type, "witch_kitty") == 0)
+			draw_witch_kitty(game, game->sprites[i], z_buffer);
+		else
+			draw_sprite(game, player, game->sprites[i], z_buffer);
 		i++;
 	}
 }

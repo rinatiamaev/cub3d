@@ -6,12 +6,12 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/02/26 15:04:33 by nlouis           ###   ########.fr        #
+#    Updated: 2025/02/26 23:49:04 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC      = cc
-CFLAGS  = -Wall -Wextra -Werror -I libft/include -I ./include -I mlx/ # -g -fsanitize=address -fsanitize=undefined
+CFLAGS  = -Wall -Wextra -Werror -I libft/include -I ./include -I mlx/ -g -fsanitize=address -fsanitize=undefined
 
 NAME = cub3D
 NAME_BONUS = cub3D_bonus
@@ -39,7 +39,8 @@ SRCS =  mandatory/srcs/main.c \
 SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/utils/utils.c \
 				bonus/srcs/utils/free_memory.c \
-				bonus/srcs/utils/x_memory_utils.c \
+				bonus/srcs/utils/x_memory_utils_one.c \
+				bonus/srcs/utils/x_memory_utils_two.c \
 				bonus/srcs/parsing/parse_map.c \
 				bonus/srcs/parsing/extract_file_content.c \
 				bonus/srcs/parsing/parse_map_layout_helpers.c \
@@ -52,12 +53,15 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/init_game/load_textures.c \
 				bonus/srcs/game/init_game/init_sprites.c \
 				bonus/srcs/game/moves/move_player.c \
+				bonus/srcs/game/moves/move_utils.c \
 				bonus/srcs/game/moves/rotate_camera.c \
 				bonus/srcs/game/rendering/raycasting/caluclate_ray_properties.c \
 				bonus/srcs/game/rendering/raycasting/render_scene.c \
-				bonus/srcs/game/rendering/raycasting/utils.c \
+				bonus/srcs/game/rendering/raycasting/init_ray_data.c \
 				bonus/srcs/game/rendering/draw_minimap.c \
 				bonus/srcs/game/rendering/draw_sprites.c \
+				bonus/srcs/game/rendering/init_draw_sprite_data.c \
+				bonus/srcs/game/rendering/draw_utils.c \
 				bonus/srcs/game/game_loop.c 
 				
 				

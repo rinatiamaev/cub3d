@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_mouse.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/26 20:59:48 by nlouis            #+#    #+#             */
+/*   Updated: 2025/02/26 21:12:39 by nlouis           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d_bonus.h"
 
 /*
@@ -13,32 +25,64 @@ the mouse stops moving.
 The function also recenters the mouse when it enters the dead zone to 
 prevent uncontrolled drift.
 */
+static void	clamp_mouse_to_window(t_mouse_data *m, t_game *game,
+															t_window *window)
+{
+	if (m->position.x < 0 || m->position.x >= window->size.x
+		|| m->position.y < 0 || m->position.y >= window->size.y)
+	{
+		m->position.x = m->center.x;
+		m->position.y = m->center.y;
+		mlx_mouse_move(game->mlx, window->ptr, m->center.x, m->center.y);
+	}
+}
+
+static void	update_rotation_speed(t_mouse_data *m, t_game *game,
+															t_window *window)
+{
+	m->delta_x = m->position.x - m->center.x;
+	if (fabs(m->delta_x) > (window->size.x / 5))
+	{
+		m->rotation_speed
+			= m->delta_x * m->sensitivity * game->player.rot_speed;
+	}
+	else
+	{
+		m->rotation_speed *= 0.9;
+		if (fabs(m->rotation_speed) < 0.0001)
+			m->rotation_speed = 0.0;
+	}
+}
+
+static void	apply_rotation(t_mouse_data *m, t_game *game)
+{
+	if (m->rotation_speed > 0)
+		rotate_left(&game->player, m->rotation_speed, 1);
+	else if (m->rotation_speed < 0)
+		rotate_right(&game->player, -m->rotation_speed, 1);
+}
+
+static void	recenter_if_needed(t_mouse_data *m, t_game *game, t_window *window)
+{
+	if (fabs(m->delta_x) <= (window->size.x / 5))
+	{
+		mlx_mouse_move(game->mlx, window->ptr, m->center.x, m->center.y);
+	}
+}
 
 void	handle_mouse_movement(t_game *game, t_window *window)
 {
-	static double	rotation_speed;
-	t_point			mouse;
-	int				win_center_x;
-	double			mouse_delta;
-	double			sensitivity = 0.00002;
+	static double	stored_rotation_speed;
+	t_mouse_data	m;
 
-	mlx_mouse_get_pos(game->mlx, window->ptr, &mouse.x, &mouse.y);
-	win_center_x = window->size.x / 2;
-	mouse_delta = mouse.x - win_center_x;
-
-	if (fabs(mouse_delta) > window->size.x / 5)
-		rotation_speed = mouse_delta * sensitivity * game->player.rot_speed;
-	else
-	{
-		rotation_speed *= 0.9;
-		if (fabs(rotation_speed) < 0.0001)
-			rotation_speed = 0;
-	}
-	if (rotation_speed > 0)
-		rotate_left(&game->player, rotation_speed, 1);
-	else if (rotation_speed < 0)
-		rotate_right(&game->player, -rotation_speed, 1);
-	if (fabs(mouse_delta) <= window->size.x / 5)
-		mlx_mouse_move(game->mlx, window->ptr, win_center_x,
-						window->size.y / 2);
+	m.sensitivity = 0.00002;
+	m.center.x = window->size.x / 2;
+	m.center.y = window->size.y / 2;
+	mlx_mouse_get_pos(game->mlx, window->ptr, &m.position.x, &m.position.y);
+	m.rotation_speed = stored_rotation_speed;
+	clamp_mouse_to_window(&m, game, window);
+	update_rotation_speed(&m, game, window);
+	apply_rotation(&m, game);
+	recenter_if_needed(&m, game, window);
+	stored_rotation_speed = m.rotation_speed;
 }
