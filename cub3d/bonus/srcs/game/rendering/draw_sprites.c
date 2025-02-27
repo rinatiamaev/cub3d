@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 21:05:31 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/26 23:41:58 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/27 21:41:49 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	draw_sprite_stripe(t_game *game, t_sprite_draw *data,
 		draw_sprite_column(game, data);
 }
 
-static void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
+void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
 														double *z_buffer)
 {
 	t_sprite_draw	data;
@@ -84,41 +84,6 @@ static void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
 		draw_sprite_stripe(game, &data, z_buffer);
 		data.stripe_x++;
 	}
-}
-
-void draw_witch_kitty(t_game *game, t_sprite *kitty, double *z_buffer)
-{
-	t_texture *tex;
-	int        index;
-
-	if (kitty->state == NPC_STATE_IDLE)
-	{
-		index = kitty->anim_index; // 0..(num_idle_frames-1)
-		if (index < 0 || index >= kitty->num_idle_frames)
-			index = 0; // safety check
-		tex = &kitty->idle_frames[index];
-	}
-	else // NPC_STATE_WALKING
-	{
-		// We have 4 frames per direction
-		if (kitty->move_dir < 0 || kitty->move_dir > 3)
-			kitty->move_dir = 0; // default to South
-		index = (kitty->move_dir * 4) + kitty->anim_index; 
-		// e.g. move_dir=2 => West block, anim_index=1 => the second West frame => index=8+1=9
-		if (index < 0 || index >= kitty->move_frames_count)
-			index = 0; // safety check
-		tex = &kitty->move_frames[index];
-	}
-
-	// Now we do the Wolf3D sprite draw
-	// 1) Build a "temporary" sprite or reuse your logic
-	t_sprite temp = *kitty;
-
-	// override so we pass exactly 1 frame to your existing "draw_sprite" code:
-	temp.num_idle_frames = 1;     // not strictly used by 'draw_sprite', but for safety
-	temp.idle_frames     = tex;   // set the single frame
-
-	draw_sprite(game, game->player, &temp, z_buffer);
 }
 
 void	draw_sprites(t_game *game, t_player player, double *z_buffer)

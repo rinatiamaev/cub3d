@@ -6,7 +6,7 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/02/27 08:58:01 by nlouis           ###   ########.fr        #
+#    Updated: 2025/02/27 21:35:22 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/rendering/draw_sprites.c \
 				bonus/srcs/game/rendering/init_draw_sprite_data.c \
 				bonus/srcs/game/rendering/draw_utils.c \
+				bonus/srcs/game/npc.c \
 				bonus/srcs/game/game_loop.c 
 				
 				

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/26 23:53:32 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/28 01:41:15 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,14 @@ typedef enum e_npc_state
 	NPC_STATE_WALKING,
 }	t_npc_state;
 
+typedef enum e_walk_block
+{
+	WALK_AWAY = 0,
+	WALK_TOWARD,
+	WALK_LEFT,
+	WALK_RIGHT
+}	t_walk_block;
+
 typedef struct s_sprite
 {
 	char		*type;
@@ -245,11 +253,17 @@ typedef struct s_sprite
 	char		**move_paths;
 	t_texture	*move_frames;
 	int			move_frames_count;
-	int			anim_index;
-	double		anim_start;
-	double		anim_timer;
-	int			move_dir;
-	double		speed;
+	int			anim_start;
+    int         anim_index;
+    double      anim_timer;    // accumulates time for switching frames
+    double      speed;         // movement speed in map units/second
+	t_dpoint	move_vec;
+
+    // Patrol system
+    t_dpoint    *waypoints;     // array of points
+    int         waypoint_count;
+    int         current_wp;
+    double      threshold_dist; // distance threshold to consider "arrived"
 }	t_sprite;
 
 typedef struct s_tex
@@ -297,8 +311,16 @@ t_game	*init_game(char *filename);
 void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx);
 void	load_walls_texture(t_game *game, t_conf conf);
 void	load_sprite_frames(t_game *game, t_sprite *sprite);
-void	spawn_witch_kitty(t_game *game, double x, double y);
+void	init_sprite_frames_and_animation(t_game *game, t_sprite *sprite);
+void	update_sprites_list(t_game *game, t_sprite *sprite);
 void	spawn_well(t_game *game, double x, double y);
+
+void	spawn_witch_kitty(t_game *game, double x, double y);
+void	update_all_sprites(t_game *game, double delta_time);
+void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
+		double *z_buffer);
+void	draw_witch_kitty(t_game *game, t_sprite *kitty, double *z_buffer);
+
 
 // RENDERING
 void	calculate_ray_properties(t_game *game, t_ray *ray);
@@ -321,7 +343,6 @@ void	handle_event_hooks(t_game *game, t_window *window);
 
 // GAME LOOP
 int		game_loop(t_game *game);
-void	update_all_sprites(t_game *game, double delta_time);
 void	handle_mouse_movement(t_game *game, t_window *window);
 bool	is_candidate_near_any_sprite(t_dpoint candidate, t_game *game,
 		double min_distance);
