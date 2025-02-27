@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:59:48 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/26 21:12:39 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/27 09:15:07 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,18 @@ the mouse stops moving.
 The function also recenters the mouse when it enters the dead zone to 
 prevent uncontrolled drift.
 */
-static void	clamp_mouse_to_window(t_mouse_data *m, t_game *game,
-															t_window *window)
+static bool	is_mouse_inside_window(t_mouse_data *m, t_window *window)
 {
-	if (m->position.x < 0 || m->position.x >= window->size.x
-		|| m->position.y < 0 || m->position.y >= window->size.y)
-	{
-		m->position.x = m->center.x;
-		m->position.y = m->center.y;
-		mlx_mouse_move(game->mlx, window->ptr, m->center.x, m->center.y);
-	}
+	return (m->position.x >= 0 && m->position.x < window->size.x
+		&& m->position.y >= 0 && m->position.y < window->size.y);
 }
 
 static void	update_rotation_speed(t_mouse_data *m, t_game *game,
 															t_window *window)
 {
 	m->delta_x = m->position.x - m->center.x;
-	if (fabs(m->delta_x) > (window->size.x / 5))
+	if (fabs(m->delta_x) > (window->size.x / 5)
+		&& is_mouse_inside_window(m, window))
 	{
 		m->rotation_speed
 			= m->delta_x * m->sensitivity * game->player.rot_speed;
@@ -62,14 +57,6 @@ static void	apply_rotation(t_mouse_data *m, t_game *game)
 		rotate_right(&game->player, -m->rotation_speed, 1);
 }
 
-static void	recenter_if_needed(t_mouse_data *m, t_game *game, t_window *window)
-{
-	if (fabs(m->delta_x) <= (window->size.x / 5))
-	{
-		mlx_mouse_move(game->mlx, window->ptr, m->center.x, m->center.y);
-	}
-}
-
 void	handle_mouse_movement(t_game *game, t_window *window)
 {
 	static double	stored_rotation_speed;
@@ -80,9 +67,7 @@ void	handle_mouse_movement(t_game *game, t_window *window)
 	m.center.y = window->size.y / 2;
 	mlx_mouse_get_pos(game->mlx, window->ptr, &m.position.x, &m.position.y);
 	m.rotation_speed = stored_rotation_speed;
-	clamp_mouse_to_window(&m, game, window);
 	update_rotation_speed(&m, game, window);
 	apply_rotation(&m, game);
-	recenter_if_needed(&m, game, window);
 	stored_rotation_speed = m.rotation_speed;
 }
