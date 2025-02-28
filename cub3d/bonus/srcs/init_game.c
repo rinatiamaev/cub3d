@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:05 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/28 00:33:21 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/01 01:22:19 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static void	init_player(t_player *player)
 	player->pos = (t_dpoint){player->pos.x + 0.5, player->pos.y + 0.5};
 	player->rot_speed = 5;
 	player->move_speed = 0.1;
-		
 	if (player->conf_dir == 'N')
 		player->angle = 3 * M_PI / 2;
 	else if (player->conf_dir == 'S')
@@ -48,7 +47,6 @@ static void	init_player(t_player *player)
 		player->angle = M_PI;
 	else if (player->conf_dir == 'E')
 		player->angle = 0;
-	
 	player->dir.x = cos(player->angle);
 	player->dir.y = sin(player->angle);
 	player->plane.x = -sin(player->angle) * FOV;

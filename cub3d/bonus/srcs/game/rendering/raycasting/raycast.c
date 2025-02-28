@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 13:05:56 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/28 13:09:33 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/01 01:08:20 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static t_texture	*select_wall_texture(t_game *game, t_ray *ray)
 	}
 }
 
-void	draw_wall_column(t_game *game, t_ray *ray, int x)
+void	draw_wall_column(t_game *game, t_ray *ray, int *x)
 {
 	t_texture	*tex;
 	int			y;
@@ -64,12 +64,12 @@ void	draw_wall_column(t_game *game, t_ray *ray, int x)
 		ray->tex.y = (int)ray->tex_pos & (tex->size.y - 1);
 		ray->tex_pos += ray->step;
 		color = get_tex_color(tex, ray->tex.x, ray->tex.y);
-		put_pixel(&game->img, x, y, color);
+		put_pixel(&game->img, *x, y, color);
 		y++;
 	}
 }
 
-static void	fill_ceiling_and_floor(t_img *img, int ceiling_color,
+void	fill_ceiling_and_floor(t_img *img, int ceiling_color,
 												int floor_color)
 {
 	int	x;
@@ -100,7 +100,7 @@ static void	fill_ceiling_and_floor(t_img *img, int ceiling_color,
 
 void	raycast(t_game *game, t_ray *ray, int *x, double *z_buffer)
 {
-	init_ray(game, ray, x);
+	init_ray(game, ray, *x);
 	init_dda_ray(game, ray);
 	perform_dda(game, ray);
 	calculate_ray_properties(game, ray);

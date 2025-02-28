@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/28 13:01:53 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/01 01:45:08 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,16 @@
 # define TEX_W		128
 # define TEX_H		128
 
-
 # define M_PI 3.14159265358979323846
+
+typedef enum e_walk_block
+{
+	FREE_SPACE,
+	WALL,
+	CONF_DIR,
+	EMPTY,
+	WITCH_KITTY	
+}	t_walk_block;
 
 typedef struct s_point
 {
@@ -204,38 +212,44 @@ typedef struct s_texture
 
 typedef struct s_sprite_draw
 {
-    t_dpoint    relative_position;    // (sprite.x - player.x, sprite.y - player.y)
-    double      inverse_determinant;  // 1 / (plane.x*dir.y - dir.x*plane.y)
-    double      transform_x;          // Sprite X in camera space
-    double      transform_y;          // Sprite Y in camera space
-    int         screen_x;             // X coordinate of sprite center on screen
-    int         height;               // Calculated sprite height on screen
-    int         width;                // Calculated sprite width on screen
-    t_point     draw_start;           // (top-left) of the sprite bounding box
-    t_point     draw_end;             // (bottom-right) of the sprite bounding box
+	t_dpoint	relative_position;		// (sprite.x - player.x, sprite.y - player.y)
+	double		inverse_determinant;	// 1 / (plane.x*dir.y - dir.x*plane.y)
+	double		transform_x;			// Sprite X in camera space
+	double		transform_y;			// Sprite Y in camera space
+	int			screen_x;				// X coordinate of sprite center on screen
+	int			height;					// Calculated sprite height on screen
+	int			width;					// Calculated sprite width on screen
+	t_point		draw_start;				// (top-left) of the sprite bounding box
+	t_point		draw_end;				// (bottom-right) of the sprite bounding box
 
-    int         current_frame;        // Chosen animation frame
-    t_texture   *texture;             // Pointer to the sprite texture
-    t_point     texture_size;         // (width, height) of the sprite texture
+	int			current_frame;			// Chosen animation frame
+	t_texture	*texture;				// Pointer to the sprite texture
+	t_point		texture_size;			// (width, height) of the sprite texture
 
-    // Variables used in the drawing loops
-    int         stripe_x;             // Current vertical stripe in screen space
-    int         texture_x;            // Corresponding x in the sprite texture
-    int         y;                    // Loop index for screen Y
-    int         d;                    // Helper for fixed-point texture Y
-    int         texture_y;            // Corresponding y in the sprite texture
-    int         color;                // Final color from texture
+	// Variables used in the drawing loops
+	int			stripe_x;				// Current vertical stripe in screen space
+	int			texture_x;				// Corresponding x in the sprite texture
+	int			y;						// Loop index for screen Y
+	int			d;						// Helper for fixed-point texture Y
+	int			texture_y;				// Corresponding y in the sprite texture
+	int			color;					// Final color from texture
 }   t_sprite_draw;
 
 typedef enum e_npc_state
 {
-	NPC_STATE_IDLE,
-	NPC_STATE_WALKING,
+	NPC_STATE_WAIT,
+	NPC_STATE_PATROL
 }	t_npc_state;
+
+typedef enum e_npc_behavior
+{
+	NPC_BEHAVIOR_PATROL,
+	NPC_BEHAVIOR_WAIT
+} t_npc_behavior;
 
 typedef enum e_walk_block
 {
-	WALK_AWAY = 0,
+	WALK_AWAY,
 	WALK_TOWARD,
 	WALK_LEFT,
 	WALK_RIGHT
@@ -257,18 +271,21 @@ typedef struct s_sprite
     double      anim_timer;
 }	t_sprite;
 
-typedef struct s_npc {
-	t_dpoint	pos;
-	t_npc_state	state;
-	double      speed;
-	t_dpoint	move_vec;
-	t_sprite	sprite;
+typedef struct s_npc
+{
+	t_dpoint		pos;
+	t_npc_state		state;
+	t_npc_behavior	behavior;
+	double			speed;
+	t_dpoint		move_vec;
+	t_dpoint		last_move_vec;
+	t_sprite		sprite;
 	
 	// Patrol system
-	t_dpoint    *waypoints;     // array of points
-	int         waypoint_count;
-	int         current_wp;
-	double      threshold_dist; // distance threshold to consider "arrived"
+	t_dpoint		*waypoints;
+	int				waypoint_count;
+	int				current_wp;
+	double			threshold_dist;	// distance threshold to consider "arrived"
 } t_npc;
 
 typedef struct s_tex
@@ -297,6 +314,7 @@ typedef struct s_game
 // UTILS
 void	error(t_game *game, char *err_msg);
 void	free_game(t_game *game);
+void	free_npcs(t_game *game);
 
 // PARSING
 void	extract_file_content(t_game *game, t_map *map);
@@ -309,6 +327,7 @@ void	calculate_map_dimension(t_game *game, t_map *map);
 void	process_map_cell(t_game *game, t_map *map, int row, int col);
 void	check_map_boundaries(t_game *game, t_map *map, int row, int col);
 void	check_map_chars(t_game *game, char c, int row, int col);
+int		convert_map_char_to_value(t_game *game, t_map *map, int i, int j);
 void	parse_map(t_game *game, t_map *map);
 
 // INITIALIZATION
@@ -316,10 +335,18 @@ t_game	*init_game(char *filename);
 void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx);
 void	load_walls_texture(t_game *game, t_conf conf);
 void	load_sprite_frames(t_game *game, t_sprite *sprite);
-void	spawn_witch_kitty(t_game *game, double x, double y);
 void	update_all_npcs(t_game *game, double delta_time);
 void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
 		double *z_buffer);
+bool	move_npc(t_npc *npc, t_dpoint target, double delta_time);
+void	move_npc_patrol(t_npc *npc, double delta_time);
+bool	is_player_near_npc(t_npc *npc, t_player *player, double near_distance);
+
+// NPC
+void	init_sprite_frames_and_animation(t_game *game, t_sprite *sprite);
+void	update_npc_list(t_game *game, t_npc *npc);
+void	spawn_witch_kitty(t_game *game, double x, double y);
+void	draw_kitty_npc(t_game *game, t_npc *npc, double *z_buffer);
 
 
 // RENDERING
@@ -330,10 +357,13 @@ int		get_current_frame(double anim_start, int num_frames,
 		int frame_duration_ms);
 void	init_ray(t_game *game, t_ray *ray, int x);
 void	init_dda_ray(t_game *game, t_ray *ray);
+void	fill_ceiling_and_floor(t_img *img, int ceiling_color,
+		int floor_color);
+void	raycast(t_game *game, t_ray *ray, int *x, double *z_buffer);
 void	render_scene(t_game *game);
 bool	init_sprite_draw_data(t_sprite_draw *data, t_player player,
 		t_sprite *sprite);
-void	draw_npcs(t_game *game, t_player player, double *z_buffer);
+void	draw_npcs(t_game *game, double *z_buffer);
 void	draw_minimap(t_game *game);
 
 // HOOKS

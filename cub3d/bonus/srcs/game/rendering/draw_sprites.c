@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 21:05:31 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/28 12:53:46 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/01 01:09:29 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,21 @@ static void	draw_sprite_column(t_game *game, t_sprite_draw *data)
 	while (data->y < data->draw_end.y)
 	{
 		data->d = (data->y * 256) - (WIN_H * 128) + (data->height * 128);
-		data->texture_y = (int)((data->d * data->texture_size.y) / data->height) / 256;
-		data->color = get_tex_color(data->texture, data->texture_x, data->texture_y);
+		data->texture_y
+			= (int)((data->d * data->texture_size.y) / data->height) / 256;
+		data->color
+			= get_tex_color(data->texture, data->texture_x, data->texture_y);
 		if (data->color != 42)
 			put_pixel(&game->img, data->stripe_x, data->y, data->color);
 		data->y++;
 	}
 }
 
-static void	draw_sprite_stripe(t_game *game, t_sprite_draw *data, double *z_buffer)
+static void	draw_sprite_stripe(t_game *game, t_sprite_draw *data,
+														double *z_buffer)
 {
-	data->texture_x = (int)((256 * (data->stripe_x - (-data->width / 2 + data->screen_x))
+	data->texture_x
+		= (int)((256 * (data->stripe_x - (-data->width / 2 + data->screen_x))
 				* data->texture_size.x / data->width) / 256);
 	if (data->transform_y > 0
 		&& data->stripe_x >= 0
@@ -37,7 +41,8 @@ static void	draw_sprite_stripe(t_game *game, t_sprite_draw *data, double *z_buff
 		draw_sprite_column(game, data);
 }
 
-void	draw_sprite(t_game *game, t_player player, t_sprite *sprite, double *z_buffer)
+void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
+														double *z_buffer)
 {
 	t_sprite_draw	data;
 
