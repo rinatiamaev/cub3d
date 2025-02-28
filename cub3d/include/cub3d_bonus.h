@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/28 12:57:17 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/28 13:01:53 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,8 +320,6 @@ void	spawn_witch_kitty(t_game *game, double x, double y);
 void	update_all_npcs(t_game *game, double delta_time);
 void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
 		double *z_buffer);
-void	draw_witch_kitty(t_game *game, t_npc *npc, double *z_buffer);
-void	update_npc_list(t_game *game, t_npc *npc);
 
 
 // RENDERING

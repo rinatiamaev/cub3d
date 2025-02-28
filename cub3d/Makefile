@@ -6,7 +6,7 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/02/28 12:56:48 by nlouis           ###   ########.fr        #
+#    Updated: 2025/02/28 13:13:38 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,8 +37,10 @@ SRCS =  mandatory/srcs/main.c \
 		mandatory/srcs/game/moves/rotate_camera.c
 
 SRCS_BONUS =	bonus/srcs/main.c \
-				bonus/srcs/utils/utils.c \
+				bonus/srcs/init_game.c \
+				bonus/srcs/utils/error.c \
 				bonus/srcs/utils/free_memory.c \
+				bonus/srcs/utils/load_textures.c \
 				bonus/srcs/utils/x_memory_utils_one.c \
 				bonus/srcs/utils/x_memory_utils_two.c \
 				bonus/srcs/parsing/parse_map.c \
@@ -49,8 +51,6 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/hooks/handle_hooks.c \
 				bonus/srcs/game/hooks/handle_mouse.c \
 				bonus/srcs/game/hooks/hooks_utils.c \
-				bonus/srcs/game/init_game/init_game.c \
-				bonus/srcs/game/init_game/load_textures.c \
 				bonus/srcs/game/moves/move_player.c \
 				bonus/srcs/game/moves/move_utils.c \
 				bonus/srcs/game/moves/rotate_camera.c \

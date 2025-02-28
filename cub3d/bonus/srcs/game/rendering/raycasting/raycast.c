@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render_scene.c                                     :+:      :+:    :+:   */
+/*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/20 14:06:19 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/28 12:46:30 by nlouis           ###   ########.fr       */
+/*   Created: 2025/02/28 13:05:56 by nlouis            #+#    #+#             */
+/*   Updated: 2025/02/28 13:09:33 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,31 +98,12 @@ static void	fill_ceiling_and_floor(t_img *img, int ceiling_color,
 	}
 }
 
-void	render_scene(t_game *game)
+void	raycast(t_game *game, t_ray *ray, int *x, double *z_buffer)
 {
-	t_ray	ray;
-	int		x;
-	double	*z_buffer;
-
-	z_buffer = x_calloc(game, WIN_W, sizeof(double));
-	game->img.ptr = mlx_new_image(game->mlx, WIN_W, WIN_H);
-	game->img.addr = mlx_get_data_addr(game->img.ptr, &game->img.bpp,
-			&game->img.line_size, &game->img.endian);
-	fill_ceiling_and_floor(&game->img, game->map->conf.ceiling_color,
-		game->map->conf.floor_color);
-	x = 0;
-	while (x < WIN_W)
-	{
-		init_ray(game, &ray, x);
-		init_dda_ray(game, &ray);
-		perform_dda(game, &ray);
-		calculate_ray_properties(game, &ray);
-		draw_wall_column(game, &ray, x);
-		z_buffer[x++] = ray.perp_w_dist;
-	}
-	draw_npcs(game, game->player, z_buffer);
-	draw_minimap(game);
-	mlx_put_image_to_window(game->mlx, game->window->ptr, game->img.ptr, 0, 0);
-	mlx_destroy_image(game->mlx, game->img.ptr);
-	free(z_buffer);
+	init_ray(game, ray, x);
+	init_dda_ray(game, ray);
+	perform_dda(game, ray);
+	calculate_ray_properties(game, ray);
+	draw_wall_column(game, ray, x);
+	z_buffer[(*x)++] = ray->perp_w_dist;
 }

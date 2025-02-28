@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 00:23:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/28 12:55:24 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/28 13:02:12 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	init_sprite_frames_and_animation(t_game *game, t_sprite *sprite)
 	sprite->anim_start = tv.tv_sec * 1000000L + tv.tv_usec;
 }
 
-void	update_npc_list(t_game *game, t_npc *npc)
+static void	update_npc_list(t_game *game, t_npc *npc)
 {
 	game->npcs = x_realloc(game, game->npcs,
 			game->npc_count * sizeof(t_npc *),
@@ -86,7 +86,7 @@ void spawn_witch_kitty(t_game *game, double x, double y)
 	update_npc_list(game, npc);
 }
 
-static void update_witch_kitty(t_npc *npc, double delta_time)
+static void update_npc(t_npc *npc, double delta_time)
 {
 	// 1) Handle Animation (Idle vs Walking)
 	if (npc->state == NPC_STATE_IDLE)
@@ -138,8 +138,7 @@ void update_all_npcs(t_game *game, double delta_time)
 	while (i < game->npc_count)
 	{
 		t_npc *npc = game->npcs[i];
-		if (ft_strcmp(npc->sprite.type, "witch_kitty") == 0)
-			update_witch_kitty(npc, delta_time);
+		update_npc(npc, delta_time);
 		i++;
 	}
 }
@@ -208,7 +207,7 @@ static int get_walk_block(t_npc *npc, t_player *player)
 		return WALK_RIGHT;
 }
 
-void draw_witch_kitty(t_game *game, t_npc *npc, double *z_buffer)
+static void draw_witch_kitty(t_game *game, t_npc *npc, double *z_buffer)
 {
 	t_texture *tex = NULL;
 	int index;
