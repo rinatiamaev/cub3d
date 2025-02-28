@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 13:28:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/26 23:49:40 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/28 12:39:03 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,38 +46,38 @@ static void	free_textures(t_game *game)
 		mlx_destroy_image(game->mlx, game->tex.ea.ptr);
 }
 
-static void	free_sprites(t_game *game)
+static void	free_npcs(t_game *game)
 {
-	t_sprite	*sprite;
+	t_npc	*npc;
 	int			i;
 	int			j;
 
-	if (!game->sprites)
+	if (!game->npcs)
 		return ;
 	i = 0;
-	while (i < game->sprite_count)
+	while (i < game->npc_count)
 	{
-		sprite = game->sprites[i];
-		if (sprite)
+		npc = game->npcs[i];
+		if (npc)
 		{
 			j = 0;
-			while (j < sprite->num_idle_frames)
+			while (j < npc->sprite.num_idle_frames)
 			{
-				if (sprite->idle_frames[j].ptr)
-					mlx_destroy_image(game->mlx, sprite->idle_frames[j].ptr);
+				if (npc->sprite.idle_frames[j].ptr)
+					mlx_destroy_image(game->mlx, npc->sprite.idle_frames[j].ptr);
 				j++;
 			}
-			free(sprite->idle_frames);
-			free(sprite);
+			free(npc->sprite.idle_frames);
+			free(npc);
 		}
 		i++;
 	}
-	free(game->sprites);
+	free(game->npcs);
 }
 
 void	free_game(t_game *game)
 {
-	free_sprites(game);
+	free_npcs(game);
 	free_map(game->map);
 	if (game->window)
 		free_window(game->window, game->mlx);

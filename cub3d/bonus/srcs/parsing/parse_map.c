@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:06:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/26 15:05:48 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/28 12:36:50 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,6 @@ static void	map_layout_to_matrix(t_game *game, t_map *map)
 			{
 				map->matrix[i][j] = 4;
 				spawn_witch_kitty(game, (double)j, (double)i);
-			}
-			else if (map->map_layout[i][j] == 'L')
-			{
-				map->matrix[i][j] = 4;
-				spawn_well(game, (double)j, (double)i);
 			}
 			else if (map->map_layout[i][j] == '0')
 				map->matrix[i][j] = 0;

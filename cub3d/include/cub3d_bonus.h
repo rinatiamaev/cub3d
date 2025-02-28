@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/28 01:41:15 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/28 12:57:17 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,7 +246,6 @@ typedef struct s_sprite
 	char		*type;
 	t_dpoint	pos;
 	t_point		size;
-	t_npc_state	state;
 	char		**idle_paths;
 	t_texture	*idle_frames;
 	int			num_idle_frames;
@@ -255,16 +254,22 @@ typedef struct s_sprite
 	int			move_frames_count;
 	int			anim_start;
     int         anim_index;
-    double      anim_timer;    // accumulates time for switching frames
-    double      speed;         // movement speed in map units/second
-	t_dpoint	move_vec;
-
-    // Patrol system
-    t_dpoint    *waypoints;     // array of points
-    int         waypoint_count;
-    int         current_wp;
-    double      threshold_dist; // distance threshold to consider "arrived"
+    double      anim_timer;
 }	t_sprite;
+
+typedef struct s_npc {
+	t_dpoint	pos;
+	t_npc_state	state;
+	double      speed;
+	t_dpoint	move_vec;
+	t_sprite	sprite;
+	
+	// Patrol system
+	t_dpoint    *waypoints;     // array of points
+	int         waypoint_count;
+	int         current_wp;
+	double      threshold_dist; // distance threshold to consider "arrived"
+} t_npc;
 
 typedef struct s_tex
 {
@@ -282,8 +287,8 @@ typedef struct s_game
 	t_player	player;
 	t_tex		tex;
 	t_img		img;
-	t_sprite	**sprites;
-	int			sprite_count;
+	t_npc		**npcs;
+	int			npc_count;
 	bool		is_paused;
 	bool		minimap_visible;
 	bool		keys[66000];
@@ -311,15 +316,12 @@ t_game	*init_game(char *filename);
 void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx);
 void	load_walls_texture(t_game *game, t_conf conf);
 void	load_sprite_frames(t_game *game, t_sprite *sprite);
-void	init_sprite_frames_and_animation(t_game *game, t_sprite *sprite);
-void	update_sprites_list(t_game *game, t_sprite *sprite);
-void	spawn_well(t_game *game, double x, double y);
-
 void	spawn_witch_kitty(t_game *game, double x, double y);
-void	update_all_sprites(t_game *game, double delta_time);
+void	update_all_npcs(t_game *game, double delta_time);
 void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
 		double *z_buffer);
-void	draw_witch_kitty(t_game *game, t_sprite *kitty, double *z_buffer);
+void	draw_witch_kitty(t_game *game, t_npc *npc, double *z_buffer);
+void	update_npc_list(t_game *game, t_npc *npc);
 
 
 // RENDERING
@@ -333,7 +335,7 @@ void	init_dda_ray(t_game *game, t_ray *ray);
 void	render_scene(t_game *game);
 bool	init_sprite_draw_data(t_sprite_draw *data, t_player player,
 		t_sprite *sprite);
-void	draw_sprites(t_game *game, t_player player, double *z_buffer);
+void	draw_npcs(t_game *game, t_player player, double *z_buffer);
 void	draw_minimap(t_game *game);
 
 // HOOKS
@@ -344,8 +346,6 @@ void	handle_event_hooks(t_game *game, t_window *window);
 // GAME LOOP
 int		game_loop(t_game *game);
 void	handle_mouse_movement(t_game *game, t_window *window);
-bool	is_candidate_near_any_sprite(t_dpoint candidate, t_game *game,
-		double min_distance);
 bool	can_move(t_game *game, double next_x, double next_y);
 void	handle_player_moves(t_game *game);
 void	rotate_left(t_player *player, double rot_speed, double delta_time);
