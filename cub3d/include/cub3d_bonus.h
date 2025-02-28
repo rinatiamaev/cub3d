@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/01 01:45:08 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/01 01:53:12 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,14 @@
 
 # define M_PI 3.14159265358979323846
 
-typedef enum e_walk_block
+typedef enum e_char_value
 {
 	FREE_SPACE,
 	WALL,
 	CONF_DIR,
 	EMPTY,
 	WITCH_KITTY	
-}	t_walk_block;
+}	t_char_value;
 
 typedef struct s_point
 {

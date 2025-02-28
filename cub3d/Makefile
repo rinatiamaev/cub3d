@@ -6,7 +6,7 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/03/01 01:46:12 by nlouis           ###   ########.fr        #
+#    Updated: 2025/03/01 01:54:11 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/init_game.c \
 				bonus/srcs/utils/error.c \
 				bonus/srcs/utils/free_memory.c \
+				bonus/srcs/utils/free_npcs.c \
 				bonus/srcs/utils/load_textures.c \
 				bonus/srcs/utils/x_memory_utils_one.c \
 				bonus/srcs/utils/x_memory_utils_two.c \
