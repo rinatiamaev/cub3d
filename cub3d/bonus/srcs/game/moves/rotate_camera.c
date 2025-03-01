@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:18 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/24 11:05:17 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/02/25 10:54:14 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	rotate_left(t_player *player, double rot_speed, double delta_time)
 	player->angle = wrap_angle(player->angle + rot_speed * delta_time);
 	player->dir.x = cos(player->angle);
 	player->dir.y = sin(player->angle);
-	player->plane.x = -sin(player->angle) * 0.66;
-	player->plane.y = cos(player->angle) * 0.66;
+	player->plane.x = -sin(player->angle) * FOV;
+	player->plane.y = cos(player->angle) * FOV;
 }
 
 void	rotate_right(t_player *player, double rot_speed, double delta_time)
@@ -35,6 +35,6 @@ void	rotate_right(t_player *player, double rot_speed, double delta_time)
 	player->angle = wrap_angle(player->angle - rot_speed * delta_time);
 	player->dir.x = cos(player->angle);
 	player->dir.y = sin(player->angle);
-	player->plane.x = -sin(player->angle) * 0.66;
-	player->plane.y = cos(player->angle) * 0.66;
+	player->plane.x = -sin(player->angle) * FOV;
+	player->plane.y = cos(player->angle) * FOV;
 }

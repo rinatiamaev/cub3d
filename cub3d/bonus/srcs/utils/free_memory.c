@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 13:28:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/20 20:55:51 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/01 01:33:20 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void	free_textures(t_game *game)
 
 void	free_game(t_game *game)
 {
+	free_npcs(game);
 	free_map(game->map);
 	if (game->window)
 		free_window(game->window, game->mlx);
