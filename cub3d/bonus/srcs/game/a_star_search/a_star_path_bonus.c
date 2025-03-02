@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:08:53 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 02:34:21 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 13:51:44 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	reconstruct_path(t_game *game, t_node *goal_node, t_npc *npc)
 }
 
 void	a_star_path(t_game *game, t_npc *npc, t_point start, t_point goal)
-{	
+{
 	t_astar	*astar;
-	
+
 	astar = npc->astar;
 	setup_astar_struct(game, astar, start, goal);
 	closed_list_insert(astar->closed_list, astar->node, game);
@@ -49,7 +49,7 @@ void	a_star_path(t_game *game, t_npc *npc, t_point start, t_point goal)
 	{
 		astar->current_node = closed_list_extract_min(astar->closed_list);
 		astar->open_list
-			[astar->current_node->pos.y][astar->current_node->pos.x] = 1;
+		[astar->current_node->pos.y][astar->current_node->pos.x] = 1;
 		if (astar->current_node->pos.x == astar->goal.x
 			&& astar->current_node->pos.y == astar->goal.y)
 		{

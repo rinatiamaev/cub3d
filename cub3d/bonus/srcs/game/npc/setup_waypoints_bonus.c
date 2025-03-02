@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 08:04:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 02:56:33 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 14:23:38 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,8 @@ static t_dpoint	generate_point(t_dpoint pos, int range)
 	return ((t_dpoint){pos.x + offset_x, pos.y + offset_y});
 }
 
-void	generate_npc_waypoints(t_npc *npc, t_game *game)
+static void	allocate_npc_waypoints(t_npc *npc, t_game *game)
 {
-	int			count;
-	int			attempts;
-	int			max_attempts;
-	t_dpoint	pos;
-
 	if (!npc || npc->waypoint_count <= 0)
 		return ;
 	if (npc->waypoints)
@@ -68,9 +63,19 @@ void	generate_npc_waypoints(t_npc *npc, t_game *game)
 		npc->waypoints = NULL;
 	}
 	npc->waypoints = x_calloc(game, 1, npc->waypoint_count * sizeof(t_dpoint));
+}
+
+void	generate_npc_waypoints(t_npc *npc, t_game *game)
+{
+	int			count;
+	int			attempts;
+	int			max_attempts;
+	t_dpoint	pos;
+
+	allocate_npc_waypoints(npc, game);
 	count = 0;
 	attempts = 0;
-	max_attempts = 10000;
+	max_attempts = 15000;
 	while (count < npc->waypoint_count && attempts < max_attempts)
 	{
 		pos = generate_point(npc->pos, npc->patrol_range);

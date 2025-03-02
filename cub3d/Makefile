@@ -6,7 +6,7 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/03/02 02:10:58 by nlouis           ###   ########.fr        #
+#    Updated: 2025/03/02 14:30:08 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,7 +72,9 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/rendering/draw_utils.c \
 				bonus/srcs/game/rendering/render_scene.c \
 				bonus/srcs/game/npc/move_npc.c \
+				bonus/srcs/game/npc/move_npc_patrol.c \
 				bonus/srcs/game/npc/setup_waypoints_bonus.c \
+				bonus/srcs/game/npc/get_walk_block.c \
 				bonus/srcs/game/npc/draw_kitty_npc.c \
 				bonus/srcs/game/npc/spawn_npc_utils.c \
 				bonus/srcs/game/npc/spawn_witch_kitty.c \
