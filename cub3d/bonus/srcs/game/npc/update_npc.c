@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:06:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/01 01:27:57 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 02:49:19 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,15 @@ static void	update_npc_behavior(t_npc *npc, t_player *player)
 		npc->state = NPC_STATE_PATROL;
 }
 
-static void	update_npc(t_npc *npc, t_player *player, double delta_time)
+static void	update_npc(t_game *game, t_npc *npc, double delta_time)
 {
-	update_npc_behavior(npc, player);
+	update_npc_behavior(npc, &game->player);
 	if (npc->state == NPC_STATE_WAIT)
 		play_wait_animation(npc, delta_time);
 	else if (npc->state == NPC_STATE_PATROL)
 	{
 		play_patrol_animation(npc, delta_time);
-		move_npc_patrol(npc, delta_time);
+		move_npc_patrol(game, npc, delta_time);
 	}
 }
 
@@ -63,7 +63,7 @@ void	update_all_npcs(t_game *game, double delta_time)
 	while (i < game->npc_count)
 	{
 		npc = game->npcs[i];
-		update_npc(npc, &game->player, delta_time);
+		update_npc(game, npc, delta_time);
 		i++;
 	}
 }

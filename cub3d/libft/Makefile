@@ -6,7 +6,7 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/21 12:19:10 by nlouis            #+#    #+#              #
-#    Updated: 2025/02/16 22:43:50 by nlouis           ###   ########.fr        #
+#    Updated: 2025/03/01 23:11:14 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,7 +100,9 @@ SRCS	=	srcs/array/ft_arraysize.c \
 			srcs/ft_printf/process_format_string.c \
 			srcs/ft_printf/setup_format.c \
 			srcs/ft_printf/write_safely.c \
-			srcs/utils/ft_swap.c
+			srcs/utils/ft_swap.c \
+			srcs/utils/ft_rand.c \
+			srcs/math/distance.c
 
 OBJSDIR	= objs
 OBJS	= $(addprefix $(OBJSDIR)/,$(SRCS:.c=.o))

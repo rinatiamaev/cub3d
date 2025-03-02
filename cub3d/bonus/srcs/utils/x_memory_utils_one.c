@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 13:12:24 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/26 20:58:24 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 00:26:01 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,14 @@ char	*x_strdup(t_game *game, const char *s)
 	if (!dup)
 		error(game, "ft_strdup() failed");
 	return (dup);
+}
+
+void	*x_malloc(t_game *game, size_t size)
+{
+	char	*ptr;
+
+	ptr = malloc(size);
+	if (!ptr)
+		error(game, "malloc() failed");
+	return (ptr);
 }

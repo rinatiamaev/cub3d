@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/01 01:53:12 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 02:10:16 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ typedef enum e_char_value
 	WITCH_KITTY	
 }	t_char_value;
 
-typedef struct s_point
+/* typedef struct s_point
 {
 	int	x;
 	int	y;
@@ -98,7 +98,34 @@ typedef struct s_dpoint
 {
 	double	x;
 	double	y;
-}	t_dpoint;
+}	t_dpoint; */
+
+typedef struct s_node
+{
+	t_point			pos;
+	int				g_cost;
+	int				h_cost;
+	int				f_cost;
+	struct s_node	*parent;
+	struct s_node	*next;
+}	t_node;
+
+typedef struct s_closed_list
+{
+	t_node	**nodes;
+	int		capacity;
+	int		size;
+}	t_closed_list;
+
+typedef struct s_astar
+{
+	t_point				goal;
+	t_closed_list		*closed_list;
+	int					**open_list;
+	t_node				*node;
+	t_node				*current_node;
+	t_point				direction[4];
+}	t_astar;
 
 typedef struct s_mouse_data
 {
@@ -280,12 +307,17 @@ typedef struct s_npc
 	t_dpoint		move_vec;
 	t_dpoint		last_move_vec;
 	t_sprite		sprite;
+	t_astar			*astar;
 	
 	// Patrol system
+	int				patrol_range;
 	t_dpoint		*waypoints;
 	int				waypoint_count;
 	int				current_wp;
-	double			threshold_dist;	// distance threshold to consider "arrived"
+	t_dpoint		*path;
+	int				path_length;
+	int				path_index;
+	double			threshold_dist;
 } t_npc;
 
 typedef struct s_tex
@@ -339,15 +371,15 @@ void	update_all_npcs(t_game *game, double delta_time);
 void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
 		double *z_buffer);
 bool	move_npc(t_npc *npc, t_dpoint target, double delta_time);
-void	move_npc_patrol(t_npc *npc, double delta_time);
+void	move_npc_patrol(t_game *game, t_npc *npc, double delta_time);
 bool	is_player_near_npc(t_npc *npc, t_player *player, double near_distance);
 
 // NPC
 void	init_sprite_frames_and_animation(t_game *game, t_sprite *sprite);
+void	generate_npc_waypoints(t_npc *npc, t_game *game);
 void	update_npc_list(t_game *game, t_npc *npc);
 void	spawn_witch_kitty(t_game *game, double x, double y);
 void	draw_kitty_npc(t_game *game, t_npc *npc, double *z_buffer);
-
 
 // RENDERING
 void	calculate_ray_properties(t_game *game, t_ray *ray);
@@ -379,7 +411,21 @@ void	handle_player_moves(t_game *game);
 void	rotate_left(t_player *player, double rot_speed, double delta_time);
 void	rotate_right(t_player *player, double rot_speed, double delta_time);
 
+// A_STAR_SEARCH
+void	closed_list_insert(t_closed_list *closed_list, t_node *node,
+			t_game *game);
+t_node	*closed_list_extract_min(t_closed_list *closed_list);
+void	reconstruct_path(t_game *game, t_node *goal_node, t_npc *npc);
+void	setup_astar_struct(t_game *game, t_astar *astar, t_point start,
+			t_point goal);
+void	spread_child_node(t_game *game, t_astar *astar);
+void	reset_astar_struct(t_game *game, t_astar *astar);
+// void	a_star_search(t_game *game, t_astar *astar, t_point start, t_point goal);
+void	a_star_path(t_game *game, t_npc *npc, t_point start, t_point goal);
+void	handle_event_hooks(t_game *game, t_window *window);
+
 // MEMORY UTILS
+void	*x_malloc(t_game *game, size_t size);
 void	*x_calloc(t_game *game, size_t count, size_t size);
 void	*x_realloc(t_game *game, void *ptr, size_t old_size, size_t new_size);
 char	*x_strjoin_free(t_game *game, char *s1, char *s2);

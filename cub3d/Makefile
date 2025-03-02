@@ -6,12 +6,12 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/03/01 01:54:11 by nlouis           ###   ########.fr        #
+#    Updated: 2025/03/02 02:10:58 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC      = cc
-CFLAGS  = -Wall -Wextra -Werror -I libft/include -I ./include -I mlx/ -g -fsanitize=address -fsanitize=undefined
+CFLAGS  = -Wall -Wextra -Werror -I libft/include -I ./include -I mlx/ # -g -fsanitize=address -fsanitize=undefined
 
 NAME = cub3D
 NAME_BONUS = cub3D_bonus
@@ -50,6 +50,12 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/parsing/process_color_key.c \
 				bonus/srcs/parsing/process_config.c \
 				bonus/srcs/parsing/convert_map_char_to_value.c \
+				bonus/srcs/game/a_star_search/algortithm/a_star_heap_utils_bonus.c \
+				bonus/srcs/game/a_star_search/algortithm/a_star_memory.c \
+				bonus/srcs/game/a_star_search/algortithm/a_star_search_bonus.c \
+				bonus/srcs/game/a_star_search/algortithm/a_star_setup_bonus.c \
+				bonus/srcs/game/a_star_search/a_star_following.c \
+				bonus/srcs/game/a_star_search/a_star_path_bonus.c \
 				bonus/srcs/game/hooks/handle_hooks.c \
 				bonus/srcs/game/hooks/handle_mouse.c \
 				bonus/srcs/game/hooks/hooks_utils.c \
@@ -66,6 +72,7 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/rendering/draw_utils.c \
 				bonus/srcs/game/rendering/render_scene.c \
 				bonus/srcs/game/npc/move_npc.c \
+				bonus/srcs/game/npc/setup_waypoints_bonus.c \
 				bonus/srcs/game/npc/draw_kitty_npc.c \
 				bonus/srcs/game/npc/spawn_npc_utils.c \
 				bonus/srcs/game/npc/spawn_witch_kitty.c \

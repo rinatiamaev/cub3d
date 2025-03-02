@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:03:59 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/01 01:19:45 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 02:54:50 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,35 @@ static int	get_walk_block(t_npc *npc, t_player *player)
 	double		diff;
 	double		deg;
 
+	if (fabs(npc->move_vec.x) > 0.0001 || fabs(npc->move_vec.y) > 0.0001)
+    	npc->last_move_vec = npc->move_vec;
 	angle_move = atan2(npc->move_vec.y, npc->move_vec.x);
 	delta = (t_dpoint){player->pos.x - npc->pos.x, player->pos.y - npc->pos.y};
 	angle_player = atan2(delta.y, delta.x);
+
 	diff = angle_move - angle_player;
 	while (diff < -M_PI)
 		diff += 2 * M_PI;
 	while (diff > M_PI)
 		diff -= 2 * M_PI;
+
 	deg = diff * (180.0 / M_PI);
 	if (deg < 0)
 		deg += 360.0;
-	if ((deg >= 315 && deg < 360) || (deg >= 0 && deg < 45))
-		return (WALK_TOWARD);
+
+	if (deg >= 0 && deg < 45)
+		return WALK_TOWARD;
 	else if (deg >= 45 && deg < 135)
-		return (WALK_LEFT);
+		return WALK_LEFT;
 	else if (deg >= 135 && deg < 225)
-		return (WALK_AWAY);
-	else
-		return (WALK_RIGHT);
+		return WALK_AWAY;
+	else if (deg >= 225 && deg < 315)
+		return WALK_RIGHT;
+	else if (deg >= 315 && deg < 360)
+		return WALK_TOWARD;
+	return (0);
 }
+
 
 static t_texture	*get_npc_movement_texture(t_game *game, t_npc *npc)
 {
@@ -57,9 +66,9 @@ static t_texture	*get_npc_movement_texture(t_game *game, t_npc *npc)
 		base_index = 8;
 	else
 		base_index = 12;
-	index = base_index + npc->sprite.anim_index;
+	index = base_index + (npc->sprite.anim_index % 4);
 	if (index < 0 || index >= npc->sprite.move_frames_count)
-		index = 0;
+		index = base_index;
 	return (&npc->sprite.move_frames[index]);
 }
 

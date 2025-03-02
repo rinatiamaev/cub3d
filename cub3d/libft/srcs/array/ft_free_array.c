@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 10:58:55 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/08 13:51:19 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 01:27:24 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,21 @@ void	ft_free_array(void **array)
 	i = 0;
 	while (array[i])
 		free(array[i++]);
+	free(array);
+}
+
+void	ft_free_array_size(void **array, size_t size)
+{
+	size_t	i;
+
+	if (!array)
+		return ;
+	i = 0;
+	while (i < size)
+	{
+		if (array[i])
+			free(array[i]);
+		i++;
+	}
 	free(array);
 }

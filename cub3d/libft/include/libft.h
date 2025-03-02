@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 01:23:16 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/18 23:43:32 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 01:31:18 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <stdbool.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <sys/time.h>
+# include <math.h>
 
 # define BUFFER_SIZE 1024
 # define MAX_FD 1024
@@ -31,6 +33,18 @@
 # define FLAG_SPACE   16
 
 # define ATOI_ERROR 9223372036854775807LL
+
+typedef struct s_point
+{
+	int	x;
+	int	y;
+}	t_point;
+
+typedef struct s_dpoint
+{
+	double	x;
+	double	y;
+}	t_dpoint;
 
 typedef struct s_list
 {
@@ -57,6 +71,7 @@ typedef struct s_pf
 size_t		ft_arraysize(void **array);
 char		**ft_copy_strarray(char **array);
 void		ft_free_array(void **array);
+void		ft_free_array_size(void **array, size_t size);
 int			ft_putintarray(int *array, int size);
 char		**ft_split_charset(char *s, char *charset);
 char		**ft_split(const char *s, char c);
@@ -137,6 +152,12 @@ int			ft_toupper(int c);
 char		*get_next_line(int fd);
 
 void		ft_swap(void *a, void *b, size_t size);
+int			ft_time_seeded_rand(void);
+
+int			ft_manhattan_dist_point(t_point a, t_point b);
+double		ft_manhattan_dist_dpoint(t_dpoint a, t_dpoint b);
+int			ft_euclidean_dist_point(t_point a, t_point b);
+double		ft_euclidean_dist_dpoint(t_dpoint a, t_dpoint b);
 
 int			ft_printf(const char *format, ...);
 int			initialize_printf_structs(t_pf *pf);
