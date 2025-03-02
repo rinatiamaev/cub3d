@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 14:14:49 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 20:25:54 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@
 # define PAUSE			32
 # define ESC			65307
 # define TOGGLE_MINIMAP	109
+# define INTERACTION	101
 
 # define WIN_NAME	"Cube3D"
 # define WIN_W		1200
@@ -86,7 +87,8 @@ typedef enum e_char_value
 	WALL,
 	CONF_DIR,
 	EMPTY,
-	WITCH_KITTY	
+	WITCH_KITTY,
+	DOOR
 }	t_char_value;
 
 /* typedef struct s_point
@@ -216,7 +218,7 @@ typedef struct s_ray
 	t_dpoint	delta_dist;		// Distance to next side in x and y
 	t_dpoint	side_dist;		// Initial distance to next x or y side
 	t_point		step_dir;		// Step direction in x and y (+1 or -1)
-	bool		hit;			// 1 if a wall was hit
+	int			hit;			// 1 if a wall was hit
 	int			side;			// 0 for vertical side, 1 for horizontal side
 	double		perp_w_dist;	// Perpendicular distance from player to wall
 	int			line_height;	// Height of wall line to draw
@@ -321,12 +323,32 @@ typedef struct s_npc
 	double			threshold_dist;
 } t_npc;
 
+typedef enum e_door_state
+{
+	DOOR_CLOSED,
+	DOOR_OPENING,
+	DOOR_OPEN,
+	DOOR_CLOSING
+}	t_door_state;
+
+typedef struct s_door
+{
+	t_dpoint		pos;        // Door grid position
+	t_point			size;       // Door size in pixels
+	double			offset;     // Sliding offset (0 = closed, 1 = fully open)
+	t_door_state	state;      // Door current state
+	double			speed;      // How fast the door opens/closes
+	double			open_timer;
+	t_texture		tex;        // Door texture
+} t_door;
+
 typedef struct s_tex
 {
 	t_texture	no;
 	t_texture	so;
 	t_texture	we;
 	t_texture	ea;
+	t_texture	door;
 }	t_tex;
 
 typedef struct s_game
@@ -339,6 +361,8 @@ typedef struct s_game
 	t_img		img;
 	t_npc		**npcs;
 	int			npc_count;
+	t_door		**doors;
+	int			door_count;
 	bool		is_paused;
 	bool		minimap_visible;
 	bool		keys[66000];
@@ -382,6 +406,12 @@ void	update_npc_list(t_game *game, t_npc *npc);
 void	spawn_witch_kitty(t_game *game, double x, double y);
 int		get_walk_block(t_npc *npc, t_player *player);
 void	draw_kitty_npc(t_game *game, t_npc *npc, double *z_buffer);
+
+// DOOR
+void	update_doors(t_game *game, double delta_time);
+void	interact_with_door(t_game *game);
+void	place_door(t_game *game, double x, double y);
+t_door	*find_door_at(t_game *game, t_point pos);
 
 // RENDERING
 void	calculate_ray_properties(t_game *game, t_ray *ray);

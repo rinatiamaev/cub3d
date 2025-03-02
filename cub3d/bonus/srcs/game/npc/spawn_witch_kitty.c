@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 00:23:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 02:55:31 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 20:29:20 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	init_witch_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 {
 	npc->pos.x = pos.x + 0.5;
 	npc->pos.y = pos.y + 0.5;
-	npc->speed = 2.0;
+	npc->speed = 1.0;
 	npc->patrol_range = 100;
 	npc->waypoint_count = 4;
 	npc->current_wp = 1;

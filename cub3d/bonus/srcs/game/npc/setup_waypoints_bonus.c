@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 08:04:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 14:23:38 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 20:32:00 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	generate_npc_waypoints(t_npc *npc, t_game *game)
 	allocate_npc_waypoints(npc, game);
 	count = 0;
 	attempts = 0;
-	max_attempts = 15000;
+	max_attempts = 1000000;
 	while (count < npc->waypoint_count && attempts < max_attempts)
 	{
 		pos = generate_point(npc->pos, npc->patrol_range);

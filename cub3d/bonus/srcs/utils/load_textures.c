@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:25:33 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/26 23:33:39 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 19:52:44 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,5 @@ void	load_walls_texture(t_game *game, t_conf conf)
 	load_single_xpm(game, &game->tex.so, conf.tex_so, game->mlx);
 	load_single_xpm(game, &game->tex.we, conf.tex_we, game->mlx);
 	load_single_xpm(game, &game->tex.ea, conf.tex_ea, game->mlx);
+	load_single_xpm(game, &game->tex.door, DOOR0, game->mlx);
 }

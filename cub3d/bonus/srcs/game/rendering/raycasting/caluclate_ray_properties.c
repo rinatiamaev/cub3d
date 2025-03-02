@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:08:33 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/26 21:17:55 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 21:32:23 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,16 @@ static void	calculate_texture_mapping(t_game *game, t_ray *ray)
 	else
 		ray->wall_x = game->player.pos.x + ray->perp_w_dist * ray->dir.x;
 	ray->wall_x -= floor(ray->wall_x);
+	if (ray->hit == 2)
+	{
+		t_door *door = find_door_at(game, ray->map);
+		if (door)
+		{
+			ray->wall_x += door->offset;
+			if (ray->wall_x > 1.0)
+				ray->wall_x = 1.0;
+		}
+	}
 	ray->tex.x = (int)(ray->wall_x * (double)TEX_W);
 	if (ray->side == 0 && ray->dir.x > 0)
 		ray->tex.x = TEX_W - ray->tex.x - 1;

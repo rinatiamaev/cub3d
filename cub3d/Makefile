@@ -6,12 +6,12 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/03/02 14:30:08 by nlouis           ###   ########.fr        #
+#    Updated: 2025/03/02 20:23:29 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC      = cc
-CFLAGS  = -Wall -Wextra -Werror -I libft/include -I ./include -I mlx/ # -g -fsanitize=address -fsanitize=undefined
+CFLAGS  = -Wall -Wextra -Werror -I libft/include -I ./include -I mlx/ #-g -fsanitize=address -fsanitize=undefined
 
 NAME = cub3D
 NAME_BONUS = cub3D_bonus
@@ -56,6 +56,7 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/a_star_search/algortithm/a_star_setup_bonus.c \
 				bonus/srcs/game/a_star_search/a_star_following.c \
 				bonus/srcs/game/a_star_search/a_star_path_bonus.c \
+				bonus/srcs/game/door/door.c \
 				bonus/srcs/game/hooks/handle_hooks.c \
 				bonus/srcs/game/hooks/handle_mouse.c \
 				bonus/srcs/game/hooks/hooks_utils.c \
