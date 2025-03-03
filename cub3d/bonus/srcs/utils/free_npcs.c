@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:30:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/01 01:33:53 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 02:10:08 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,16 @@ static void	free_single_npc(t_game *game, t_npc *npc)
 		return ;
 	free_npc_waypoints(npc);
 	free_npc_textures(game, &npc->sprite);
+	if (npc->path)
+	{
+		free(npc->path);
+		npc->path = NULL;
+	}
+	if (npc->astar)
+	{
+		reset_astar_struct(game, npc->astar);
+		free(npc->astar);
+	}
 	free(npc);
 }
 

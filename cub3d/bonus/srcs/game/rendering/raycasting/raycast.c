@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 13:05:56 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/01 01:08:20 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 21:54:34 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,29 @@ void	perform_dda(t_game *game, t_ray *ray)
 			ray->map.y += ray->step_dir.y;
 			ray->side = 1;
 		}
-		if (game->map->matrix[ray->map.y][ray->map.x] == 1)
+		if (game->map->matrix[ray->map.y][ray->map.x] == WALL)
 			ray->hit = 1;
+		if (game->map->matrix[ray->map.y][ray->map.x] == DOOR)
+		{
+			t_door *door = find_door_at(game, ray->map);
+			if (door)
+			{
+				if (door->offset >= 1.0)
+					continue ;
+				else
+				{
+					ray->hit = 2;
+					break ;
+				}
+			}
+		}
 	}
 }
 
 static t_texture	*select_wall_texture(t_game *game, t_ray *ray)
 {
+	if (ray->hit == 2)
+		return (&game->tex.door);
 	if (ray->side == 0)
 	{
 		if (ray->dir.x > 0)

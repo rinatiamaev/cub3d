@@ -15,6 +15,7 @@ static char * witchKittyMove007_xpm[] = {
 ";	c #FFFFFF",
 "                                                                ",
 "                                                                ",
+"                                                                ",
 "                   +                          +                 ",
 "                  @++                        ++@                ",
 "                  @#++                      ++#@                ",
@@ -75,5 +76,4 @@ static char * witchKittyMove007_xpm[] = {
 "                           ---     -===-                        ",
 "                                   -***-                        ",
 "                                    ---                         ",
-"                                                                ",
 "                                                                "};

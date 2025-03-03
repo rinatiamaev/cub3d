@@ -6,30 +6,27 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 00:23:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/01 01:18:47 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 20:29:20 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
-
-static void	init_witch_kitty_waypoints(t_game *game, t_npc *npc, t_dpoint pos)
-{
-	npc->waypoint_count = 4;
-	npc->waypoints = x_calloc(game, 1, npc->waypoint_count * sizeof(t_dpoint));
-	npc->waypoints[0] = (t_dpoint){pos.x + 0.5, pos.y + 0.5};
-	npc->waypoints[1] = (t_dpoint){pos.x + 3.5, pos.y + 0.5};
-	npc->waypoints[2] = (t_dpoint){pos.x + 3.5, pos.y + 3.5};
-	npc->waypoints[3] = (t_dpoint){pos.x + 0.5, pos.y + 3.5};
-	npc->current_wp = 1;
-	npc->threshold_dist = 0.1;
-}
 
 static void	init_witch_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 {
 	npc->pos.x = pos.x + 0.5;
 	npc->pos.y = pos.y + 0.5;
 	npc->speed = 1.0;
-	init_witch_kitty_waypoints(game, npc, pos);
+	npc->patrol_range = 100;
+	npc->waypoint_count = 4;
+	npc->current_wp = 1;
+	npc->threshold_dist = 0.1;
+	npc->astar = x_calloc(game, 1, sizeof(t_astar));
+	npc->astar->direction[0] = (t_point){0, -1};
+	npc->astar->direction[1] = (t_point){0, 1};
+	npc->astar->direction[2] = (t_point){-1, 0};
+	npc->astar->direction[3] = (t_point){1, 0};
+	generate_npc_waypoints(npc, game);
 }
 
 static void	init_witch_kitty_sprites(t_npc *npc)

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:17:07 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/24 09:44:06 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 20:31:08 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static int	keypress_hook(int keycode, t_game *game)
 		pause_game(game);
 	if (keycode == TOGGLE_MINIMAP)
 		game->minimap_visible = !game->minimap_visible;
+	if (keycode == INTERACTION)
+		interact_with_door(game);
 	return (SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:37:18 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/01 01:48:30 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 17:30:33 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@
 # define WK_WRI1 "./bonus/assets/npc/witchKitty/move/witchKittyMove013.xpm"
 # define WK_WRI2 "./bonus/assets/npc/witchKitty/move/witchKittyMove014.xpm"
 # define WK_WRI3 "./bonus/assets/npc/witchKitty/move/witchKittyMove015.xpm"
+
+# define DOOR0 "./bonus/assets/doors/door000.xpm"
 
 # define IO "./bonus/assets/items/well.xpm"
 

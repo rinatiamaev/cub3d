@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/01 01:53:12 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/02 20:25:54 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@
 # define PAUSE			32
 # define ESC			65307
 # define TOGGLE_MINIMAP	109
+# define INTERACTION	101
 
 # define WIN_NAME	"Cube3D"
 # define WIN_W		1200
@@ -78,6 +79,7 @@
 # define TEX_H		128
 
 # define M_PI 3.14159265358979323846
+# define DEAD_ZONE 1.0
 
 typedef enum e_char_value
 {
@@ -85,10 +87,11 @@ typedef enum e_char_value
 	WALL,
 	CONF_DIR,
 	EMPTY,
-	WITCH_KITTY	
+	WITCH_KITTY,
+	DOOR
 }	t_char_value;
 
-typedef struct s_point
+/* typedef struct s_point
 {
 	int	x;
 	int	y;
@@ -98,7 +101,34 @@ typedef struct s_dpoint
 {
 	double	x;
 	double	y;
-}	t_dpoint;
+}	t_dpoint; */
+
+typedef struct s_node
+{
+	t_point			pos;
+	int				g_cost;
+	int				h_cost;
+	int				f_cost;
+	struct s_node	*parent;
+	struct s_node	*next;
+}	t_node;
+
+typedef struct s_closed_list
+{
+	t_node	**nodes;
+	int		capacity;
+	int		size;
+}	t_closed_list;
+
+typedef struct s_astar
+{
+	t_point				goal;
+	t_closed_list		*closed_list;
+	int					**open_list;
+	t_node				*node;
+	t_node				*current_node;
+	t_point				direction[4];
+}	t_astar;
 
 typedef struct s_mouse_data
 {
@@ -188,7 +218,7 @@ typedef struct s_ray
 	t_dpoint	delta_dist;		// Distance to next side in x and y
 	t_dpoint	side_dist;		// Initial distance to next x or y side
 	t_point		step_dir;		// Step direction in x and y (+1 or -1)
-	bool		hit;			// 1 if a wall was hit
+	int			hit;			// 1 if a wall was hit
 	int			side;			// 0 for vertical side, 1 for horizontal side
 	double		perp_w_dist;	// Perpendicular distance from player to wall
 	int			line_height;	// Height of wall line to draw
@@ -280,13 +310,37 @@ typedef struct s_npc
 	t_dpoint		move_vec;
 	t_dpoint		last_move_vec;
 	t_sprite		sprite;
+	t_astar			*astar;
 	
 	// Patrol system
+	int				patrol_range;
 	t_dpoint		*waypoints;
 	int				waypoint_count;
 	int				current_wp;
-	double			threshold_dist;	// distance threshold to consider "arrived"
+	t_dpoint		*path;
+	int				path_length;
+	int				path_index;
+	double			threshold_dist;
 } t_npc;
+
+typedef enum e_door_state
+{
+	DOOR_CLOSED,
+	DOOR_OPENING,
+	DOOR_OPEN,
+	DOOR_CLOSING
+}	t_door_state;
+
+typedef struct s_door
+{
+	t_dpoint		pos;        // Door grid position
+	t_point			size;       // Door size in pixels
+	double			offset;     // Sliding offset (0 = closed, 1 = fully open)
+	t_door_state	state;      // Door current state
+	double			speed;      // How fast the door opens/closes
+	double			open_timer;
+	t_texture		tex;        // Door texture
+} t_door;
 
 typedef struct s_tex
 {
@@ -294,6 +348,7 @@ typedef struct s_tex
 	t_texture	so;
 	t_texture	we;
 	t_texture	ea;
+	t_texture	door;
 }	t_tex;
 
 typedef struct s_game
@@ -306,6 +361,8 @@ typedef struct s_game
 	t_img		img;
 	t_npc		**npcs;
 	int			npc_count;
+	t_door		**doors;
+	int			door_count;
 	bool		is_paused;
 	bool		minimap_visible;
 	bool		keys[66000];
@@ -339,15 +396,22 @@ void	update_all_npcs(t_game *game, double delta_time);
 void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
 		double *z_buffer);
 bool	move_npc(t_npc *npc, t_dpoint target, double delta_time);
-void	move_npc_patrol(t_npc *npc, double delta_time);
+void	move_npc_patrol(t_game *game, t_npc *npc, double delta_time);
 bool	is_player_near_npc(t_npc *npc, t_player *player, double near_distance);
 
 // NPC
 void	init_sprite_frames_and_animation(t_game *game, t_sprite *sprite);
+void	generate_npc_waypoints(t_npc *npc, t_game *game);
 void	update_npc_list(t_game *game, t_npc *npc);
 void	spawn_witch_kitty(t_game *game, double x, double y);
+int		get_walk_block(t_npc *npc, t_player *player);
 void	draw_kitty_npc(t_game *game, t_npc *npc, double *z_buffer);
 
+// DOOR
+void	update_doors(t_game *game, double delta_time);
+void	interact_with_door(t_game *game);
+void	place_door(t_game *game, double x, double y);
+t_door	*find_door_at(t_game *game, t_point pos);
 
 // RENDERING
 void	calculate_ray_properties(t_game *game, t_ray *ray);
@@ -379,7 +443,21 @@ void	handle_player_moves(t_game *game);
 void	rotate_left(t_player *player, double rot_speed, double delta_time);
 void	rotate_right(t_player *player, double rot_speed, double delta_time);
 
+// A_STAR_SEARCH
+void	closed_list_insert(t_closed_list *closed_list, t_node *node,
+			t_game *game);
+t_node	*closed_list_extract_min(t_closed_list *closed_list);
+void	reconstruct_path(t_game *game, t_node *goal_node, t_npc *npc);
+void	setup_astar_struct(t_game *game, t_astar *astar, t_point start,
+			t_point goal);
+void	spread_child_node(t_game *game, t_astar *astar);
+void	reset_astar_struct(t_game *game, t_astar *astar);
+// void	a_star_search(t_game *game, t_astar *astar, t_point start, t_point goal);
+void	a_star_path(t_game *game, t_npc *npc, t_point start, t_point goal);
+void	handle_event_hooks(t_game *game, t_window *window);
+
 // MEMORY UTILS
+void	*x_malloc(t_game *game, size_t size);
 void	*x_calloc(t_game *game, size_t count, size_t size);
 void	*x_realloc(t_game *game, void *ptr, size_t old_size, size_t new_size);
 char	*x_strjoin_free(t_game *game, char *s1, char *s2);
