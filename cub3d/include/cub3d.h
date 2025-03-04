@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/24 09:46:22 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/04 20:08:06 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,6 @@
 
 # define TEX_W		128
 # define TEX_H		128
-
-typedef struct s_point
-{
-	int	x;
-	int	y;
-}	t_point;
-
-typedef struct s_dpoint
-{
-	double	x;
-	double	y;
-}	t_dpoint;
 
 typedef struct s_conf
 {

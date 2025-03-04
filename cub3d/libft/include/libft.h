@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 01:23:16 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 01:31:18 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/04 21:54:43 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ int			ft_toupper(int c);
 char		*get_next_line(int fd);
 
 void		ft_swap(void *a, void *b, size_t size);
-int			ft_time_seeded_rand(void);
+int			ft_rand(int min, int max);
 
 int			ft_manhattan_dist_point(t_point a, t_point b);
 double		ft_manhattan_dist_dpoint(t_dpoint a, t_dpoint b);

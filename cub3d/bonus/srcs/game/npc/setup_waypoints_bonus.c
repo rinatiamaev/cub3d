@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 08:04:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 20:32:00 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/04 21:56:48 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	is_patrol_point_unique(t_npc *npc, int count, t_dpoint pos)
 	double	min_dist;
 
 	i = 0;
-	min_dist = 2.0;
+	min_dist = 1.0;
 	while (i < count)
 	{
 		if (npc->waypoints[i].x == pos.x && npc->waypoints[i].y == pos.y)
@@ -48,8 +48,8 @@ static t_dpoint	generate_point(t_dpoint pos, int range)
 	int	offset_x;
 	int	offset_y;
 
-	offset_x = (ft_time_seeded_rand() % (2 * range + 1)) - range;
-	offset_y = (ft_time_seeded_rand() % (2 * range + 1)) - range;
+	offset_x = ft_rand(-range, range);
+	offset_y = ft_rand(-range, range);
 	return ((t_dpoint){pos.x + offset_x, pos.y + offset_y});
 }
 
@@ -68,15 +68,15 @@ static void	allocate_npc_waypoints(t_npc *npc, t_game *game)
 void	generate_npc_waypoints(t_npc *npc, t_game *game)
 {
 	int			count;
-	int			attempts;
 	int			max_attempts;
+	int			failed_attempts;
 	t_dpoint	pos;
 
 	allocate_npc_waypoints(npc, game);
 	count = 0;
-	attempts = 0;
-	max_attempts = 1000000;
-	while (count < npc->waypoint_count && attempts < max_attempts)
+	max_attempts = 10000000;
+	failed_attempts = 0;
+	while (count < npc->waypoint_count && failed_attempts < max_attempts)
 	{
 		pos = generate_point(npc->pos, npc->patrol_range);
 		if (is_patrol_point_valid(game, pos)
@@ -84,9 +84,9 @@ void	generate_npc_waypoints(t_npc *npc, t_game *game)
 		{
 			npc->waypoints[count] = pos;
 			count++;
-			attempts = 0;
+			failed_attempts = 0;
 		}
 		else
-			attempts++;
+			failed_attempts++;
 	}
 }
