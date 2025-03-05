@@ -39,10 +39,18 @@ static void	update_npc_behavior(t_npc *npc, t_player *player)
 	if (is_player_near_npc(npc, player, 1.5))
 	{
 		npc->state = NPC_STATE_WAIT;
-		system("aplay ./bonus/assets/01.wav &");  // JUST FOR TESTING WE CANT USE system() call
+		if (!npc->sound_played)
+		{
+			system("aplay ./bonus/assets/01.wav &");  // JUST FOR TESTING WE CANT USE system() call
+			npc->sound_played = 1;
+		}
+		
 	}
 	else
+	{
 		npc->state = NPC_STATE_PATROL;
+		npc->sound_played = 0;
+	}
 }
 
 static void	update_npc(t_game *game, t_npc *npc, double delta_time)
