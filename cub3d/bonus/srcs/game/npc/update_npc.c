@@ -37,7 +37,10 @@ static void	play_patrol_animation(t_npc *npc, double delta_time)
 static void	update_npc_behavior(t_npc *npc, t_player *player)
 {
 	if (is_player_near_npc(npc, player, 1.5))
+	{
 		npc->state = NPC_STATE_WAIT;
+		system("aplay ./bonus/assets/01.wav &");  // JUST FOR TESTING WE CANT USE system() call
+	}
 	else
 		npc->state = NPC_STATE_PATROL;
 }
