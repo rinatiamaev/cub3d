@@ -321,6 +321,8 @@ typedef struct s_npc
 	int				path_length;
 	int				path_index;
 	double			threshold_dist;
+	//sound 
+	int				sound_played;
 } t_npc;
 
 typedef enum e_door_state
