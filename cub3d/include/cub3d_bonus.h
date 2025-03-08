@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 20:25:54 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/08 00:19:20 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -336,8 +336,8 @@ typedef enum e_door_state
 typedef struct s_door
 {
 	t_dpoint		pos;        // Door grid position
-	t_point			size;       // Door size in pixels
 	double			offset;     // Sliding offset (0 = closed, 1 = fully open)
+	t_point			size;       // Door size in pixels
 	t_door_state	state;      // Door current state
 	double			speed;      // How fast the door opens/closes
 	double			open_timer;

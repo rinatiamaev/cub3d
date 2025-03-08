@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:02:28 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 21:57:06 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/08 02:04:42 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	init_door(t_game *game, t_door *door, t_dpoint pos)
 	door->size = (t_point){128, 128};
 	door->state = DOOR_CLOSED;
 	load_single_xpm(game, &door->tex, DOOR0, game->mlx);
-	door->speed = 1.0;
+	door->speed = 0.5;
 }
 
 void	place_door(t_game *game, double x, double y)

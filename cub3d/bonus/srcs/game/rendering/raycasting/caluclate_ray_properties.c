@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:08:33 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 21:32:23 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/08 02:07:37 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,29 +35,30 @@ static	void	calculate_wall_projection(t_ray *ray)
 
 static void	calculate_texture_mapping(t_game *game, t_ray *ray)
 {
+	double	exact_pos;
+
 	if (ray->side == 0)
-		ray->wall_x = game->player.pos.y + ray->perp_w_dist * ray->dir.y;
+		exact_pos = game->player.pos.y + ray->perp_w_dist * ray->dir.y;
 	else
-		ray->wall_x = game->player.pos.x + ray->perp_w_dist * ray->dir.x;
-	ray->wall_x -= floor(ray->wall_x);
+		exact_pos = game->player.pos.x + ray->perp_w_dist * ray->dir.x;
+	ray->wall_x = exact_pos - floor(exact_pos);
 	if (ray->hit == 2)
 	{
-		t_door *door = find_door_at(game, ray->map);
+		t_door	*door = find_door_at(game, ray->map);
 		if (door)
 		{
 			ray->wall_x += door->offset;
+			if (ray->wall_x < 0.0)
+				ray->wall_x += 1.0;
 			if (ray->wall_x > 1.0)
-				ray->wall_x = 1.0;
+				ray->wall_x -= 1.0;
 		}
 	}
 	ray->tex.x = (int)(ray->wall_x * (double)TEX_W);
-	if (ray->side == 0 && ray->dir.x > 0)
-		ray->tex.x = TEX_W - ray->tex.x - 1;
-	if (ray->side == 1 && ray->dir.y < 0)
+	if ((ray->side == 0 && ray->dir.x > 0) || (ray->side == 1 && ray->dir.y < 0))
 		ray->tex.x = TEX_W - ray->tex.x - 1;
 	ray->step = (double)TEX_H / ray->line_height;
-	ray->tex_pos = (ray->draw_start - WIN_H / 2 + ray->line_height / 2)
-		* ray->step;
+	ray->tex_pos = (ray->draw_start - WIN_H / 2 + ray->line_height / 2) * ray->step;
 }
 
 void	calculate_ray_properties(t_game *game, t_ray *ray)

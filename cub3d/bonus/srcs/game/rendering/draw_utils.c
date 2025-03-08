@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 21:19:50 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/26 22:58:04 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/08 00:05:49 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	get_tex_color(t_texture *tex, int x, int y)
 	char	*pixel;
 	int		color;
 
+	if (x < 0 || x >= tex->size.x || y < 0 || y >= tex->size.y)
+		return (42);
 	pixel = tex->addr + (y * tex->line_size + x * (tex->bpp / 8));
 	color = *(unsigned int *)pixel;
 	if ((color & 0x00FFFFFF) == 0x000000)
