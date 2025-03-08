@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:02:28 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/08 02:04:42 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/08 22:12:21 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,15 @@ static void	update_door_list(t_game *game, t_door *door)
 	game->door_count++;
 }
 
-static void	init_door(t_game *game, t_door *door, t_dpoint pos)
-{
-	door->pos = pos;
-	door->size = (t_point){128, 128};
-	door->state = DOOR_CLOSED;
-	load_single_xpm(game, &door->tex, DOOR0, game->mlx);
-	door->speed = 0.5;
-}
-
 void	place_door(t_game *game, double x, double y)
 {
 	t_door		*door;
-	t_dpoint	pos;
 
 	door = x_calloc(game, 1, sizeof(t_door));
-	pos = (t_dpoint){x, y};
-	init_door(game, door, pos);
-	load_single_xpm(game, &door->tex, DOOR0, game->mlx);
+	door->pos = (t_dpoint){x, y};
+	door->size = (t_point){128, 128};
+	door->state = DOOR_CLOSED;
+	door->speed = 0.5;
 	update_door_list(game, door);
 }
 
@@ -75,27 +66,6 @@ void	update_doors(t_game *game, double delta_time)
 			door->open_timer -= delta_time;
 			if (door->open_timer <= 0)
 				door->state = DOOR_CLOSING;
-		}
-		i++;
-	}
-}
-
-void	interact_with_door(t_game *game)
-{
-	t_door	*door;
-	int		i;
-
-	i = 0;
-	while (i < game->door_count)
-	{
-		door = game->doors[i];
-		if (ft_manhattan_dist_dpoint(game->player.pos, door->pos) <= 4.0)
-		{
-			if (door->state == DOOR_CLOSED)
-				door->state = DOOR_OPENING;
-			else if (door->state == DOOR_OPEN)
-				door->state = DOOR_CLOSING;
-			return ;
 		}
 		i++;
 	}

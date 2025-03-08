@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:03:59 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 14:16:49 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/08 23:10:18 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,16 @@ static t_texture	*get_npc_wait_texture(t_npc *npc)
 	return (&npc->sprite.idle_frames[index]);
 }
 
+static t_texture	*get_npc_speak_texture(t_npc *npc)
+{
+	int	index;
+
+	index = npc->sprite.anim_index;
+	if (index < 0 || index >= npc->sprite.speak_frames_count)
+		index = 0;
+	return (&npc->sprite.speak_frames[index]);
+}
+
 static void	setup_temp_sprite(t_sprite *temp, t_npc *npc, t_texture *tex)
 {
 	ft_memset(temp, 0, sizeof(t_sprite));
@@ -63,6 +73,8 @@ void	draw_kitty_npc(t_game *game, t_npc *npc, double *z_buffer)
 		tex = get_npc_wait_texture(npc);
 	else if (npc->state == NPC_STATE_PATROL)
 		tex = get_npc_movement_texture(game, npc);
+	else if (npc->state == NPC_STATE_SPEAK)
+		tex = get_npc_speak_texture(npc);
 	setup_temp_sprite(&temp, npc, tex);
 	draw_sprite(game, game->player, &temp, z_buffer);
 }

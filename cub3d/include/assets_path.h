@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:37:18 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 17:30:33 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/08 21:46:22 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,19 @@
 # define WS12 "./bonus/assets/npc/witchKitty/sleepy/witchKittySleep012.xpm"
 # define WS13 "./bonus/assets/npc/witchKitty/sleepy/witchKittySleep013.xpm"
 
+# define WK_C0 "./bonus/assets/npc/witchKitty/speak/witchKittyCurious000.xpm"
+# define WK_C1 "./bonus/assets/npc/witchKitty/speak/witchKittyCurious001.xpm"
+# define WK_C2 "./bonus/assets/npc/witchKitty/speak/witchKittyCurious002.xpm"
+# define WK_C3 "./bonus/assets/npc/witchKitty/speak/witchKittyCurious003.xpm"
+# define WK_C4 "./bonus/assets/npc/witchKitty/speak/witchKittyCurious004.xpm"
+# define WK_C5 "./bonus/assets/npc/witchKitty/speak/witchKittyCurious005.xpm"
+# define WK_C6 "./bonus/assets/npc/witchKitty/speak/witchKittyCurious006.xpm"
+# define WK_C7 "./bonus/assets/npc/witchKitty/speak/witchKittyCurious007.xpm"
+# define WK_C8 "./bonus/assets/npc/witchKitty/speak/witchKittyCurious008.xpm"
+# define WK_C9 "./bonus/assets/npc/witchKitty/speak/witchKittyCurious009.xpm"
+# define WK_C10 "./bonus/assets/npc/witchKitty/speak/witchKittyCurious010.xpm"
+# define WK_C11 "./bonus/assets/npc/witchKitty/speak/witchKittyCurious011.xpm"
+
 # define WK_WTOW0 "./bonus/assets/npc/witchKitty/move/witchKittyMove000.xpm"
 # define WK_WTOW1 "./bonus/assets/npc/witchKitty/move/witchKittyMove001.xpm"
 # define WK_WTOW2 "./bonus/assets/npc/witchKitty/move/witchKittyMove002.xpm"
@@ -48,7 +61,8 @@
 # define WK_WRI2 "./bonus/assets/npc/witchKitty/move/witchKittyMove014.xpm"
 # define WK_WRI3 "./bonus/assets/npc/witchKitty/move/witchKittyMove015.xpm"
 
-# define DOOR0 "./bonus/assets/doors/door000.xpm"
+# define SLIDING_DOOR	"./bonus/assets/doors/sliding_door.xpm"
+# define DOOR_FRAME		"./bonus/assets/doors/door_frame.xpm"
 
 # define IO "./bonus/assets/items/well.xpm"
 

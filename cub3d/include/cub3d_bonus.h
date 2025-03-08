@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/08 00:19:20 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 00:20:39 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,18 +90,6 @@ typedef enum e_char_value
 	WITCH_KITTY,
 	DOOR
 }	t_char_value;
-
-/* typedef struct s_point
-{
-	int	x;
-	int	y;
-}	t_point;
-
-typedef struct s_dpoint
-{
-	double	x;
-	double	y;
-}	t_dpoint; */
 
 typedef struct s_node
 {
@@ -268,7 +256,8 @@ typedef struct s_sprite_draw
 typedef enum e_npc_state
 {
 	NPC_STATE_WAIT,
-	NPC_STATE_PATROL
+	NPC_STATE_PATROL,
+	NPC_STATE_SPEAK
 }	t_npc_state;
 
 typedef enum e_npc_behavior
@@ -296,6 +285,9 @@ typedef struct s_sprite
 	char		**move_paths;
 	t_texture	*move_frames;
 	int			move_frames_count;
+	char		**speak_paths;
+	t_texture	*speak_frames;
+	int			speak_frames_count;
 	int			anim_start;
     int         anim_index;
     double      anim_timer;
@@ -311,6 +303,12 @@ typedef struct s_npc
 	t_dpoint		last_move_vec;
 	t_sprite		sprite;
 	t_astar			*astar;
+
+	// Dialogue
+	char	**lines;
+	int		line_count;
+	int		current_line;
+	bool	is_talking;
 	
 	// Patrol system
 	int				patrol_range;
@@ -321,7 +319,8 @@ typedef struct s_npc
 	int				path_length;
 	int				path_index;
 	double			threshold_dist;
-	//sound 
+	
+	// Sound 
 	int				sound_played;
 } t_npc;
 
@@ -340,8 +339,7 @@ typedef struct s_door
 	t_point			size;       // Door size in pixels
 	t_door_state	state;      // Door current state
 	double			speed;      // How fast the door opens/closes
-	double			open_timer;
-	t_texture		tex;        // Door texture
+	double			open_timer; // Time the door stays open after fully opening
 } t_door;
 
 typedef struct s_tex
@@ -391,7 +389,6 @@ void	parse_map(t_game *game, t_map *map);
 
 // INITIALIZATION
 t_game	*init_game(char *filename);
-void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx);
 void	load_walls_texture(t_game *game, t_conf conf);
 void	load_sprite_frames(t_game *game, t_sprite *sprite);
 void	update_all_npcs(t_game *game, double delta_time);
@@ -411,7 +408,6 @@ void	draw_kitty_npc(t_game *game, t_npc *npc, double *z_buffer);
 
 // DOOR
 void	update_doors(t_game *game, double delta_time);
-void	interact_with_door(t_game *game);
 void	place_door(t_game *game, double x, double y);
 t_door	*find_door_at(t_game *game, t_point pos);
 
@@ -431,6 +427,7 @@ bool	init_sprite_draw_data(t_sprite_draw *data, t_player player,
 		t_sprite *sprite);
 void	draw_npcs(t_game *game, double *z_buffer);
 void	draw_minimap(t_game *game);
+void	draw_npc_dialogue(t_game *game, t_npc *npc);
 
 // HOOKS
 int		close_game(t_game *game);

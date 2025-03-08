@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:30:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 02:10:08 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/08 23:27:00 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void	free_npc_textures(t_game *game, t_sprite *sprite)
 			mlx_destroy_image(game->mlx, sprite->idle_frames[j].ptr);
 		j++;
 	}
+	free(sprite->idle_frames);
 	j = 0;
 	while (j < sprite->move_frames_count)
 	{
@@ -39,10 +40,15 @@ static void	free_npc_textures(t_game *game, t_sprite *sprite)
 			mlx_destroy_image(game->mlx, sprite->move_frames[j].ptr);
 		j++;
 	}
-	if (sprite->idle_frames)
-		free(sprite->idle_frames);
-	if (sprite->move_frames)
-		free(sprite->move_frames);
+	free(sprite->move_frames);
+	j = 0;
+	while (j < sprite->speak_frames_count)
+	{
+		if (sprite->speak_frames[j].ptr)
+			mlx_destroy_image(game->mlx, sprite->speak_frames[j].ptr);
+		j++;
+	}
+	free(sprite->speak_frames);
 }
 
 static void	free_single_npc(t_game *game, t_npc *npc)
@@ -77,6 +83,4 @@ void	free_npcs(t_game *game)
 		i++;
 	}
 	free(game->npcs);
-	game->npcs = NULL;
-	game->npc_count = 0;
 }
