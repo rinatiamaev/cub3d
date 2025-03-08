@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:06:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 20:23:50 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/08 02:04:19 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	update_npc_behavior(t_npc *npc, t_player *player)
 			system("aplay ./bonus/assets/01.wav &");  // JUST FOR TESTING WE CANT USE system() call
 			npc->sound_played = 1;
 		}
-		
 	}
 	else
 	{
