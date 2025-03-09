@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:17:07 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/09 15:35:45 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 15:45:44 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,10 @@ static int	keypress_hook(int keycode, t_game *game)
 		int i = 0;
 		while (i < game->npc_count)
 		{
-			game->npcs[i]->state = NPC_STATE_FOLLOW;
+			if (game->npcs[i]->state == NPC_STATE_FOLLOW)
+				game->npcs[i]->state = NPC_STATE_WAIT; // Stop following if already in FOLLOW mode
+			else
+				game->npcs[i]->state = NPC_STATE_FOLLOW; // Start following player
 			i++;
 		}
 	}

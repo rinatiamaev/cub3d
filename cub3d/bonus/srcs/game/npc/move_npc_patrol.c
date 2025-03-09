@@ -6,28 +6,36 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:29:13 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/04 21:46:06 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 19:49:02 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static void	update_npc_path(t_game *game, t_npc *npc)
+static void	update_npc_patrol_path(t_game *game, t_npc *npc)
 {
 	a_star_path(game, npc, (t_point){(int)npc->pos.x, (int)npc->pos.y},
 		(t_point){(int)npc->waypoints[npc->current_wp].x,
 		(int)npc->waypoints[npc->current_wp].y});
 }
 
-static bool	is_path_available(t_game *game, t_npc *npc)
+static void	update_npc_follow_path(t_game *game, t_npc *npc)
 {
-	if (!npc->path)
-	{
-		update_npc_path(game, npc);
-		if (!npc->path || npc->path_length == 0)
-			return (false);
-	}
-	return (true);
+	a_star_path(game, npc, (t_point){(int)npc->pos.x, (int)npc->pos.y},
+		(t_point){(int)game->player.last_pos.x, (int)game->player.last_pos.y});
+}
+
+static void update_npc_path(t_game *game, t_npc *npc)
+{
+	if (npc->state == NPC_STATE_FOLLOW)
+		update_npc_follow_path(game, npc);
+	else
+		update_npc_patrol_path(game, npc);
+}
+
+static bool is_path_valid(t_npc *npc)
+{
+	return (npc->path && npc->path_length > 0);
 }
 
 static void	handle_waypoint_progression(t_game *game, t_npc *npc)
@@ -44,16 +52,32 @@ static void	handle_waypoint_progression(t_game *game, t_npc *npc)
 	}
 }
 
-void	move_npc_patrol(t_game *game, t_npc *npc, double delta_time)
+void move_npc_plan(t_game *game, t_npc *npc, double delta_time)
 {
-	t_dpoint	target;
-
-	if (!is_path_available(game, npc))
+	if (npc->state == NPC_STATE_FOLLOW)
 	{
-		generate_npc_waypoints(npc, game);
-		return ;
+		if ((int)npc->pos.x != (int)game->player.last_pos.x
+			|| (int)npc->pos.y != (int)game->player.last_pos.y)
+		{
+			update_npc_path(game, npc);
+		}
 	}
-	target = npc->path[npc->path_index];
+	else if (npc->state == NPC_STATE_PATROL)
+	{
+		if (!is_path_valid(npc))
+		{
+			update_npc_path(game, npc);
+			if (!is_path_valid(npc))
+			{
+				generate_npc_waypoints(npc, game);
+				return ;
+			}
+		}
+	}
+	t_dpoint target = npc->path[npc->path_index];
 	if (move_npc(npc, target, delta_time))
-		handle_waypoint_progression(game, npc);
+	{
+		if (npc->state == NPC_STATE_PATROL)
+			handle_waypoint_progression(game, npc);
+	}
 }

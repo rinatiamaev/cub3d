@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:03:59 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/08 23:10:18 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 19:08:13 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	draw_kitty_npc(t_game *game, t_npc *npc, double *z_buffer)
 	if (npc->state == NPC_STATE_WAIT)
 		tex = get_npc_wait_texture(npc);
 	else if (npc->state == NPC_STATE_PATROL)
+		tex = get_npc_movement_texture(game, npc);
+	else if (npc->state == NPC_STATE_FOLLOW)
 		tex = get_npc_movement_texture(game, npc);
 	else if (npc->state == NPC_STATE_SPEAK)
 		tex = get_npc_speak_texture(npc);

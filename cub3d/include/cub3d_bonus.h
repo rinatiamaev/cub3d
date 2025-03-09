@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/09 15:29:29 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 19:50:32 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -404,7 +404,7 @@ void	update_all_npcs(t_game *game, double delta_time);
 void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
 		double *z_buffer);
 bool	move_npc(t_npc *npc, t_dpoint target, double delta_time);
-void	move_npc_patrol(t_game *game, t_npc *npc, double delta_time);
+void	move_npc_plan(t_game *game, t_npc *npc, double delta_time);
 bool	is_player_near_npc(t_npc *npc, t_player *player, double near_distance);
 
 // NPC

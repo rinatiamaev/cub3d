@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:49:24 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/09 15:12:59 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 19:54:28 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static void	move_forward(t_game *game, double move_speed)
 	next.y = game->player.pos.y + game->player.dir.y * move_speed;
 	if (can_move(game, next.x, next.y))
 	{
+		game->player.last_pos.x = game->player.pos.x;
+		game->player.last_pos.y = game->player.pos.y;
 		game->player.pos.x = next.x;
 		game->player.pos.y = next.y;
 	}
@@ -34,6 +36,8 @@ static void	move_backward(t_game *game, double move_speed)
 	next.y = game->player.pos.y + game->player.dir.y * move_speed;
 	if (can_move(game, next.x, next.y))
 	{
+		game->player.last_pos.x = game->player.pos.x;
+		game->player.last_pos.y = game->player.pos.y;
 		game->player.pos.x = next.x;
 		game->player.pos.y = next.y;
 	}
@@ -68,6 +72,8 @@ static void	strafe_right(t_game *game, double move_speed)
 	next.y = game->player.pos.y + strafe.y * move_speed;
 	if (can_move(game, next.x, next.y))
 	{
+		game->player.last_pos.x = game->player.pos.x;
+		game->player.last_pos.y = game->player.pos.y;
 		game->player.pos.x = next.x;
 		game->player.pos.y = next.y;
 	}
