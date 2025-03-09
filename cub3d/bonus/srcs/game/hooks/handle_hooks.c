@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:17:07 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/09 00:26:52 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 11:04:51 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static bool	interact_with_npc(t_game *game)
 	while (i < game->npc_count)
 	{
 		npc = game->npcs[i];
-		if (ft_manhattan_dist_dpoint(game->player.pos, npc->pos) <= 2.0)
+		if (ft_cab_dist_dpoint(game->player.pos, npc->pos) <= 2.0)
 		{
 			if (npc->state != NPC_STATE_SPEAK)
 			{
@@ -61,7 +61,7 @@ static bool	interact_with_door(t_game *game)
 	while (i < game->door_count)
 	{
 		door = game->doors[i];
-		if (ft_manhattan_dist_dpoint(game->player.pos, door->pos) <= 2.0)
+		if (ft_cab_dist_dpoint(game->player.pos, door->pos) <= 2.0)
 		{
 			if (door->state == DOOR_CLOSED)
 				door->state = DOOR_OPENING;

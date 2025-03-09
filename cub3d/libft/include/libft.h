@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 01:23:16 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/04 21:54:43 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 11:03:53 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 
 # define BUFFER_SIZE 1024
 # define MAX_FD 1024
+
+# define QSORT_THRESHOLD 10
 
 # define FLAG_HASH    1
 # define FLAG_ZERO    2
@@ -155,7 +157,7 @@ void		ft_swap(void *a, void *b, size_t size);
 int			ft_rand(int min, int max);
 
 int			ft_manhattan_dist_point(t_point a, t_point b);
-double		ft_manhattan_dist_dpoint(t_dpoint a, t_dpoint b);
+double		ft_cab_dist_dpoint(t_dpoint a, t_dpoint b);
 int			ft_euclidean_dist_point(t_point a, t_point b);
 double		ft_euclidean_dist_dpoint(t_dpoint a, t_dpoint b);
 

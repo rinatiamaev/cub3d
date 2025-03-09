@@ -6,7 +6,7 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/03/08 23:53:21 by nlouis           ###   ########.fr        #
+#    Updated: 2025/03/09 12:55:31 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,8 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/npc/spawn_witch_kitty.c \
 				bonus/srcs/game/npc/update_npc.c \
 				bonus/srcs/game/npc/update_npc_utils.c \
-				bonus/srcs/game/game_loop.c		
+				bonus/srcs/game/game_utils.c \
+				bonus/srcs/game/game_loop.c	
 
 OBJSDIR = mandatory/objs
 OBJSDIR_BONUS = bonus/objs

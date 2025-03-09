@@ -6,12 +6,14 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:37:18 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/08 21:46:22 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 11:55:45 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ASSETS_PATH_H
 # define ASSETS_PATH_H
+
+# define DIALOGUE_BOX	"./bonus/assets/dialogue/dialogue_box.xpm"
 
 # define WS0 "./bonus/assets/npc/witchKitty/sleepy/witchKittySleep000.xpm"
 # define WS1 "./bonus/assets/npc/witchKitty/sleepy/witchKittySleep001.xpm"

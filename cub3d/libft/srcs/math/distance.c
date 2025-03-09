@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 23:08:07 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/01 23:23:55 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 11:03:40 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_manhattan_dist_point(t_point a, t_point b)
 	return (abs(a.x - b.x) + abs(a.y - b.y));
 }
 
-double ft_manhattan_dist_dpoint(t_dpoint a, t_dpoint b)
+double	ft_cab_dist_dpoint(t_dpoint a, t_dpoint b)
 {
 	return	(fabs(a.x - b.x) + fabs(a.y - b.y));
 }

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:02:28 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/08 22:12:21 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 11:49:40 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,21 @@ void	place_door(t_game *game, double x, double y)
 	door->pos = (t_dpoint){x, y};
 	door->size = (t_point){128, 128};
 	door->state = DOOR_CLOSED;
-	door->speed = 0.5;
+	door->speed = 1.0;
 	update_door_list(game, door);
 }
+
+static bool	is_player_on_door(t_game *game, t_door *door)
+{
+
+	// Check if player is exactly on the door tile
+	if ((int)game->player.pos.x == (int)door->pos.x &&
+		(int)game->player.pos.y == (int)door->pos.y)
+		return (true);
+
+	return (false);
+}
+
 
 void	update_doors(t_game *game, double delta_time)
 {
@@ -42,6 +54,7 @@ void	update_doors(t_game *game, double delta_time)
 	while (i < game->door_count)
 	{
 		door = game->doors[i];
+
 		if (door->state == DOOR_OPENING)
 		{
 			door->offset += door->speed * delta_time;
@@ -49,27 +62,41 @@ void	update_doors(t_game *game, double delta_time)
 			{
 				door->offset = 1.0;
 				door->state = DOOR_OPEN;
-				door->open_timer = 4.0;
+				door->open_timer = 3.0;
 			}
 		}
 		else if (door->state == DOOR_CLOSING)
 		{
-			door->offset -= door->speed * delta_time;
-			if (door->offset <= 0.0)
+			if (is_player_on_door(game, door))
 			{
-				door->offset = 0.0;
-				door->state = DOOR_CLOSED;
+				door->state = DOOR_OPEN;
+				door->open_timer = 3.0;
+			}
+			else
+			{
+				door->offset -= door->speed * delta_time;
+				if (door->offset <= 0.0)
+				{
+					door->offset = 0.0;
+					door->state = DOOR_CLOSED;
+				}
 			}
 		}
 		else if (door->state == DOOR_OPEN)
 		{
-			door->open_timer -= delta_time;
-			if (door->open_timer <= 0)
-				door->state = DOOR_CLOSING;
+			if (is_player_on_door(game, door))
+				door->open_timer = 3.0;
+			else
+			{
+				door->open_timer -= delta_time;
+				if (door->open_timer <= 0.0)
+					door->state = DOOR_CLOSING;
+			}
 		}
 		i++;
 	}
 }
+
 
 t_door	*find_door_at(t_game *game, t_point pos)
 {

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/09 00:20:39 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 12:53:20 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,6 +349,7 @@ typedef struct s_tex
 	t_texture	we;
 	t_texture	ea;
 	t_texture	door;
+	t_texture	dialogue_box;
 }	t_tex;
 
 typedef struct s_game
@@ -372,6 +373,7 @@ typedef struct s_game
 void	error(t_game *game, char *err_msg);
 void	free_game(t_game *game);
 void	free_npcs(t_game *game);
+double	get_delta_time(void);
 
 // PARSING
 void	extract_file_content(t_game *game, t_map *map);
