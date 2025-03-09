@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/09 12:53:20 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 15:29:29 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@
 # define ESC			65307
 # define TOGGLE_MINIMAP	109
 # define INTERACTION	101
+# define FOLLOW_PLAYER	102
 
 # define WIN_NAME	"Cube3D"
 # define WIN_W		1200
@@ -80,6 +81,9 @@
 
 # define M_PI 3.14159265358979323846
 # define DEAD_ZONE 1.0
+
+#define MAX_LINE_LENGTH 40
+#define MAX_LINES 4
 
 typedef enum e_char_value
 {
@@ -161,6 +165,7 @@ typedef struct s_player
 {
 	char		conf_dir;
 	t_dpoint	pos;		// (x, y) in double precision
+	t_dpoint 	last_pos;
 	t_dpoint	dir;		// Direction vector: which way is "forward"
 	t_dpoint	plane;		// Camera plane vector: perpendicular to dir
 	double		rot_speed;	// Rotation speed in radians per second
@@ -257,13 +262,15 @@ typedef enum e_npc_state
 {
 	NPC_STATE_WAIT,
 	NPC_STATE_PATROL,
-	NPC_STATE_SPEAK
+	NPC_STATE_SPEAK,
+	NPC_STATE_FOLLOW
 }	t_npc_state;
 
 typedef enum e_npc_behavior
 {
 	NPC_BEHAVIOR_PATROL,
-	NPC_BEHAVIOR_WAIT
+	NPC_BEHAVIOR_WAIT,
+	NPC_BEHAVIOR_FOLLOW
 } t_npc_behavior;
 
 typedef enum e_walk_block

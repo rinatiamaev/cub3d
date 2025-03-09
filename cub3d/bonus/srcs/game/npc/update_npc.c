@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:06:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/08 23:42:56 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 15:32:33 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,7 @@ static void	play_speak_animation(t_npc *npc, double delta_time)
 		npc->sprite.anim_timer = 0.0;
 		npc->sprite.anim_index++;
 		if (npc->sprite.anim_index >= npc->sprite.speak_frames_count)
-		{
 			npc->sprite.anim_index = 0;
-			// npc->state = NPC_STATE_WAIT;
-		}
 	}
 }
 

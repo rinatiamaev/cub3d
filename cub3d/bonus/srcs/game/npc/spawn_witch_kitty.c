@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 00:23:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/08 23:51:35 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 15:07:17 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,13 @@
 void	init_witch_kitty_dialogue(t_npc *npc)
 {
 	static char *kitty_dialogue[] = {
-		"Hello traveler!",
-		"Welcome to the infernal Labyrinth!",
-		"I am the witch kitty, nice to meet you!",
-		"Good luck on your Cub3D quest!"
+		"Hi! Finally awake!",
+		"My sibling and I are trapped in this Labyrinth!",
+		"He left to find an exit but never came back!",
+		"He told me to wait here...",
+		"Could you look for him past this door?",
+		"Please, I'm worried about him...",
+		"Thank you! I'll wait here for you!"
 	};
 
 	npc->lines = kitty_dialogue;

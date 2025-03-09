@@ -6,11 +6,27 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:28:02 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/09 14:28:16 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 15:01:45 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
+
+void draw_npc_dialogue(t_game *game, t_npc *npc)
+{
+	int x, y, color;
+
+	x = (WIN_W / 2 - 128);
+	y = (WIN_H - (WIN_H / 5));
+	color = 0x141B1B;
+	if (npc->is_talking)
+	{
+		mlx_put_image_to_window(game->mlx, game->window->ptr,
+			game->tex.dialogue_box.ptr, x, y);
+		mlx_string_put(game->mlx, game->window->ptr, x + 15, y + 35, color,
+			npc->lines[npc->current_line]);
+	}
+}
 
 static void sort_npcs(t_game *game, t_player *player)
 {
@@ -31,22 +47,6 @@ static void sort_npcs(t_game *game, t_player *player)
 			j++;
 		}
 		i++;
-	}
-}
-
-void draw_npc_dialogue(t_game *game, t_npc *npc)
-{
-	int x, y, color;
-
-	x = (WIN_W / 2 - 128);
-	y = (WIN_H - (WIN_H / 5));
-	color = 0x141B1B;
-	if (npc->is_talking)
-	{
-		mlx_put_image_to_window(game->mlx, game->window->ptr,
-			game->tex.dialogue_box.ptr, x, y);
-		mlx_string_put(game->mlx, game->window->ptr, x + 20, y + 20, color,
-			npc->lines[npc->current_line]);
 	}
 }
 
