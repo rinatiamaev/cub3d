@@ -74,6 +74,7 @@ SRCS	=	srcs/array/ft_arraysize.c \
 			srcs/str/ft_striteri.c \
 			srcs/str/ft_strjoin.c \
 			srcs/str/ft_strlcat.c \
+			srcs/str/ft_strcat.c \
 			srcs/str/ft_strlcpy.c \
 			srcs/str/ft_strcpy.c \
 			srcs/str/ft_strlen.c \

@@ -70,6 +70,7 @@ typedef struct s_pf
 	t_fmt	*fmt;
 }	t_pf;
 
+char		*ft_strcat(char *dest, const char *src);
 size_t		ft_arraysize(void **array);
 char		**ft_copy_strarray(char **array);
 void		ft_free_array(void **array);

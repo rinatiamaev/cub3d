@@ -473,4 +473,8 @@ char	*x_strdup(t_game *game, const char *s);
 char	**x_copy_strarray(t_game *game, char **array);
 int		**x_create_matrix(t_game *game, int row_count, int col_count);
 
+// MUSIC
+void	start_background_music(const char *music_file);
+void	stop_background_music();
+
 #endif

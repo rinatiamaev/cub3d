@@ -82,7 +82,8 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/npc/update_npc.c \
 				bonus/srcs/game/npc/update_npc_utils.c \
 				bonus/srcs/game/game_utils.c \
-				bonus/srcs/game/game_loop.c	
+				bonus/srcs/game/game_loop.c	\
+				bonus/srcs/game/music/music.c
 
 OBJSDIR = mandatory/objs
 OBJSDIR_BONUS = bonus/objs

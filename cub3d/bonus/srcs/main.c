@@ -19,8 +19,10 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		error(NULL, "Usage: ./cub3d <map_file>");
 	game = init_game(argv[1]);
+	start_background_music("./bonus/assets/background_music.wav");
 	handle_event_hooks(game, game->window);
 	mlx_loop(game->mlx);
 	free_game(game);
+	stop_background_music();
 	return (0);
 }
