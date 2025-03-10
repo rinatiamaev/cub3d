@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 14:10:23 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 14:56:14 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef enum e_char_value
 	CONF_DIR,
 	EMPTY,
 	WITCH_KITTY,
+	CALICO_KITTY,
 	DOOR
 }	t_char_value;
 
@@ -362,6 +363,7 @@ void	init_sprite_frames_and_animation(t_game *game, t_sprite *sprite);
 void	generate_npc_waypoints(t_npc *npc, t_game *game);
 void	update_npc_list(t_game *game, t_npc *npc);
 void	spawn_witch_kitty(t_game *game, double x, double y);
+void	spawn_calico_kitty(t_game *game, double x, double y);
 int		get_walk_block(t_npc *npc, t_player *player);
 void	draw_kitty_npc(t_game *game, t_npc *npc, double *z_buffer);
 void	play_movement_animation(t_npc *npc, double delta_time);

@@ -6,7 +6,7 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/03/10 14:19:02 by nlouis           ###   ########.fr        #
+#    Updated: 2025/03/10 14:59:49 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,6 +87,7 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/npc/setup_waypoints_bonus.c \
 				bonus/srcs/game/npc/spawn_npc_utils.c \
 				bonus/srcs/game/npc/spawn_witch_kitty.c \
+				bonus/srcs/game/npc/spawn_calico_kitty.c \
 				bonus/srcs/game/npc/update_npc.c \
 				bonus/srcs/game/npc/play_npc_animation.c \
 				bonus/srcs/game/game_utils.c \
