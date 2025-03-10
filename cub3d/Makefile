@@ -6,7 +6,7 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/03/05 22:11:59 by nlouis           ###   ########.fr        #
+#    Updated: 2025/03/10 14:59:49 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,38 +50,49 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/parsing/process_color_key.c \
 				bonus/srcs/parsing/process_config.c \
 				bonus/srcs/parsing/convert_map_char_to_value.c \
-				bonus/srcs/game/a_star_search/algortithm/a_star_heap_utils_bonus.c \
-				bonus/srcs/game/a_star_search/algortithm/a_star_memory.c \
-				bonus/srcs/game/a_star_search/algortithm/a_star_search_bonus.c \
-				bonus/srcs/game/a_star_search/algortithm/a_star_setup_bonus.c \
-				bonus/srcs/game/a_star_search/a_star_following.c \
-				bonus/srcs/game/a_star_search/a_star_path_bonus.c \
-				bonus/srcs/game/door/door.c \
-				bonus/srcs/game/hooks/handle_hooks.c \
-				bonus/srcs/game/hooks/handle_mouse.c \
-				bonus/srcs/game/hooks/hooks_utils.c \
-				bonus/srcs/game/moves/move_player.c \
-				bonus/srcs/game/moves/move_utils.c \
-				bonus/srcs/game/moves/rotate_camera.c \
+				bonus/srcs/game/move_entity/a_star_pathfinding/a_star_heap_utils_bonus.c \
+				bonus/srcs/game/move_entity/a_star_pathfinding/a_star_memory.c \
+				bonus/srcs/game/move_entity/a_star_pathfinding/a_star_utils_bonus.c \
+				bonus/srcs/game/move_entity/a_star_pathfinding/a_star_setup_bonus.c \
+				bonus/srcs/game/move_entity/a_star_pathfinding/a_star_path_bonus.c \
+				bonus/srcs/game/move_entity/move_npc.c \
+				bonus/srcs/game/move_entity/move_npc_patrol.c \
+				bonus/srcs/game/move_entity/move_npc_follow.c \
+				bonus/srcs/game/doors/spawn_door.c \
+				bonus/srcs/game/doors/update_doors.c \
+				bonus/srcs/events/event_follow_player.c \
+				bonus/srcs/events/handle_events.c \
+				bonus/srcs/events/handle_interaction.c \
+				bonus/srcs/events/handle_mouse.c \
+				bonus/srcs/events/handle_pause.c \
+				bonus/srcs/events/interact_with_door.c \
+				bonus/srcs/events/interact_with_npc.c \
+				bonus/srcs/game/move_entity/move_player.c \
+				bonus/srcs/game/move_entity/move_utils.c \
+				bonus/srcs/game/move_entity/rotate_fov.c \
+				bonus/srcs/game/rendering/raycasting/calculate_texture_mapping.c \
 				bonus/srcs/game/rendering/raycasting/caluclate_ray_properties.c \
+				bonus/srcs/game/rendering/raycasting/perform_dda.c \
 				bonus/srcs/game/rendering/raycasting/raycast.c \
 				bonus/srcs/game/rendering/raycasting/init_ray_data.c \
 				bonus/srcs/game/rendering/draw_minimap.c \
+				bonus/srcs/game/rendering/draw_kitty_npc_utils.c \
+				bonus/srcs/game/rendering/draw_kitty_npc.c \
 				bonus/srcs/game/rendering/draw_npcs.c \
 				bonus/srcs/game/rendering/draw_sprites.c \
 				bonus/srcs/game/rendering/draw_sprites_utils.c \
 				bonus/srcs/game/rendering/draw_utils.c \
+				bonus/srcs/game/rendering/draw_follow_state.c \
 				bonus/srcs/game/rendering/render_scene.c \
-				bonus/srcs/game/npc/move_npc.c \
-				bonus/srcs/game/npc/move_npc_patrol.c \
 				bonus/srcs/game/npc/setup_waypoints_bonus.c \
-				bonus/srcs/game/npc/get_walk_block.c \
-				bonus/srcs/game/npc/draw_kitty_npc.c \
 				bonus/srcs/game/npc/spawn_npc_utils.c \
 				bonus/srcs/game/npc/spawn_witch_kitty.c \
+				bonus/srcs/game/npc/spawn_calico_kitty.c \
 				bonus/srcs/game/npc/update_npc.c \
-				bonus/srcs/game/npc/update_npc_utils.c \
-				bonus/srcs/game/game_loop.c		
+				bonus/srcs/game/npc/play_npc_animation.c \
+				bonus/srcs/game/game_utils.c \
+				bonus/srcs/game/game_loop.c	\
+				bonus/srcs/game/music/music.c
 
 OBJSDIR = mandatory/objs
 OBJSDIR_BONUS = bonus/objs

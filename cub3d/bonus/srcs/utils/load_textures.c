@@ -6,13 +6,13 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:25:33 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 19:52:44 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 02:04:36 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx)
+static void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx)
 {
 	int	width;
 	int	height;
@@ -28,38 +28,36 @@ void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx)
 		error(game, "mlx_get_data_addr() failed");
 }
 
-void	load_sprite_frames(t_game *game, t_sprite *sprite)
+static void	load_sprite_animation(t_game *game, t_texture **frames,
+	char **paths, int frame_count)
 {
 	int	i;
 
-	sprite->idle_frames = x_calloc(game, sprite->num_idle_frames,
-			sizeof(t_texture));
+	*frames = x_calloc(game, frame_count, sizeof(t_texture));
 	i = 0;
-	while (i < sprite->num_idle_frames)
+	while (i < frame_count)
 	{
-		load_single_xpm(game, &sprite->idle_frames[i], sprite->idle_paths[i],
-			game->mlx);
+		load_single_xpm(game, &((*frames)[i]), paths[i], game->mlx);
 		i++;
-	}
-	if (sprite->move_paths)
-	{
-		sprite->move_frames = x_calloc(game, sprite->move_frames_count,
-				sizeof(t_texture));
-		i = 0;
-		while (i < sprite->move_frames_count)
-		{
-			load_single_xpm(game, &sprite->move_frames[i],
-				sprite->move_paths[i], game->mlx);
-			i++;
-		}
 	}
 }
 
-void	load_walls_texture(t_game *game, t_conf conf)
+void	load_sprite_frames(t_game *game, t_sprite *sprite)
+{
+	load_sprite_animation(game, &sprite->idle_frames, sprite->idle_paths,
+		sprite->num_idle_frames);
+	load_sprite_animation(game, &sprite->move_frames, sprite->move_paths,
+		sprite->move_frames_count);
+	load_sprite_animation(game, &sprite->speak_frames, sprite->speak_paths,
+		sprite->speak_frames_count);
+}
+
+void	load_game_textures(t_game *game, t_conf conf)
 {
 	load_single_xpm(game, &game->tex.no, conf.tex_no, game->mlx);
 	load_single_xpm(game, &game->tex.so, conf.tex_so, game->mlx);
 	load_single_xpm(game, &game->tex.we, conf.tex_we, game->mlx);
 	load_single_xpm(game, &game->tex.ea, conf.tex_ea, game->mlx);
-	load_single_xpm(game, &game->tex.door, DOOR0, game->mlx);
+	load_single_xpm(game, &game->tex.door, SLIDING_DOOR, game->mlx);
+	load_single_xpm(game, &game->tex.dialogue_box, DIALOGUE_BOX, game->mlx);
 }

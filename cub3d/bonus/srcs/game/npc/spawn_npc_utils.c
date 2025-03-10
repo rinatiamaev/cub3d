@@ -6,27 +6,34 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:26:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/01 01:12:16 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 10:39:34 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
+static void	set_frame_sizes(t_texture *frames, int count, t_point size)
+{
+	int	i;
+
+	if (!frames)
+		return ;
+	i = 0;
+	while (i < count)
+		frames[i++].size = size;
+}
+
 void	init_sprite_frames_and_animation(t_game *game, t_sprite *sprite)
 {
 	struct timeval	tv;
-	int				i;
 
 	load_sprite_frames(game, sprite);
-	i = 0;
-	while (i < sprite->num_idle_frames)
-		sprite->idle_frames[i++].size = sprite->size;
-	i = 0;
-	if (sprite->move_frames)
-	{
-		while (i < sprite->move_frames_count)
-			sprite->move_frames[i++].size = sprite->size;
-	}
+	set_frame_sizes
+		(sprite->idle_frames, sprite->num_idle_frames, sprite->size);
+	set_frame_sizes
+		(sprite->move_frames, sprite->move_frames_count, sprite->size);
+	set_frame_sizes
+		(sprite->speak_frames, sprite->speak_frames_count, sprite->size);
 	gettimeofday(&tv, NULL);
 	sprite->anim_start = tv.tv_sec * 1000000L + tv.tv_usec;
 }

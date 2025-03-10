@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 08:04:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/04 21:56:48 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 11:05:05 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	is_patrol_point_unique(t_npc *npc, int count, t_dpoint pos)
 	{
 		if (npc->waypoints[i].x == pos.x && npc->waypoints[i].y == pos.y)
 			return (false);
-		if (ft_manhattan_dist_dpoint(npc->waypoints[i], pos) < min_dist)
+		if (ft_cab_dist_dpoint(npc->waypoints[i], pos) < min_dist)
 			return (false);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:33:37 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 20:14:15 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/09 11:07:25 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,11 @@
 
 int	game_loop(t_game *game)
 {
-	static struct timeval	prev_time;
-	struct timeval			current_time;
-	double					delta_time;
-	double					elapsed;
+	double	delta_time;
 
-	gettimeofday(&current_time, NULL);
-	if (prev_time.tv_sec == 0 && prev_time.tv_usec == 0)
-		prev_time = current_time;
-	elapsed = (current_time.tv_sec - prev_time.tv_sec)
-		+ (current_time.tv_usec - prev_time.tv_usec) / 1000000.0;
-	delta_time = elapsed;
-	prev_time = current_time;
+	if (game->is_paused)
+		return (0);
+	delta_time = get_delta_time();
 	handle_player_moves(game);
 	handle_mouse_movement(game, game->window);
 	update_all_npcs(game, delta_time);

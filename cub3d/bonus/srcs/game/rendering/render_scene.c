@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:06:19 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/28 20:51:15 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 11:27:12 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	render_scene(t_game *game)
 	draw_npcs(game, z_buffer);
 	draw_minimap(game);
 	mlx_put_image_to_window(game->mlx, game->window->ptr, game->img.ptr, 0, 0);
+	draw_npc_dialogue(game);
+	draw_follow_state(game);
 	mlx_destroy_image(game->mlx, game->img.ptr);
 	free(z_buffer);
 }

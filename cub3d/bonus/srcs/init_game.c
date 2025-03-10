@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:05 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/01 01:22:19 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 02:05:05 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_game	*init_game(char *filename)
 	parse_map(game, game->map);
 	game->window = x_calloc(game, 1, sizeof(t_window));
 	init_window(game, game->window);
-	load_walls_texture(game, game->map->conf);
+	load_game_textures(game, game->map->conf);
 	init_player(&game->player);
 	game->is_paused = false;
 	return (game);

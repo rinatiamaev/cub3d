@@ -6,64 +6,11 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 13:05:56 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/08 02:05:57 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 11:03:37 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
-
-void	perform_dda(t_game *game, t_ray *ray)
-{
-	t_door	*door;
-	double	door_x;
-
-	while (ray->hit == 0)
-	{
-		if (ray->side_dist.x < ray->side_dist.y)
-		{
-			ray->side_dist.x += ray->delta_dist.x;
-			ray->map.x += ray->step_dir.x;
-			ray->side = 0;
-		}
-		else
-		{
-			ray->side_dist.y += ray->delta_dist.y;
-			ray->map.y += ray->step_dir.y;
-			ray->side = 1;
-		}
-		if (game->map->matrix[ray->map.y][ray->map.x] == WALL)
-			ray->hit = 1;
-		else if (game->map->matrix[ray->map.y][ray->map.x] == DOOR)
-		{
-			door = find_door_at(game, ray->map);
-			if (door)
-			{
-				if (door->offset >= 1.0)
-					continue ;
-				else if (door->offset <= 0.0)
-				{
-					ray->hit = 2;
-					break ;
-				}
-				else
-				{
-					if (ray->side == 0)
-						door_x = game->player.pos.y + ((ray->map.x - game->player.pos.x + (1 - ray->step_dir.x) / 2.0) / ray->dir.x) * ray->dir.y;
-					else
-						door_x = game->player.pos.x + ((ray->map.y - game->player.pos.y + (1 - ray->step_dir.y) / 2.0) / ray->dir.y) * ray->dir.x;
-					door_x -= floor(door_x);
-					if (door_x < (1.0 - door->offset))
-					{
-						ray->hit = 2;
-						break ;
-					}
-					else
-						continue ;
-				}
-			}
-		}
-	}
-}
 
 static t_texture	*select_wall_texture(t_game *game, t_ray *ray)
 {

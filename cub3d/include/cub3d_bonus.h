@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/08 00:19:20 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 14:56:14 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,12 @@
 # include <sys/time.h>
 # include <math.h>
 
-// # define MINIMAP_SIZE 200    // Size of the minimap (200x200)
-// # define MINIMAP_OFFSET_X 100 // Horizontal offset for the minimap (right corner)
-// # define MINIMAP_OFFSET_Y 50  // Vertical offset for the minimap (top)
-// # define PLAYER_COLOR 0xFF0000  // Color for the player (red)
-// # define WALL_COLOR 0x0000FF    // Color for the walls (blue)
-# define FLOOR_COLOR		0x00FF00   // Color for the floor (green)
 # define MINIMAP_SIZE		250
 # define MINIMAP_OFFSET_X	20
 # define MINIMAP_OFFSET_Y	20
 # define PLAYER_SCALE		0.6
-
-# define BACKGROUND_COLOR	0x55332200	// Brown transparent background
 # define WALL_COLOR			0xFFFFFF	// White walls
 # define PLAYER_COLOR		0xFFFF00	// Yellow player
-# define TRANSPARENCY 		0x33000000 // Extra transparency
 
 # define SUCCESS	0
 # define FAILURE	1
@@ -70,6 +61,7 @@
 # define ESC			65307
 # define TOGGLE_MINIMAP	109
 # define INTERACTION	101
+# define FOLLOW_PLAYER	102
 
 # define WIN_NAME	"Cube3D"
 # define WIN_W		1200
@@ -78,8 +70,11 @@
 # define TEX_W		128
 # define TEX_H		128
 
-# define M_PI 3.14159265358979323846
-# define DEAD_ZONE 1.0
+# define M_PI		3.14159265358979323846
+# define DEAD_ZONE	1.0
+
+# define MAX_LINE_LENGTH	40
+# define MAX_LINES			4
 
 typedef enum e_char_value
 {
@@ -88,20 +83,9 @@ typedef enum e_char_value
 	CONF_DIR,
 	EMPTY,
 	WITCH_KITTY,
+	CALICO_KITTY,
 	DOOR
 }	t_char_value;
-
-/* typedef struct s_point
-{
-	int	x;
-	int	y;
-}	t_point;
-
-typedef struct s_dpoint
-{
-	double	x;
-	double	y;
-}	t_dpoint; */
 
 typedef struct s_node
 {
@@ -173,6 +157,7 @@ typedef struct s_player
 {
 	char		conf_dir;
 	t_dpoint	pos;		// (x, y) in double precision
+	t_dpoint	last_pos;
 	t_dpoint	dir;		// Direction vector: which way is "forward"
 	t_dpoint	plane;		// Camera plane vector: perpendicular to dir
 	double		rot_speed;	// Rotation speed in radians per second
@@ -180,35 +165,13 @@ typedef struct s_player
 	double		angle;		// Player’s facing angle (in radians)
 }	t_player;
 
-/*
- * The s_img structure holds all the necessary information to manage an image in MiniLibX.
- * This structure is used to store and manipulate the frame buffer where rendering takes place.
- *
- * Variables:
- *  - ptr: Pointer to the MLX image object. This is the handle returned by mlx_new_image,
- *         representing the allocated frame buffer used for drawing the scene.
- *
- *  - addr: Pointer to the beginning of the image's pixel data in memory. This is obtained
- *          via mlx_get_data_addr and allows direct access to individual pixels for rendering.
- *
- *  - bpp: Bits per pixel. This value specifies the number of bits used to represent each pixel,
- *         determining the color depth of the image. For example, a value of 32 means each pixel
- *         is represented by 32 bits (or 4 bytes).
- *
- *  - line_size: The number of bytes in one horizontal line of the frame buffer. This includes
- *               all the pixel data in a row and any padding added to meet memory alignment requirements.
- *
- *  - endian: Endianness of the pixel data. A value of 0 indicates little-endian format (least significant byte first),
- *            while a value of 1 indicates big-endian format (most significant byte first). This is crucial for
- *            correctly interpreting multi-byte color values.
- */
 typedef struct s_img
 {
-	void	*ptr;		// Pointer to the MLX image object (frame buffer)
-	char	*addr;		// Starting address of the image pixel data in memory
-	int		bpp;		// Number of bits used to represent each pixel (color depth)
-	int		line_size;	// Total number of bytes in one horizontal line of the frame buffer; this includes the pixel data and any padding added for memory alignment.
-	int		endian;		// Endianness of the pixel data: 0 for little-endian, 1 for big-endian
+	void	*ptr;
+	char	*addr;
+	int		bpp;
+	int		line_size;
+	int		endian;
 }	t_img;
 
 typedef struct s_ray
@@ -224,7 +187,7 @@ typedef struct s_ray
 	int			line_height;	// Height of wall line to draw
 	int			draw_start;		// Starting pixel for wall line
 	int			draw_end;		// Ending pixel for wall line
-	double		wall_x;			// Exact wall hit position (for texture mapping)
+	double		wall_x;			// Exact wall hit position
 	t_point		tex;			// Texture coordinates 
 	double		step;			// How much to increase texture coordinate
 	double		tex_pos;		// Initial texture coordinate position
@@ -242,40 +205,33 @@ typedef struct s_texture
 
 typedef struct s_sprite_draw
 {
-	t_dpoint	relative_position;		// (sprite.x - player.x, sprite.y - player.y)
-	double		inverse_determinant;	// 1 / (plane.x*dir.y - dir.x*plane.y)
+	t_dpoint	relative_position;		// Sprite position relative to player
+	double		inverse_determinant;	// Inverse of the det of the camera mat
 	double		transform_x;			// Sprite X in camera space
 	double		transform_y;			// Sprite Y in camera space
-	int			screen_x;				// X coordinate of sprite center on screen
+	int			screen_x;				// X coordinate of sprite center screen
 	int			height;					// Calculated sprite height on screen
 	int			width;					// Calculated sprite width on screen
-	t_point		draw_start;				// (top-left) of the sprite bounding box
-	t_point		draw_end;				// (bottom-right) of the sprite bounding box
-
+	t_point		draw_start;				// (top-left) of sprite bounding box
+	t_point		draw_end;				// (bott-right) of sprite bounding box
 	int			current_frame;			// Chosen animation frame
 	t_texture	*texture;				// Pointer to the sprite texture
-	t_point		texture_size;			// (width, height) of the sprite texture
-
-	// Variables used in the drawing loops
-	int			stripe_x;				// Current vertical stripe in screen space
-	int			texture_x;				// Corresponding x in the sprite texture
+	t_point		texture_size;			// (width, height) of the sprite tex
+	int			stripe_x;				// Current vert stripe in screen space
+	int			texture_x;				// Corresponding x in the sprite tex
 	int			y;						// Loop index for screen Y
 	int			d;						// Helper for fixed-point texture Y
-	int			texture_y;				// Corresponding y in the sprite texture
+	int			texture_y;				// Corresponding y in the sprite tex
 	int			color;					// Final color from texture
-}   t_sprite_draw;
+}	t_sprite_draw;
 
 typedef enum e_npc_state
 {
 	NPC_STATE_WAIT,
-	NPC_STATE_PATROL
+	NPC_STATE_PATROL,
+	NPC_STATE_FOLLOW,
+	NPC_STATE_SPEAK
 }	t_npc_state;
-
-typedef enum e_npc_behavior
-{
-	NPC_BEHAVIOR_PATROL,
-	NPC_BEHAVIOR_WAIT
-} t_npc_behavior;
 
 typedef enum e_walk_block
 {
@@ -296,34 +252,36 @@ typedef struct s_sprite
 	char		**move_paths;
 	t_texture	*move_frames;
 	int			move_frames_count;
+	char		**speak_paths;
+	t_texture	*speak_frames;
+	int			speak_frames_count;
 	int			anim_start;
-    int         anim_index;
-    double      anim_timer;
+	int			anim_index;
+	double		anim_timer;
 }	t_sprite;
 
 typedef struct s_npc
 {
-	t_dpoint		pos;
-	t_npc_state		state;
-	t_npc_behavior	behavior;
-	double			speed;
-	t_dpoint		move_vec;
-	t_dpoint		last_move_vec;
-	t_sprite		sprite;
-	t_astar			*astar;
-	
-	// Patrol system
-	int				patrol_range;
-	t_dpoint		*waypoints;
-	int				waypoint_count;
-	int				current_wp;
-	t_dpoint		*path;
-	int				path_length;
-	int				path_index;
-	double			threshold_dist;
-	//sound 
-	int				sound_played;
-} t_npc;
+	t_dpoint	pos;
+	t_npc_state	state;
+	double		speed;
+	t_dpoint	move_vec;
+	t_dpoint	last_move_vec;
+	t_sprite	sprite;
+	t_astar		*astar;
+	char		**lines;
+	int			line_count;
+	int			current_line;
+	int			patrol_range;
+	t_dpoint	*waypoints;
+	int			waypoint_count;
+	int			current_wp;
+	t_dpoint	*path;
+	int			path_length;
+	int			path_index;
+	double		threshold_dist;
+	bool		is_following;
+}	t_npc;
 
 typedef enum e_door_state
 {
@@ -335,14 +293,12 @@ typedef enum e_door_state
 
 typedef struct s_door
 {
-	t_dpoint		pos;        // Door grid position
-	double			offset;     // Sliding offset (0 = closed, 1 = fully open)
-	t_point			size;       // Door size in pixels
-	t_door_state	state;      // Door current state
-	double			speed;      // How fast the door opens/closes
-	double			open_timer;
-	t_texture		tex;        // Door texture
-} t_door;
+	t_dpoint		pos;		// Door grid position
+	double			offset;		// Sliding offset
+	t_door_state	state;		// Door current state
+	double			speed;		// How fast the door opens/closes
+	double			open_timer;	// Time the door stays open after fully opening
+}	t_door;
 
 typedef struct s_tex
 {
@@ -351,6 +307,7 @@ typedef struct s_tex
 	t_texture	we;
 	t_texture	ea;
 	t_texture	door;
+	t_texture	dialogue_box;
 }	t_tex;
 
 typedef struct s_game
@@ -374,6 +331,7 @@ typedef struct s_game
 void	error(t_game *game, char *err_msg);
 void	free_game(t_game *game);
 void	free_npcs(t_game *game);
+double	get_delta_time(void);
 
 // PARSING
 void	extract_file_content(t_game *game, t_map *map);
@@ -391,49 +349,61 @@ void	parse_map(t_game *game, t_map *map);
 
 // INITIALIZATION
 t_game	*init_game(char *filename);
-void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx);
-void	load_walls_texture(t_game *game, t_conf conf);
+void	load_game_textures(t_game *game, t_conf conf);
 void	load_sprite_frames(t_game *game, t_sprite *sprite);
 void	update_all_npcs(t_game *game, double delta_time);
 void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
-		double *z_buffer);
-bool	move_npc(t_npc *npc, t_dpoint target, double delta_time);
+			double *z_buffer);
+bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time);
 void	move_npc_patrol(t_game *game, t_npc *npc, double delta_time);
-bool	is_player_near_npc(t_npc *npc, t_player *player, double near_distance);
+void	move_npc_follow(t_game *game, t_npc *npc, double delta_time);
 
 // NPC
 void	init_sprite_frames_and_animation(t_game *game, t_sprite *sprite);
 void	generate_npc_waypoints(t_npc *npc, t_game *game);
 void	update_npc_list(t_game *game, t_npc *npc);
 void	spawn_witch_kitty(t_game *game, double x, double y);
+void	spawn_calico_kitty(t_game *game, double x, double y);
 int		get_walk_block(t_npc *npc, t_player *player);
 void	draw_kitty_npc(t_game *game, t_npc *npc, double *z_buffer);
+void	play_movement_animation(t_npc *npc, double delta_time);
+void	play_wait_animation(t_npc *npc, double delta_time);
+void	play_speak_animation(t_npc *npc, double delta_time);
+bool	is_position_occupied_by_npc(t_game *game, t_point pos);
 
 // DOOR
 void	update_doors(t_game *game, double delta_time);
-void	interact_with_door(t_game *game);
-void	place_door(t_game *game, double x, double y);
+void	spawn_door(t_game *game, double x, double y);
 t_door	*find_door_at(t_game *game, t_point pos);
 
 // RENDERING
+void	calculate_texture_mapping(t_game *game, t_ray *ray);
 void	calculate_ray_properties(t_game *game, t_ray *ray);
 void	put_pixel(t_img *img, int x, int y, int color);
 int		get_tex_color(t_texture *tex, int x, int y);
 int		get_current_frame(double anim_start, int num_frames,
-		int frame_duration_ms);
+			int frame_duration_ms);
 void	init_ray(t_game *game, t_ray *ray, int x);
 void	init_dda_ray(t_game *game, t_ray *ray);
 void	fill_ceiling_and_floor(t_img *img, int ceiling_color,
-		int floor_color);
+			int floor_color);
 void	raycast(t_game *game, t_ray *ray, int *x, double *z_buffer);
+void	perform_dda(t_game *game, t_ray *ray);
 void	render_scene(t_game *game);
 bool	init_sprite_draw_data(t_sprite_draw *data, t_player player,
-		t_sprite *sprite);
+			t_sprite *sprite);
 void	draw_npcs(t_game *game, double *z_buffer);
 void	draw_minimap(t_game *game);
+void	draw_follow_state(t_game *game);
+void	draw_npc_dialogue(t_game *game);
 
 // HOOKS
-int		close_game(t_game *game);
+bool	interact_with_door(t_game *game);
+t_npc	*find_closest_npc(t_game *game, double max_distance);
+bool	interact_with_npc(t_game *game);
+bool	advance_npc_dialogue(t_npc *npc);
+void	handle_interaction(t_game *game);
+void	make_closest_npc_follow(t_game *game, double max_distance);
 int		pause_game(t_game *game);
 void	handle_event_hooks(t_game *game, t_window *window);
 
@@ -454,7 +424,6 @@ void	setup_astar_struct(t_game *game, t_astar *astar, t_point start,
 			t_point goal);
 void	spread_child_node(t_game *game, t_astar *astar);
 void	reset_astar_struct(t_game *game, t_astar *astar);
-// void	a_star_search(t_game *game, t_astar *astar, t_point start, t_point goal);
 void	a_star_path(t_game *game, t_npc *npc, t_point start, t_point goal);
 void	handle_event_hooks(t_game *game, t_window *window);
 
@@ -466,5 +435,9 @@ char	*x_strjoin_free(t_game *game, char *s1, char *s2);
 char	*x_strdup(t_game *game, const char *s);
 char	**x_copy_strarray(t_game *game, char **array);
 int		**x_create_matrix(t_game *game, int row_count, int col_count);
+
+// MUSIC
+void	start_background_music(const char *music_file);
+void	stop_background_music(void);
 
 #endif

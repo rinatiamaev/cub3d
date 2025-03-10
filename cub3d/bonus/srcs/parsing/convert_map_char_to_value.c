@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:39:09 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 18:02:05 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 14:56:03 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,14 @@ int	convert_map_char_to_value(t_game *game, t_map *map, int i, int j)
 		spawn_witch_kitty(game, (double)j, (double)i);
 		return (WITCH_KITTY);
 	}
+	else if (cell == 'C')
+	{
+		spawn_calico_kitty(game, (double)j, (double)i);
+		return (CALICO_KITTY);
+	}
 	else if (cell == 'D')
 	{
-		place_door(game, (double)j, (double)i);
+		spawn_door(game, (double)j, (double)i);
 		return (DOOR);
 	}
 	else if (cell == '0')
