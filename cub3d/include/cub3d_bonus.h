@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/09 19:50:32 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 02:05:05 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,16 +262,9 @@ typedef enum e_npc_state
 {
 	NPC_STATE_WAIT,
 	NPC_STATE_PATROL,
-	NPC_STATE_SPEAK,
-	NPC_STATE_FOLLOW
+	NPC_STATE_FOLLOW,
+	NPC_STATE_SPEAK
 }	t_npc_state;
-
-typedef enum e_npc_behavior
-{
-	NPC_BEHAVIOR_PATROL,
-	NPC_BEHAVIOR_WAIT,
-	NPC_BEHAVIOR_FOLLOW
-} t_npc_behavior;
 
 typedef enum e_walk_block
 {
@@ -304,7 +297,6 @@ typedef struct s_npc
 {
 	t_dpoint		pos;
 	t_npc_state		state;
-	t_npc_behavior	behavior;
 	double			speed;
 	t_dpoint		move_vec;
 	t_dpoint		last_move_vec;
@@ -315,20 +307,21 @@ typedef struct s_npc
 	char	**lines;
 	int		line_count;
 	int		current_line;
-	bool	is_talking;
 	
 	// Patrol system
-	int				patrol_range;
-	t_dpoint		*waypoints;
-	int				waypoint_count;
-	int				current_wp;
-	t_dpoint		*path;
-	int				path_length;
-	int				path_index;
-	double			threshold_dist;
+	int			patrol_range;
+	t_dpoint	*waypoints;
+	int			waypoint_count;
+	int			current_wp;
+	t_dpoint	*path;
+	int			path_length;
+	int			path_index;
+	double		threshold_dist;
+
+	bool		is_following;
 	
 	// Sound 
-	int				sound_played;
+	int			sound_played;
 } t_npc;
 
 typedef enum e_door_state
@@ -343,7 +336,6 @@ typedef struct s_door
 {
 	t_dpoint		pos;        // Door grid position
 	double			offset;     // Sliding offset (0 = closed, 1 = fully open)
-	t_point			size;       // Door size in pixels
 	t_door_state	state;      // Door current state
 	double			speed;      // How fast the door opens/closes
 	double			open_timer; // Time the door stays open after fully opening
@@ -398,13 +390,14 @@ void	parse_map(t_game *game, t_map *map);
 
 // INITIALIZATION
 t_game	*init_game(char *filename);
-void	load_walls_texture(t_game *game, t_conf conf);
+void	load_game_textures(t_game *game, t_conf conf);
 void	load_sprite_frames(t_game *game, t_sprite *sprite);
 void	update_all_npcs(t_game *game, double delta_time);
 void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
 		double *z_buffer);
 bool	move_npc(t_npc *npc, t_dpoint target, double delta_time);
-void	move_npc_plan(t_game *game, t_npc *npc, double delta_time);
+void	move_npc_patrol(t_game *game, t_npc *npc, double delta_time);
+void	move_npc_follow(t_game *game, t_npc *npc, double delta_time);
 bool	is_player_near_npc(t_npc *npc, t_player *player, double near_distance);
 
 // NPC
@@ -417,7 +410,7 @@ void	draw_kitty_npc(t_game *game, t_npc *npc, double *z_buffer);
 
 // DOOR
 void	update_doors(t_game *game, double delta_time);
-void	place_door(t_game *game, double x, double y);
+void	spawn_door(t_game *game, double x, double y);
 t_door	*find_door_at(t_game *game, t_point pos);
 
 // RENDERING
@@ -439,7 +432,12 @@ void	draw_minimap(t_game *game);
 void	draw_npc_dialogue(t_game *game, t_npc *npc);
 
 // HOOKS
-int		close_game(t_game *game);
+bool	interact_with_door(t_game *game);
+t_npc	*find_closest_npc(t_game *game, double max_distance);
+bool	interact_with_npc(t_game *game);
+bool	advance_npc_dialogue(t_npc *npc);
+void	handle_interaction(t_game *game);
+void	make_closest_npc_follow(t_game *game, double max_distance);
 int		pause_game(t_game *game);
 void	handle_event_hooks(t_game *game, t_window *window);
 
@@ -460,7 +458,6 @@ void	setup_astar_struct(t_game *game, t_astar *astar, t_point start,
 			t_point goal);
 void	spread_child_node(t_game *game, t_astar *astar);
 void	reset_astar_struct(t_game *game, t_astar *astar);
-// void	a_star_search(t_game *game, t_astar *astar, t_point start, t_point goal);
 void	a_star_path(t_game *game, t_npc *npc, t_point start, t_point goal);
 void	handle_event_hooks(t_game *game, t_window *window);
 

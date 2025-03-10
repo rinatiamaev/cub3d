@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   music.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: riamaev <riamaev@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 20:18:42 by riamaev           #+#    #+#             */
-/*   Updated: 2025/03/09 20:19:23 by riamaev          ###   ########.fr       */
+/*   Updated: 2025/03/10 02:09:17 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	start_background_music(const char *music_file)
 	system(command);
 }
 
-void	stop_background_music()
+void	stop_background_music(void)
 {
 	system("pkill aplay");
 }

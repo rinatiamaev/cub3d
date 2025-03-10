@@ -6,12 +6,12 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/03/09 18:30:26 by nlouis           ###   ########.fr        #
+#    Updated: 2025/03/10 02:01:36 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC      = cc
-CFLAGS  = -Wall -Wextra -Werror -I libft/include -I ./include -I mlx/ -g -fsanitize=address -fsanitize=undefined
+CFLAGS  = -Wall -Wextra -Werror -I libft/include -I ./include -I mlx/ # -g -fsanitize=address -fsanitize=undefined
 
 NAME = cub3D
 NAME_BONUS = cub3D_bonus
@@ -54,15 +54,19 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/a_star_search/algortithm/a_star_memory.c \
 				bonus/srcs/game/a_star_search/algortithm/a_star_search_bonus.c \
 				bonus/srcs/game/a_star_search/algortithm/a_star_setup_bonus.c \
-				bonus/srcs/game/a_star_search/a_star_following.c \
 				bonus/srcs/game/a_star_search/a_star_path_bonus.c \
-				bonus/srcs/game/door/door.c \
-				bonus/srcs/game/hooks/handle_hooks.c \
-				bonus/srcs/game/hooks/handle_mouse.c \
-				bonus/srcs/game/hooks/hooks_utils.c \
-				bonus/srcs/game/moves/move_player.c \
-				bonus/srcs/game/moves/move_utils.c \
-				bonus/srcs/game/moves/rotate_camera.c \
+				bonus/srcs/game/doors/spawn_door.c \
+				bonus/srcs/game/doors/update_doors.c \
+				bonus/srcs/events/event_follow_player.c \
+				bonus/srcs/events/handle_events.c \
+				bonus/srcs/events/handle_interaction.c \
+				bonus/srcs/events/handle_mouse.c \
+				bonus/srcs/events/handle_pause.c \
+				bonus/srcs/events/interact_with_door.c \
+				bonus/srcs/events/interact_with_npc.c \
+				bonus/srcs/game/player_moves/move_player.c \
+				bonus/srcs/game/player_moves/move_utils.c \
+				bonus/srcs/game/player_moves/rotate_fov.c \
 				bonus/srcs/game/rendering/raycasting/caluclate_ray_properties.c \
 				bonus/srcs/game/rendering/raycasting/raycast.c \
 				bonus/srcs/game/rendering/raycasting/init_ray_data.c \
@@ -74,6 +78,7 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/rendering/render_scene.c \
 				bonus/srcs/game/npc/move_npc.c \
 				bonus/srcs/game/npc/move_npc_patrol.c \
+				bonus/srcs/game/npc/move_npc_follow.c \
 				bonus/srcs/game/npc/setup_waypoints_bonus.c \
 				bonus/srcs/game/npc/get_walk_block.c \
 				bonus/srcs/game/npc/draw_kitty_npc.c \

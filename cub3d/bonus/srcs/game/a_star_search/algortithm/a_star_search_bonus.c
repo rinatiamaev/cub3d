@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 07:18:04 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 02:24:41 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 01:42:43 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,22 +72,3 @@ void	spread_child_node(t_game *game, t_astar *astar)
 		direction++;
 	}
 }
-
-/* void	a_star_search(t_game *game, t_astar *astar, t_point start, t_point goal)
-{
-	setup_astar_struct(game, astar, start, goal);
-	closed_list_insert(astar->closed_list, astar->node, game);
-	while (astar->closed_list->size > 0)
-	{
-		astar->current_node = closed_list_extract_min(astar->closed_list);
-		astar->open_list
-		[astar->current_node->pos.y][astar->current_node->pos.x] = 1;
-		if (astar->current_node->pos.x == astar->goal.x
-			&& astar->current_node->pos.y == astar->goal.y)
-		{
-			reconstruct_path(game, astar->current_node);
-			return ;
-		}
-		spread_child_node(game, astar);
-	}
-} */

@@ -6,11 +6,21 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:06:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/09 19:51:13 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 02:10:03 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
+
+static void	play_movement_animation(t_npc *npc, double delta_time)
+{
+	npc->sprite.anim_timer += delta_time * 1000.0;
+	if (npc->sprite.anim_timer >= 200.0)
+	{
+		npc->sprite.anim_timer = 0.0;
+		npc->sprite.anim_index = (npc->sprite.anim_index + 1) % 4;
+	}
+}
 
 static void	play_wait_animation(t_npc *npc, double delta_time)
 {
@@ -21,16 +31,6 @@ static void	play_wait_animation(t_npc *npc, double delta_time)
 		npc->sprite.anim_index++;
 		if (npc->sprite.anim_index >= npc->sprite.num_idle_frames)
 			npc->sprite.anim_index = 0;
-	}
-}
-
-static void	play_patrol_animation(t_npc *npc, double delta_time)
-{
-	npc->sprite.anim_timer += delta_time * 1000.0;
-	if (npc->sprite.anim_timer >= 200.0)
-	{
-		npc->sprite.anim_timer = 0.0;
-		npc->sprite.anim_index = (npc->sprite.anim_index + 1) % 4;
 	}
 }
 
@@ -46,64 +46,50 @@ static void	play_speak_animation(t_npc *npc, double delta_time)
 	}
 }
 
-/* if (!npc->sound_played)
+static void	reset_animations(t_npc *npc)
 {
-	system("aplay ./bonus/assets/01.wav &");  // JUST FOR TESTING WE CANT USE system() call
-	npc->sound_played = 1;
-} */
+	npc->sprite.anim_index = 0;
+	npc->sprite.anim_timer = 0.0;
+}
 
-static void update_npc_behavior(t_npc *npc, t_player *player)
+static void	update_npc_state(t_npc *npc, t_player *player)
 {
-	t_npc_state previous_state = npc->state;
+	t_npc_state	previous_state;
 
-	// If NPC is speaking, keep them in SPEAK mode
+	previous_state = npc->state;
 	if (npc->state == NPC_STATE_SPEAK)
 		return ;
-
-	// If FOLLOW is enabled
-	if (npc->state == NPC_STATE_FOLLOW)
-	{
-		// If the player is standing still, NPC should WAIT
-		if (npc->pos.x == player->last_pos.x && npc->pos.y == player->last_pos.y)
-			npc->state = NPC_STATE_WAIT;
-		else
-			npc->state = NPC_STATE_FOLLOW; // Keep following
-	}
+	if (is_player_near_npc(npc, player, 1.5))
+		npc->state = NPC_STATE_WAIT;
 	else
 	{
-		// Default behavior: Patrol if far, Wait if near
-		if (is_player_near_npc(npc, player, 1.5))
-			npc->state = NPC_STATE_WAIT;
+		if (npc->is_following)
+			npc->state = NPC_STATE_FOLLOW;
 		else
 			npc->state = NPC_STATE_PATROL;
 	}
-
-	// If state changed, reset animations
 	if (npc->state != previous_state)
-	{
-		npc->sprite.anim_index = 0;
-		npc->sprite.anim_timer = 0.0;
-	}
+		reset_animations(npc);
 }
 
-
-
-static void update_npc(t_game *game, t_npc *npc, double delta_time)
+static void	update_npc(t_game *game, t_npc *npc, double delta_time)
 {
-	update_npc_behavior(npc, &game->player);
-
+	update_npc_state(npc, &game->player);
 	if (npc->state == NPC_STATE_SPEAK)
 		play_speak_animation(npc, delta_time);
-	else if (npc->state == NPC_STATE_WAIT)
+	if (npc->state == NPC_STATE_WAIT)
 		play_wait_animation(npc, delta_time);
-	else if (npc->state == NPC_STATE_PATROL
-			|| npc->state == NPC_STATE_FOLLOW)
+	if (npc->state == NPC_STATE_PATROL)
 	{
-		play_patrol_animation(npc, delta_time);
-		move_npc_plan(game, npc, delta_time);
+		play_movement_animation(npc, delta_time);
+		move_npc_patrol(game, npc, delta_time);
+	}
+	if (npc->state == NPC_STATE_FOLLOW)
+	{
+		play_movement_animation(npc, delta_time);
+		move_npc_follow(game, npc, delta_time);
 	}
 }
-
 
 void	update_all_npcs(t_game *game, double delta_time)
 {

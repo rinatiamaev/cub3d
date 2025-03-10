@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 00:23:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/09 15:07:17 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 00:49:59 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	init_witch_kitty_dialogue(t_npc *npc)
 	npc->lines = kitty_dialogue;
 	npc->line_count = sizeof(kitty_dialogue) / sizeof(char *);
 	npc->current_line = 0;
-	npc->is_talking = false;
 }
 
 static void	init_witch_kitty_sprites(t_npc *npc)
@@ -68,7 +67,7 @@ static void	init_witch_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 	npc->patrol_range = 10;
 	npc->waypoint_count = 4;
 	npc->current_wp = 1;
-	npc->threshold_dist = 0.1;
+	npc->threshold_dist = 0.2;
 	npc->astar = x_calloc(game, 1, sizeof(t_astar));
 	npc->astar->direction[0] = (t_point){0, -1};
 	npc->astar->direction[1] = (t_point){0, 1};

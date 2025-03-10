@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 13:28:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/08 23:27:28 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 02:03:44 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static void	free_textures(t_game *game)
 		mlx_destroy_image(game->mlx, game->tex.ea.ptr);
 	if (game->tex.door.ptr)
 		mlx_destroy_image(game->mlx, game->tex.door.ptr);
+	if (game->tex.dialogue_box.ptr)
+		mlx_destroy_image(game->mlx, game->tex.dialogue_box.ptr);
 }
 
 static void	free_doors(t_game *game)

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:25:33 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/09 12:53:34 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 02:04:36 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	load_sprite_frames(t_game *game, t_sprite *sprite)
 		sprite->speak_frames_count);
 }
 
-void	load_walls_texture(t_game *game, t_conf conf)
+void	load_game_textures(t_game *game, t_conf conf)
 {
 	load_single_xpm(game, &game->tex.no, conf.tex_no, game->mlx);
 	load_single_xpm(game, &game->tex.so, conf.tex_so, game->mlx);

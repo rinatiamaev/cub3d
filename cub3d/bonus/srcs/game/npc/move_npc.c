@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:23:15 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 14:32:30 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 00:54:37 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,7 @@
 
 static bool	has_reached_target(t_npc *npc, t_dpoint target)
 {
-	t_dpoint	delta;
-	double		dist_sq;
-
-	delta.x = target.x - npc->pos.x;
-	delta.y = target.y - npc->pos.y;
-	dist_sq = (delta.x * delta.x) + (delta.y * delta.y);
-	return (dist_sq < (npc->threshold_dist * npc->threshold_dist));
+	return (ft_cab_dist_dpoint(npc->pos, target) < npc->threshold_dist);
 }
 
 static void	stop_npc(t_npc *npc, t_dpoint target)
