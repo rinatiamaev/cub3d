@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 11:20:15 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 14:10:23 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,7 +353,7 @@ void	load_sprite_frames(t_game *game, t_sprite *sprite);
 void	update_all_npcs(t_game *game, double delta_time);
 void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
 			double *z_buffer);
-bool	move_npc(t_npc *npc, t_dpoint target, double delta_time);
+bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time);
 void	move_npc_patrol(t_game *game, t_npc *npc, double delta_time);
 void	move_npc_follow(t_game *game, t_npc *npc, double delta_time);
 
@@ -367,6 +367,7 @@ void	draw_kitty_npc(t_game *game, t_npc *npc, double *z_buffer);
 void	play_movement_animation(t_npc *npc, double delta_time);
 void	play_wait_animation(t_npc *npc, double delta_time);
 void	play_speak_animation(t_npc *npc, double delta_time);
+bool	is_position_occupied_by_npc(t_game *game, t_point pos);
 
 // DOOR
 void	update_doors(t_game *game, double delta_time);
@@ -391,6 +392,7 @@ bool	init_sprite_draw_data(t_sprite_draw *data, t_player player,
 			t_sprite *sprite);
 void	draw_npcs(t_game *game, double *z_buffer);
 void	draw_minimap(t_game *game);
+void	draw_follow_state(t_game *game);
 void	draw_npc_dialogue(t_game *game);
 
 // HOOKS

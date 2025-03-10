@@ -1,16 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   a_star_search_bonus.c                              :+:      :+:    :+:   */
+/*   a_star_utils_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 07:18:04 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 01:42:43 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 14:28:04 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
+
+static bool	is_position_occupied_by_moving_npc(t_game *game, t_point pos)
+{
+	int	i;
+
+	i = 0;
+	while (i < game->npc_count)
+	{
+		if (game->npcs[i]->pos.x == pos.x && game->npcs[i]->pos.y == pos.y)
+		{
+			if (game->npcs[i]->move_vec.x != 0
+				|| game->npcs[i]->move_vec.y != 0)
+				return (true);
+			else
+				return (false);
+		}
+		i++;
+	}
+	return (false);
+}
 
 static int	is_position_valid(t_game *game, t_astar *astar, t_point pos)
 {
@@ -18,6 +38,10 @@ static int	is_position_valid(t_game *game, t_astar *astar, t_point pos)
 		|| pos.y < 0 || pos.y >= game->map->size.y
 		|| game->map->matrix[pos.y][pos.x] != FREE_SPACE
 		|| astar->open_list[pos.y][pos.x])
+		return (false);
+	if (is_position_occupied_by_moving_npc(game, pos))
+		return (true);
+	if (is_position_occupied_by_npc(game, pos))
 		return (false);
 	return (true);
 }

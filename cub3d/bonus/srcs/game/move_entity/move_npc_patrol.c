@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:29:13 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 02:09:38 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 12:02:19 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ void	move_npc_patrol(t_game *game, t_npc *npc, double delta_time)
 		}
 	}
 	target = npc->path[npc->path_index];
-	if (move_npc(npc, target, delta_time))
+	if (move_npc(game, npc, target, delta_time))
 		handle_waypoint_progression(game, npc);
 }

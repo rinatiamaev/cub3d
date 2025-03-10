@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:23:15 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 00:54:37 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 14:28:18 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,22 @@ static void	update_npc_movement(t_npc *npc, t_dpoint delta, double delta_time)
 	npc->move_vec.y = delta.y;
 }
 
-bool	move_npc(t_npc *npc, t_dpoint target, double delta_time)
+static bool	is_target_occupied_by_npc(t_game *game, t_npc *npc, t_dpoint target)
+{
+	int	i;
+
+	i = 0;
+	while (i < game->npc_count)
+	{
+		if (game->npcs[i] != npc
+			&& has_reached_target(game->npcs[i], target))
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time)
 {
 	t_dpoint	delta;
 
@@ -48,6 +63,8 @@ bool	move_npc(t_npc *npc, t_dpoint target, double delta_time)
 		stop_npc(npc, target);
 		return (true);
 	}
+	if (is_target_occupied_by_npc(game, npc, target))
+		return (false);
 	update_npc_movement(npc, delta, delta_time);
 	return (false);
 }

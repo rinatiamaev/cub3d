@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 22:12:02 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 02:08:35 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 14:28:52 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,19 @@ bool	can_move(t_game *game, double next_x, double next_y)
 {
 	t_dpoint	candidate;
 	t_door		*door;
+	double		offset ;
 
+	offset = 0.1;
 	if (is_any_npc_talking(game))
 		return (false);
 	candidate.x = next_x;
 	candidate.y = next_y;
 	if (game->map->matrix[(int)next_y][(int)next_x] == WALL)
+		return (false);
+	if (game->map->matrix[(int)(next_y + offset)][(int)(next_x)] == WALL
+		|| game->map->matrix[(int)(next_y - offset)][(int)(next_x)] == WALL
+		|| game->map->matrix[(int)(next_y)][(int)(next_x + offset)] == WALL
+		|| game->map->matrix[(int)(next_y)][(int)(next_x - offset)] == WALL)
 		return (false);
 	if (game->map->matrix[(int)next_y][(int)next_x] == DOOR)
 	{
@@ -65,4 +72,19 @@ bool	can_move(t_game *game, double next_x, double next_y)
 	if (is_candidate_near_any_npc(candidate, game, 0.5))
 		return (false);
 	return (true);
+}
+
+bool	is_position_occupied_by_npc(t_game *game, t_point pos)
+{
+	int	i;
+
+	i = 0;
+	while (i < game->npc_count)
+	{
+		if ((int)game->npcs[i]->pos.x == pos.x
+			&& (int)game->npcs[i]->pos.y == pos.y)
+			return (true);
+		i++;
+	}
+	return (false);
 }
