@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:33:37 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/09 11:07:25 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 21:57:07 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	game_loop(t_game *game)
 {
 	double	delta_time;
 
-	if (game->is_paused)
+	if (game->state != RUNNING)
 		return (0);
 	delta_time = get_delta_time();
 	handle_player_moves(game);

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:06:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 10:23:38 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 18:41:57 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ static void	update_npc(t_game *game, t_npc *npc, double delta_time)
 	update_npc_state(npc, &game->player);
 	if (npc->state == NPC_STATE_SPEAK)
 		play_speak_animation(npc, delta_time);
-	if (npc->state == NPC_STATE_WAIT)
+	else if (npc->state == NPC_STATE_WAIT)
 		play_wait_animation(npc, delta_time);
-	if (npc->state == NPC_STATE_PATROL)
+	else if (npc->state == NPC_STATE_PATROL)
 	{
 		play_movement_animation(npc, delta_time);
 		move_npc_patrol(game, npc, delta_time);
 	}
-	if (npc->state == NPC_STATE_FOLLOW)
+	else if (npc->state == NPC_STATE_FOLLOW)
 	{
 		play_movement_animation(npc, delta_time);
 		move_npc_follow(game, npc, delta_time);
@@ -71,7 +71,10 @@ void	update_all_npcs(t_game *game, double delta_time)
 	while (i < game->npc_count)
 	{
 		npc = game->npcs[i];
-		update_npc(game, npc, delta_time);
+		if (!npc->is_enemy)
+			update_npc(game, npc, delta_time);
+		else
+			update_enemy_npc(game, npc, delta_time);
 		i++;
 	}
 }

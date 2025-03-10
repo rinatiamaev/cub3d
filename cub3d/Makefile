@@ -6,12 +6,12 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/03/10 14:59:49 by nlouis           ###   ########.fr        #
+#    Updated: 2025/03/10 21:52:38 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC      = cc
-CFLAGS  = -Wall -Wextra -Werror -I libft/include -I ./include -I mlx/ # -g -fsanitize=address -fsanitize=undefined
+CFLAGS  = -Wall -Wextra -Werror -I libft/include -I ./include -I mlx/ -g # -fsanitize=address -fsanitize=undefined
 
 NAME = cub3D
 NAME_BONUS = cub3D_bonus
@@ -78,6 +78,7 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/rendering/draw_minimap.c \
 				bonus/srcs/game/rendering/draw_kitty_npc_utils.c \
 				bonus/srcs/game/rendering/draw_kitty_npc.c \
+				bonus/srcs/game/rendering/draw_fire_spirit.c \
 				bonus/srcs/game/rendering/draw_npcs.c \
 				bonus/srcs/game/rendering/draw_sprites.c \
 				bonus/srcs/game/rendering/draw_sprites_utils.c \
@@ -88,8 +89,13 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/npc/spawn_npc_utils.c \
 				bonus/srcs/game/npc/spawn_witch_kitty.c \
 				bonus/srcs/game/npc/spawn_calico_kitty.c \
+				bonus/srcs/game/npc/spawn_fire_spirit.c \
 				bonus/srcs/game/npc/update_npc.c \
+				bonus/srcs/game/npc/update_enemy_npc.c \
+				bonus/srcs/game/npc/change_fire_spirit_behavior.c \
 				bonus/srcs/game/npc/play_npc_animation.c \
+				bonus/srcs/game/npc/has_line_of_sight.c \
+				bonus/srcs/game/npc/handle_player_defeat.c \
 				bonus/srcs/game/game_utils.c \
 				bonus/srcs/game/game_loop.c	\
 				bonus/srcs/game/music/music.c

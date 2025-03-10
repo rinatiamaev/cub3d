@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 01:09:21 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 01:18:11 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 20:15:49 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,21 @@ bool	advance_npc_dialogue(t_npc *npc)
 	return (true);
 }
 
-bool	interact_with_npc(t_game *game)
+static bool	handle_npc_chase(t_game *game)
+{
+	t_npc	*npc;
+
+	npc = find_closest_npc(game, 4.0);
+	if (npc && npc->state == NPC_STATE_CHASE
+		&& game->player.has_water)
+	{
+			npc->is_hit = true;
+			return (false);
+	}
+	return (true);
+}
+
+static bool	handle_npc_speak(t_game *game)
 {
 	t_npc	*npc;
 
@@ -59,3 +73,11 @@ bool	interact_with_npc(t_game *game)
 	npc->state = NPC_STATE_SPEAK;
 	return (true);
 }
+
+bool	interact_with_npc(t_game *game)
+{
+	if (!handle_npc_chase(game))
+		return (false);
+	return (handle_npc_speak(game));
+}
+

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:51:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 14:53:48 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 20:47:04 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	init_calico_kitty_sprites(t_npc *npc)
 		CK_C0, CK_C1, CK_C2, CK_C3, CK_C4, CK_C5, CK_C6, CK_C7, CK_C8, CK_C9
 	};
 
-	npc->sprite.type = "kitty";
 	npc->sprite.size = (t_point){64, 64};
 	npc->sprite.idle_paths = idle_frames;
 	npc->sprite.num_idle_frames
@@ -59,6 +58,7 @@ static void	init_calico_kitty_sprites(t_npc *npc)
 
 static void	init_calico_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 {
+	npc->type = "kitty";
 	npc->pos.x = pos.x + 0.5;
 	npc->pos.y = pos.y + 0.5;
 	npc->speed = 1.2;

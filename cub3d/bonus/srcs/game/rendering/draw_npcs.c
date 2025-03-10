@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:28:02 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 10:49:02 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 20:50:09 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,10 @@ void	draw_npcs(t_game *game, double *z_buffer)
 	while (i < game->npc_count)
 	{
 		npc = game->npcs[i];
-		if (ft_strcmp(npc->sprite.type, "kitty") == 0)
+		if (ft_strcmp(npc->type, "kitty") == 0)
 			draw_kitty_npc(game, npc, z_buffer);
+		else if (ft_strcmp(npc->type, "fireSpirit") == 0)
+			draw_fire_spirit(game, npc, z_buffer);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:26:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 10:39:34 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 17:54:14 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ void	init_sprite_frames_and_animation(t_game *game, t_sprite *sprite)
 		(sprite->move_frames, sprite->move_frames_count, sprite->size);
 	set_frame_sizes
 		(sprite->speak_frames, sprite->speak_frames_count, sprite->size);
+	if (sprite->hit_frames)
+		set_frame_sizes
+			(sprite->hit_frames, sprite->hit_frames_count, sprite->size);
 	gettimeofday(&tv, NULL);
 	sprite->anim_start = tv.tv_sec * 1000000L + tv.tv_usec;
 }

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:39:09 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 14:56:03 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 20:51:27 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ int	convert_map_char_to_value(t_game *game, t_map *map, int i, int j)
 	{
 		spawn_door(game, (double)j, (double)i);
 		return (DOOR);
+	}
+	else if (cell == 'F')
+	{
+		spawn_fire_spirit(game, (double)j, (double)i);
+		return (FIRE_SPIRIT);
 	}
 	else if (cell == '0')
 		return (FREE_SPACE);

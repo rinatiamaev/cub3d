@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:05 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 02:05:05 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 21:44:18 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static void	init_player(t_player *player)
 	player->dir.y = sin(player->angle);
 	player->plane.x = -sin(player->angle) * FOV;
 	player->plane.y = cos(player->angle) * FOV;
+	player->has_water = true;
 }
 
 t_game	*init_game(char *filename)
@@ -67,6 +68,6 @@ t_game	*init_game(char *filename)
 	init_window(game, game->window);
 	load_game_textures(game, game->map->conf);
 	init_player(&game->player);
-	game->is_paused = false;
+	game->state = RUNNING;
 	return (game);
 }

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 14:56:14 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 21:55:09 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef enum e_char_value
 	EMPTY,
 	WITCH_KITTY,
 	CALICO_KITTY,
+	FIRE_SPIRIT,
 	DOOR
 }	t_char_value;
 
@@ -163,6 +164,7 @@ typedef struct s_player
 	double		rot_speed;	// Rotation speed in radians per second
 	double		move_speed;	// Movement speed per frame
 	double		angle;		// Player’s facing angle (in radians)
+	bool		has_water;
 }	t_player;
 
 typedef struct s_img
@@ -230,7 +232,9 @@ typedef enum e_npc_state
 	NPC_STATE_WAIT,
 	NPC_STATE_PATROL,
 	NPC_STATE_FOLLOW,
-	NPC_STATE_SPEAK
+	NPC_STATE_SPEAK,
+	NPC_STATE_CHASE,
+	NPC_STATE_HIT
 }	t_npc_state;
 
 typedef enum e_walk_block
@@ -243,7 +247,6 @@ typedef enum e_walk_block
 
 typedef struct s_sprite
 {
-	char		*type;
 	t_dpoint	pos;
 	t_point		size;
 	char		**idle_paths;
@@ -255,13 +258,26 @@ typedef struct s_sprite
 	char		**speak_paths;
 	t_texture	*speak_frames;
 	int			speak_frames_count;
+	char		**hit_paths;
+	t_texture	*hit_frames;
+	int			hit_frames_count;
 	int			anim_start;
 	int			anim_index;
 	double		anim_timer;
 }	t_sprite;
 
+typedef struct s_los
+{
+	t_point		map_check;
+	t_point		step;
+	t_dpoint	ray_dir;
+	t_dpoint	side_dist;
+	t_dpoint	delta_dist;
+}	t_los;
+
 typedef struct s_npc
 {
+	char		*type;
 	t_dpoint	pos;
 	t_npc_state	state;
 	double		speed;
@@ -281,6 +297,8 @@ typedef struct s_npc
 	int			path_index;
 	double		threshold_dist;
 	bool		is_following;
+	bool		is_enemy;
+	bool		is_hit;
 }	t_npc;
 
 typedef enum e_door_state
@@ -310,28 +328,37 @@ typedef struct s_tex
 	t_texture	dialogue_box;
 }	t_tex;
 
+typedef enum e_game_state
+{
+	RUNNING,
+	PAUSED,
+	GAME_OVER
+}	t_game_state;
+
 typedef struct s_game
 {
-	t_map		*map;
-	void		*mlx;
-	t_window	*window;
-	t_player	player;
-	t_tex		tex;
-	t_img		img;
-	t_npc		**npcs;
-	int			npc_count;
-	t_door		**doors;
-	int			door_count;
-	bool		is_paused;
-	bool		minimap_visible;
-	bool		keys[66000];
+	t_game_state	state;
+	t_map			*map;
+	void			*mlx;
+	t_window		*window;
+	t_player		player;
+	t_tex			tex;
+	t_img			img;
+	t_npc			**npcs;
+	int				npc_count;
+	t_door			**doors;
+	int				door_count;
+	bool			minimap_visible;
+	bool			keys[66000];
 }	t_game;
 
 // UTILS
 void	error(t_game *game, char *err_msg);
 void	free_game(t_game *game);
+void	free_single_npc(t_game *game, t_npc *npc);
 void	free_npcs(t_game *game);
 double	get_delta_time(void);
+void	draw_lose_message(t_game *game);
 
 // PARSING
 void	extract_file_content(t_game *game, t_map *map);
@@ -351,6 +378,7 @@ void	parse_map(t_game *game, t_map *map);
 t_game	*init_game(char *filename);
 void	load_game_textures(t_game *game, t_conf conf);
 void	load_sprite_frames(t_game *game, t_sprite *sprite);
+void	update_enemy_npc(t_game *game, t_npc *npc, double delta_time);
 void	update_all_npcs(t_game *game, double delta_time);
 void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
 			double *z_buffer);
@@ -366,10 +394,16 @@ void	spawn_witch_kitty(t_game *game, double x, double y);
 void	spawn_calico_kitty(t_game *game, double x, double y);
 int		get_walk_block(t_npc *npc, t_player *player);
 void	draw_kitty_npc(t_game *game, t_npc *npc, double *z_buffer);
+void	draw_fire_spirit(t_game *game, t_npc *npc, double *z_buffer);
 void	play_movement_animation(t_npc *npc, double delta_time);
 void	play_wait_animation(t_npc *npc, double delta_time);
 void	play_speak_animation(t_npc *npc, double delta_time);
+void	play_fire_spirit_idle_animation(t_npc *npc, double delta_time);
+void	play_fire_spirit_hit_animation(t_npc *npc, double delta_time);
 bool	is_position_occupied_by_npc(t_game *game, t_point pos);
+void	change_fire_spirit_behavior(t_game *game, t_npc **npc);
+void	spawn_fire_spirit(t_game *game, double x, double y);
+bool	has_line_of_sight(t_game *game, t_npc *npc, t_player *player);
 
 // DOOR
 void	update_doors(t_game *game, double delta_time);
@@ -414,6 +448,7 @@ bool	can_move(t_game *game, double next_x, double next_y);
 void	handle_player_moves(t_game *game);
 void	rotate_left(t_player *player, double rot_speed, double delta_time);
 void	rotate_right(t_player *player, double rot_speed, double delta_time);
+void	handle_player_defeat(t_game *game);
 
 // A_STAR_SEARCH
 void	closed_list_insert(t_closed_list *closed_list, t_node *node,

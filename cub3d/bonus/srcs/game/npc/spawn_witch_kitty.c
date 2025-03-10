@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 00:23:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 10:38:30 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 20:47:14 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static void	init_witch_kitty_sprites(t_npc *npc)
 		WK_C6, WK_C7, WK_C8, WK_C9, WK_C10, WK_C11
 	};
 
-	npc->sprite.type = "kitty";
 	npc->sprite.size = (t_point){64, 64};
 	npc->sprite.idle_paths = idle_frames;
 	npc->sprite.num_idle_frames
@@ -60,6 +59,7 @@ static void	init_witch_kitty_sprites(t_npc *npc)
 
 static void	init_witch_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 {
+	npc->type = "kitty";
 	npc->pos.x = pos.x + 0.5;
 	npc->pos.y = pos.y + 0.5;
 	npc->speed = 1.0;

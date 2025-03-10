@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:30:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 10:18:26 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 20:28:47 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	free_npc_textures(t_game *game, t_sprite *sprite)
 	free_tex_frames(game, sprite->speak_frames, sprite->speak_frames_count);
 }
 
-static void	free_single_npc(t_game *game, t_npc *npc)
+void	free_single_npc(t_game *game, t_npc *npc)
 {
 	if (!npc)
 		return ;
