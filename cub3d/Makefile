@@ -6,7 +6,7 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/03/10 02:01:36 by nlouis           ###   ########.fr        #
+#    Updated: 2025/03/10 11:05:49 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,10 +67,13 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/player_moves/move_player.c \
 				bonus/srcs/game/player_moves/move_utils.c \
 				bonus/srcs/game/player_moves/rotate_fov.c \
+				bonus/srcs/game/rendering/raycasting/calculate_texture_mapping.c \
 				bonus/srcs/game/rendering/raycasting/caluclate_ray_properties.c \
+				bonus/srcs/game/rendering/raycasting/perform_dda.c \
 				bonus/srcs/game/rendering/raycasting/raycast.c \
 				bonus/srcs/game/rendering/raycasting/init_ray_data.c \
 				bonus/srcs/game/rendering/draw_minimap.c \
+				bonus/srcs/game/rendering/draw_kitty_npc.c \
 				bonus/srcs/game/rendering/draw_npcs.c \
 				bonus/srcs/game/rendering/draw_sprites.c \
 				bonus/srcs/game/rendering/draw_sprites_utils.c \
@@ -81,11 +84,10 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/npc/move_npc_follow.c \
 				bonus/srcs/game/npc/setup_waypoints_bonus.c \
 				bonus/srcs/game/npc/get_walk_block.c \
-				bonus/srcs/game/npc/draw_kitty_npc.c \
 				bonus/srcs/game/npc/spawn_npc_utils.c \
 				bonus/srcs/game/npc/spawn_witch_kitty.c \
 				bonus/srcs/game/npc/update_npc.c \
-				bonus/srcs/game/npc/update_npc_utils.c \
+				bonus/srcs/game/npc/play_npc_animation.c \
 				bonus/srcs/game/game_utils.c \
 				bonus/srcs/game/game_loop.c	\
 				bonus/srcs/game/music/music.c

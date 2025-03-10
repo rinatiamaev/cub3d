@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 00:23:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 00:49:59 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 10:38:30 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_witch_kitty_dialogue(t_npc *npc)
 {
-	static char *kitty_dialogue[] = {
+	static char	*kitty_dialogue[] = {
 		"Hi! Finally awake!",
 		"My sibling and I are trapped in this Labyrinth!",
 		"He left to find an exit but never came back!",
@@ -32,8 +32,7 @@ void	init_witch_kitty_dialogue(t_npc *npc)
 static void	init_witch_kitty_sprites(t_npc *npc)
 {
 	static char	*idle_frames[] = {
-		WS0, WS1, WS2, WS3, WS4, WS5, WS6,
-		WS7, WS8, WS9, WS10, WS11, WS12, WS13
+		WS0, WS1, WS2, WS3, WS4, WS5, WS6, WS7, WS8, WS9, WS10, WS11, WS12, WS13
 	};
 	static char	*move_frames[] = {
 		WK_WAWAY0, WK_WAWAY1, WK_WAWAY2, WK_WAWAY3,

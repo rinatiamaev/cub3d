@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:30:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/08 23:27:00 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 10:18:26 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,34 +21,25 @@ static void	free_npc_waypoints(t_npc *npc)
 	}
 }
 
-static void	free_npc_textures(t_game *game, t_sprite *sprite)
+static void	free_tex_frames(t_game *game, t_texture *frames, int count)
 {
 	int	j;
 
 	j = 0;
-	while (j < sprite->num_idle_frames)
+	while (j < count)
 	{
-		if (sprite->idle_frames[j].ptr)
-			mlx_destroy_image(game->mlx, sprite->idle_frames[j].ptr);
+		if (frames[j].ptr)
+			mlx_destroy_image(game->mlx, frames[j].ptr);
 		j++;
 	}
-	free(sprite->idle_frames);
-	j = 0;
-	while (j < sprite->move_frames_count)
-	{
-		if (sprite->move_frames[j].ptr)
-			mlx_destroy_image(game->mlx, sprite->move_frames[j].ptr);
-		j++;
-	}
-	free(sprite->move_frames);
-	j = 0;
-	while (j < sprite->speak_frames_count)
-	{
-		if (sprite->speak_frames[j].ptr)
-			mlx_destroy_image(game->mlx, sprite->speak_frames[j].ptr);
-		j++;
-	}
-	free(sprite->speak_frames);
+	free(frames);
+}
+
+static void	free_npc_textures(t_game *game, t_sprite *sprite)
+{
+	free_tex_frames(game, sprite->idle_frames, sprite->num_idle_frames);
+	free_tex_frames(game, sprite->move_frames, sprite->move_frames_count);
+	free_tex_frames(game, sprite->speak_frames, sprite->speak_frames_count);
 }
 
 static void	free_single_npc(t_game *game, t_npc *npc)

@@ -6,44 +6,15 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:06:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 02:10:03 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 10:23:38 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static void	play_movement_animation(t_npc *npc, double delta_time)
+static bool	is_player_near_npc(t_npc *npc, t_player *player, double range)
 {
-	npc->sprite.anim_timer += delta_time * 1000.0;
-	if (npc->sprite.anim_timer >= 200.0)
-	{
-		npc->sprite.anim_timer = 0.0;
-		npc->sprite.anim_index = (npc->sprite.anim_index + 1) % 4;
-	}
-}
-
-static void	play_wait_animation(t_npc *npc, double delta_time)
-{
-	npc->sprite.anim_timer += delta_time * 1000.0;
-	if (npc->sprite.anim_timer >= 200.0)
-	{
-		npc->sprite.anim_timer = 0.0;
-		npc->sprite.anim_index++;
-		if (npc->sprite.anim_index >= npc->sprite.num_idle_frames)
-			npc->sprite.anim_index = 0;
-	}
-}
-
-static void	play_speak_animation(t_npc *npc, double delta_time)
-{
-	npc->sprite.anim_timer += delta_time * 1000.0;
-	if (npc->sprite.anim_timer >= 200.0)
-	{
-		npc->sprite.anim_timer = 0.0;
-		npc->sprite.anim_index++;
-		if (npc->sprite.anim_index >= npc->sprite.speak_frames_count)
-			npc->sprite.anim_index = 0;
-	}
+	return (ft_cab_dist_dpoint(player->pos, npc->pos) < range);
 }
 
 static void	reset_animations(t_npc *npc)

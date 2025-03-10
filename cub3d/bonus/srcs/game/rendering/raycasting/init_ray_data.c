@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:55:59 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/26 21:22:38 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 10:57:33 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,25 @@ void	init_dda_ray(t_game *game, t_ray *ray)
 	if (ray->dir.x < 0)
 	{
 		ray->step_dir.x = -1;
-		ray->side_dist.x = (game->player.pos.x - ray->map.x)
-			* ray->delta_dist.x;
+		ray->side_dist.x
+			= (game->player.pos.x - ray->map.x) * ray->delta_dist.x;
 	}
 	else
 	{
 		ray->step_dir.x = 1;
-		ray->side_dist.x = (ray->map.x + 1.0 - game->player.pos.x)
-			* ray->delta_dist.x;
+		ray->side_dist.x
+			= (ray->map.x + 1.0 - game->player.pos.x) * ray->delta_dist.x;
 	}
 	if (ray->dir.y < 0)
 	{
 		ray->step_dir.y = -1;
-		ray->side_dist.y = (game->player.pos.y - ray->map.y)
-			* ray->delta_dist.y;
+		ray->side_dist.y
+			= (game->player.pos.y - ray->map.y) * ray->delta_dist.y;
 	}
 	else
 	{
 		ray->step_dir.y = 1;
-		ray->side_dist.y = (ray->map.y + 1.0 - game->player.pos.y)
-			* ray->delta_dist.y;
+		ray->side_dist.y
+			= (ray->map.y + 1.0 - game->player.pos.y) * ray->delta_dist.y;
 	}
 }
