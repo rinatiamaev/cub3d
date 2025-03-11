@@ -6,13 +6,13 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:30:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 20:28:47 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/12 01:35:30 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static void	free_npc_waypoints(t_npc *npc)
+void	free_npc_waypoints(t_npc *npc)
 {
 	if (npc->waypoints)
 	{
@@ -35,11 +35,13 @@ static void	free_tex_frames(t_game *game, t_texture *frames, int count)
 	free(frames);
 }
 
-static void	free_npc_textures(t_game *game, t_sprite *sprite)
+void	free_npc_textures(t_game *game, t_sprite *sprite)
 {
 	free_tex_frames(game, sprite->idle_frames, sprite->num_idle_frames);
 	free_tex_frames(game, sprite->move_frames, sprite->move_frames_count);
 	free_tex_frames(game, sprite->speak_frames, sprite->speak_frames_count);
+	if (sprite->hit_frames)
+		free_tex_frames(game, sprite->hit_frames, sprite->hit_frames_count);
 }
 
 void	free_single_npc(t_game *game, t_npc *npc)

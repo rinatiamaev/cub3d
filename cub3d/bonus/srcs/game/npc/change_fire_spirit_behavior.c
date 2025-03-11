@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:51:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/11 21:50:42 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/12 01:37:30 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static void	init_fire_spirit(t_game *game, t_npc *npc, t_dpoint pos)
 	npc->type = "fireSpirit";
 	npc->is_hit = false;
 	npc->is_enemy = false;
-	npc->pos.x = pos.x + 0.5;
-	npc->pos.y = pos.y + 0.5;
+	npc->pos = pos;
+	npc->state = PATROL;
 	npc->speed = 1.4;
 	npc->patrol_range = 10;
 	npc->waypoint_count = 4;
@@ -71,12 +71,30 @@ static void	init_fire_spirit(t_game *game, t_npc *npc, t_dpoint pos)
 	init_fire_spirit_dialogue(npc);
 }
 
-void	change_fire_spirit_behavior(t_game *game, t_npc **npc)
+static void	reset_npc(t_game *game, t_npc *npc)
+{
+	free_npc_waypoints(npc);
+	free_npc_textures(game, &npc->sprite);
+	if (npc->path)
+	{
+		free(npc->path);
+		npc->path = NULL;
+	}
+	if (npc->astar)
+	{
+		reset_astar_struct(game, npc->astar);
+		free(npc->astar);
+	}
+	npc->sprite.anim_index = 0;
+	npc->sprite.anim_timer = 0.0;
+	npc = ft_memset(npc, 0, sizeof(t_npc));
+}
+
+void	change_fire_spirit_behavior(t_game *game, t_npc *npc)
 {
 	t_dpoint	pos;
 
-	pos = (*npc)->pos;
-	free_single_npc(game, *npc);
-	*npc = x_calloc(game, 1, sizeof(t_npc));
-	init_fire_spirit(game, *npc, pos);
+	pos = npc->pos;
+	reset_npc(game, npc);
+	init_fire_spirit(game, npc, pos);
 }

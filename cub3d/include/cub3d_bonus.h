@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/11 22:35:48 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/12 01:35:13 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,6 +299,8 @@ typedef struct s_npc
 	bool		is_following;
 	bool		is_enemy;
 	bool		is_hit;
+	double		hit_timer;
+    double		hit_duration;
 }	t_npc;
 
 typedef enum e_door_state
@@ -400,8 +402,9 @@ void	play_wait_animation(t_npc *npc, double delta_time);
 void	play_speak_animation(t_npc *npc, double delta_time);
 void	play_fire_spirit_idle_animation(t_npc *npc, double delta_time);
 void	play_fire_spirit_hit_animation(t_npc *npc, double delta_time);
-bool	is_position_occupied_by_npc(t_game *game, t_point pos);
-void	change_fire_spirit_behavior(t_game *game, t_npc **npc);
+void	change_fire_spirit_behavior(t_game *game, t_npc *npc);
+void	free_npc_textures(t_game *game, t_sprite *sprite);
+void	free_npc_waypoints(t_npc *npc);
 void	spawn_fire_spirit(t_game *game, double x, double y);
 bool	has_line_of_sight(t_game *game, t_dpoint src, t_dpoint target);
 
@@ -444,11 +447,14 @@ void	handle_event_hooks(t_game *game, t_window *window);
 // GAME LOOP
 int		game_loop(t_game *game);
 void	handle_mouse_movement(t_game *game, t_window *window);
-bool	can_move(t_game *game, double next_x, double next_y);
+bool	is_map_position_valid(t_game *game, t_dpoint pos);
+bool	is_within_bounds(t_game *game, t_point pos);
+bool	is_any_npc_talking(t_game *game);
+bool	is_position_valid_for_player(t_game *game, t_dpoint pos);
+bool	is_position_valid_for_npc(t_game *game, t_astar *astar, t_point pos);
 void	handle_player_moves(t_game *game);
 void	rotate_left(t_player *player, double rot_speed, double delta_time);
 void	rotate_right(t_player *player, double rot_speed, double delta_time);
-void	handle_player_defeat(t_game *game);
 
 // A_STAR_SEARCH
 void	closed_list_insert(t_closed_list *closed_list, t_node *node,

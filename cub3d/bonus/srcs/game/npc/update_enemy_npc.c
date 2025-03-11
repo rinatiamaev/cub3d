@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:06:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/11 22:34:34 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/12 01:22:26 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,17 @@ void	update_enemy_npc(t_game *game, t_npc *npc, double delta_time)
 	{
 		play_fire_spirit_idle_animation(npc, delta_time);
 		move_npc_follow(game, npc, delta_time);
-		if (is_player_near_npc(npc, &game->player, 0.5))
+		if (is_player_near_npc(npc, &game->player, 1.0))
 			game->state = GAME_OVER;
 	}
 	else if (npc->state == HIT)
 	{
 		play_fire_spirit_hit_animation(npc, delta_time);
-		change_fire_spirit_behavior(game, &npc);
+		npc->hit_timer += delta_time;
+		if (npc->hit_timer >= npc->hit_duration)
+		{
+			npc->hit_timer = 0.0;
+			change_fire_spirit_behavior(game, npc);
+		}
 	}
 }
