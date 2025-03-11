@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 01:09:21 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 20:15:49 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/11 22:37:03 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ t_npc	*find_closest_npc(t_game *game, double max_distance)
 
 bool	advance_npc_dialogue(t_npc *npc)
 {
-	if (npc->state != NPC_STATE_SPEAK)
+	if (npc->state != SPEAK)
 		return (false);
 	npc->current_line++;
 	if (npc->current_line >= npc->line_count)
 	{
 		npc->current_line = 0;
-		npc->state = NPC_STATE_WAIT;
+		npc->state = WAIT;
 	}
 	return (true);
 }
@@ -54,11 +54,12 @@ static bool	handle_npc_chase(t_game *game)
 	t_npc	*npc;
 
 	npc = find_closest_npc(game, 4.0);
-	if (npc && npc->state == NPC_STATE_CHASE
-		&& game->player.has_water)
+	if (npc && npc->state == CHASE
+		&& game->player.has_water
+		&& has_line_of_sight(game, game->player.pos, npc->pos))
 	{
-			npc->is_hit = true;
-			return (false);
+		npc->is_hit = true;
+		return (false);
 	}
 	return (true);
 }
@@ -68,9 +69,9 @@ static bool	handle_npc_speak(t_game *game)
 	t_npc	*npc;
 
 	npc = find_closest_npc(game, 2.0);
-	if (!npc || npc->state == NPC_STATE_SPEAK)
+	if (!npc || npc->state == SPEAK)
 		return (false);
-	npc->state = NPC_STATE_SPEAK;
+	npc->state = SPEAK;
 	return (true);
 }
 

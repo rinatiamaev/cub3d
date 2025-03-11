@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 21:55:09 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/11 22:35:48 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,12 +229,12 @@ typedef struct s_sprite_draw
 
 typedef enum e_npc_state
 {
-	NPC_STATE_WAIT,
-	NPC_STATE_PATROL,
-	NPC_STATE_FOLLOW,
-	NPC_STATE_SPEAK,
-	NPC_STATE_CHASE,
-	NPC_STATE_HIT
+	WAIT,
+	PATROL,
+	FOLLOW,
+	SPEAK,
+	CHASE,
+	HIT
 }	t_npc_state;
 
 typedef enum e_walk_block
@@ -403,7 +403,7 @@ void	play_fire_spirit_hit_animation(t_npc *npc, double delta_time);
 bool	is_position_occupied_by_npc(t_game *game, t_point pos);
 void	change_fire_spirit_behavior(t_game *game, t_npc **npc);
 void	spawn_fire_spirit(t_game *game, double x, double y);
-bool	has_line_of_sight(t_game *game, t_npc *npc, t_player *player);
+bool	has_line_of_sight(t_game *game, t_dpoint src, t_dpoint target);
 
 // DOOR
 void	update_doors(t_game *game, double delta_time);

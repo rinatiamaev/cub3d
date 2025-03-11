@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:51:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 20:47:04 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/11 22:04:11 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static void	init_calico_kitty_sprites(t_npc *npc)
 static void	init_calico_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 {
 	npc->type = "kitty";
+	npc->is_hit = false;
 	npc->pos.x = pos.x + 0.5;
 	npc->pos.y = pos.y + 0.5;
 	npc->speed = 1.2;

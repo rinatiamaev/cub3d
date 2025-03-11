@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:51:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 21:22:42 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/11 21:50:42 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static void	init_fire_spirit_sprites(t_npc *npc)
 static void	init_fire_spirit(t_game *game, t_npc *npc, t_dpoint pos)
 {
 	npc->type = "fireSpirit";
+	npc->is_hit = false;
 	npc->is_enemy = false;
 	npc->pos.x = pos.x + 0.5;
 	npc->pos.y = pos.y + 0.5;

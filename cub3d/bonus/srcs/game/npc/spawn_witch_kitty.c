@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 00:23:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 20:47:14 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/11 22:04:39 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static void	init_witch_kitty_sprites(t_npc *npc)
 static void	init_witch_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 {
 	npc->type = "kitty";
+	npc->is_hit = false;
 	npc->pos.x = pos.x + 0.5;
 	npc->pos.y = pos.y + 0.5;
 	npc->speed = 1.0;

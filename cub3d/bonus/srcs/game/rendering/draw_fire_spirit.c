@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 20:32:30 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 20:48:35 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/11 22:01:28 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	draw_fire_spirit(t_game *game, t_npc *npc, double *z_buffer)
 	t_texture	*tex;
 	t_sprite	temp;
 
-	if (npc->is_enemy && npc->state == NPC_STATE_HIT)
+	if (npc->is_enemy && npc->state == HIT)
 		tex = get_hit_texture(npc);
 	else
 		tex = get_npc_texture(npc);

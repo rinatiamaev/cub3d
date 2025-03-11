@@ -6,7 +6,7 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/03/10 21:52:38 by nlouis           ###   ########.fr        #
+#    Updated: 2025/03/11 22:40:46 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,10 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/move_entity/move_npc.c \
 				bonus/srcs/game/move_entity/move_npc_patrol.c \
 				bonus/srcs/game/move_entity/move_npc_follow.c \
+				bonus/srcs/game/move_entity/setup_waypoints_bonus.c \
+				bonus/srcs/game/move_entity/move_player.c \
+				bonus/srcs/game/move_entity/move_utils.c \
+				bonus/srcs/game/move_entity/rotate_fov.c \
 				bonus/srcs/game/doors/spawn_door.c \
 				bonus/srcs/game/doors/update_doors.c \
 				bonus/srcs/events/event_follow_player.c \
@@ -67,9 +71,7 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/events/handle_pause.c \
 				bonus/srcs/events/interact_with_door.c \
 				bonus/srcs/events/interact_with_npc.c \
-				bonus/srcs/game/move_entity/move_player.c \
-				bonus/srcs/game/move_entity/move_utils.c \
-				bonus/srcs/game/move_entity/rotate_fov.c \
+				bonus/srcs/events/draw_lose_message.c \
 				bonus/srcs/game/rendering/raycasting/calculate_texture_mapping.c \
 				bonus/srcs/game/rendering/raycasting/caluclate_ray_properties.c \
 				bonus/srcs/game/rendering/raycasting/perform_dda.c \
@@ -85,7 +87,6 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/rendering/draw_utils.c \
 				bonus/srcs/game/rendering/draw_follow_state.c \
 				bonus/srcs/game/rendering/render_scene.c \
-				bonus/srcs/game/npc/setup_waypoints_bonus.c \
 				bonus/srcs/game/npc/spawn_npc_utils.c \
 				bonus/srcs/game/npc/spawn_witch_kitty.c \
 				bonus/srcs/game/npc/spawn_calico_kitty.c \
@@ -95,7 +96,6 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/npc/change_fire_spirit_behavior.c \
 				bonus/srcs/game/npc/play_npc_animation.c \
 				bonus/srcs/game/npc/has_line_of_sight.c \
-				bonus/srcs/game/npc/handle_player_defeat.c \
 				bonus/srcs/game/game_utils.c \
 				bonus/srcs/game/game_loop.c	\
 				bonus/srcs/game/music/music.c

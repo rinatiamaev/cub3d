@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:28:02 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 20:50:09 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/11 22:01:28 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	draw_npc_dialogue(t_game *game)
 	while (i < game->npc_count)
 	{
 		npc = game->npcs[i];
-		if (npc->state == NPC_STATE_SPEAK)
+		if (npc->state == SPEAK)
 		{
 			mlx_put_image_to_window(game->mlx, game->window->ptr,
 				game->tex.dialogue_box.ptr, x, y);

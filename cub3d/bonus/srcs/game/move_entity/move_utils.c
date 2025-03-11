@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 22:12:02 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 14:28:52 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/11 22:01:28 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static bool	is_any_npc_talking(t_game *game)
 	i = 0;
 	while (i < game->npc_count)
 	{
-		if (game->npcs[i]->state == NPC_STATE_SPEAK)
+		if (game->npcs[i]->state == SPEAK)
 			return (true);
 		i++;
 	}
