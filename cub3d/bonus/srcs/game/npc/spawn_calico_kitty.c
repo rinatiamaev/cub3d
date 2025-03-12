@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:51:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/11 22:04:11 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/12 11:11:24 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 void	init_calico_kitty_dialogue(t_npc *npc)
 {
 	static char	*kitty_dialogue[] = {
-		"Hi! Finally awake!",
-		"My sibling and I are trapped in this Labyrinth!",
-		"He left to find an exit but never came back!",
-		"He told me to wait here...",
-		"Could you look for him past this door?",
-		"Please, I'm worried about him...",
+		"Oh, someone godferdumpin' help me!",
+		"I'm shlooby stuck here, a giant fire ball...",
+		"is wandering in there! I found a kind of...",
+		"watergun, but it's empty! I would need to go...",
+		"to the well to fill it up, but I'm too scared...",
+		"to go there while this fireball is around...",
+		"Could you fill up the watergun and get rid of...",
+		"the fireball for me?",
 		"Thank you! I'll wait here for you!"
 	};
 

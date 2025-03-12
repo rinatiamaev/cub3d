@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/12 01:35:13 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/12 11:18:47 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +245,20 @@ typedef enum e_walk_block
 	WALK_RIGHT
 }	t_walk_block;
 
+typedef enum e_dial_phase
+{
+	PHASE_1,
+	END
+}	t_dial_phase;
+
+typedef struct s_dial
+{
+	char			**dialogues[4]; // Corresponds to the number of states
+	int				dialogue_counts[4];
+	int				current_line;
+	t_dial_phase	phase;
+}	t_dial;
+
 typedef struct s_sprite
 {
 	t_dpoint	pos;
@@ -407,6 +421,9 @@ void	free_npc_textures(t_game *game, t_sprite *sprite);
 void	free_npc_waypoints(t_npc *npc);
 void	spawn_fire_spirit(t_game *game, double x, double y);
 bool	has_line_of_sight(t_game *game, t_dpoint src, t_dpoint target);
+bool	is_occupied_by_any_npc(t_game *game, t_point pos);
+bool	is_position_near_any_npc(t_dpoint position, t_game *game,
+			double min_distance, t_npc *self_npc);
 
 // DOOR
 void	update_doors(t_game *game, double delta_time);

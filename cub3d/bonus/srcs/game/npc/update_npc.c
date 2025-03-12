@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:06:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/11 22:01:28 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/12 08:53:43 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	update_npc_state(t_npc *npc, t_player *player)
 	previous_state = npc->state;
 	if (npc->state == SPEAK)
 		return ;
-	if (is_player_near_npc(npc, player, 1.5))
+	if (is_player_near_npc(npc, player, 2.0))
 		npc->state = WAIT;
 	else
 	{
