@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:06:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 10:23:38 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/12 08:53:43 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@ static void	update_npc_state(t_npc *npc, t_player *player)
 	t_npc_state	previous_state;
 
 	previous_state = npc->state;
-	if (npc->state == NPC_STATE_SPEAK)
+	if (npc->state == SPEAK)
 		return ;
-	if (is_player_near_npc(npc, player, 1.5))
-		npc->state = NPC_STATE_WAIT;
+	if (is_player_near_npc(npc, player, 2.0))
+		npc->state = WAIT;
 	else
 	{
 		if (npc->is_following)
-			npc->state = NPC_STATE_FOLLOW;
+			npc->state = FOLLOW;
 		else
-			npc->state = NPC_STATE_PATROL;
+			npc->state = PATROL;
 	}
 	if (npc->state != previous_state)
 		reset_animations(npc);
@@ -46,16 +46,16 @@ static void	update_npc_state(t_npc *npc, t_player *player)
 static void	update_npc(t_game *game, t_npc *npc, double delta_time)
 {
 	update_npc_state(npc, &game->player);
-	if (npc->state == NPC_STATE_SPEAK)
+	if (npc->state == SPEAK)
 		play_speak_animation(npc, delta_time);
-	if (npc->state == NPC_STATE_WAIT)
+	else if (npc->state == WAIT)
 		play_wait_animation(npc, delta_time);
-	if (npc->state == NPC_STATE_PATROL)
+	else if (npc->state == PATROL)
 	{
 		play_movement_animation(npc, delta_time);
 		move_npc_patrol(game, npc, delta_time);
 	}
-	if (npc->state == NPC_STATE_FOLLOW)
+	else if (npc->state == FOLLOW)
 	{
 		play_movement_animation(npc, delta_time);
 		move_npc_follow(game, npc, delta_time);
@@ -71,7 +71,10 @@ void	update_all_npcs(t_game *game, double delta_time)
 	while (i < game->npc_count)
 	{
 		npc = game->npcs[i];
-		update_npc(game, npc, delta_time);
+		if (!npc->is_enemy)
+			update_npc(game, npc, delta_time);
+		else
+			update_enemy_npc(game, npc, delta_time);
 		i++;
 	}
 }

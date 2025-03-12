@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:51:19 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 14:39:38 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 21:45:35 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,12 @@ static void	draw_pause_message(t_game *game)
 
 int	pause_game(t_game *game)
 {
-	game->is_paused = !game->is_paused;
+	if (game->state == RUNNING)
+		game->state = PAUSED;
+	else
+		game->state = RUNNING;
 	mlx_clear_window(game->mlx, game->window->ptr);
-	if (game->is_paused)
+	if (game->state == PAUSED)
 		draw_pause_message(game);
 	return (SUCCESS);
 }

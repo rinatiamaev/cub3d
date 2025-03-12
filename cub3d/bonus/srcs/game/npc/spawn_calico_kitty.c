@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:51:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 14:53:48 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/12 11:11:24 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 void	init_calico_kitty_dialogue(t_npc *npc)
 {
 	static char	*kitty_dialogue[] = {
-		"Hi! Finally awake!",
-		"My sibling and I are trapped in this Labyrinth!",
-		"He left to find an exit but never came back!",
-		"He told me to wait here...",
-		"Could you look for him past this door?",
-		"Please, I'm worried about him...",
+		"Oh, someone godferdumpin' help me!",
+		"I'm shlooby stuck here, a giant fire ball...",
+		"is wandering in there! I found a kind of...",
+		"watergun, but it's empty! I would need to go...",
+		"to the well to fill it up, but I'm too scared...",
+		"to go there while this fireball is around...",
+		"Could you fill up the watergun and get rid of...",
+		"the fireball for me?",
 		"Thank you! I'll wait here for you!"
 	};
 
@@ -44,7 +46,6 @@ static void	init_calico_kitty_sprites(t_npc *npc)
 		CK_C0, CK_C1, CK_C2, CK_C3, CK_C4, CK_C5, CK_C6, CK_C7, CK_C8, CK_C9
 	};
 
-	npc->sprite.type = "kitty";
 	npc->sprite.size = (t_point){64, 64};
 	npc->sprite.idle_paths = idle_frames;
 	npc->sprite.num_idle_frames
@@ -59,6 +60,8 @@ static void	init_calico_kitty_sprites(t_npc *npc)
 
 static void	init_calico_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 {
+	npc->type = "kitty";
+	npc->is_hit = false;
 	npc->pos.x = pos.x + 0.5;
 	npc->pos.y = pos.y + 0.5;
 	npc->speed = 1.2;

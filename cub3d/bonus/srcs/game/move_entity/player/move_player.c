@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:49:24 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 01:32:54 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/11 23:50:47 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	move_forward(t_game *game, double move_speed)
 
 	next.x = game->player.pos.x + game->player.dir.x * move_speed;
 	next.y = game->player.pos.y + game->player.dir.y * move_speed;
-	if (can_move(game, next.x, next.y))
+	if (is_position_valid_for_player(game, next))
 	{
 		game->player.last_pos = game->player.pos;
 		game->player.pos = next;
@@ -32,7 +32,7 @@ static void	move_backward(t_game *game, double move_speed)
 	move_speed *= -1;
 	next.x = game->player.pos.x + game->player.dir.x * move_speed;
 	next.y = game->player.pos.y + game->player.dir.y * move_speed;
-	if (can_move(game, next.x, next.y))
+	if (is_position_valid_for_player(game, next))
 	{
 		game->player.last_pos = game->player.pos;
 		game->player.pos = next;
@@ -48,7 +48,7 @@ static void	strafe_left(t_game *game, double move_speed)
 	strafe.y = game->player.dir.x;
 	next.x = game->player.pos.x + strafe.x * move_speed;
 	next.y = game->player.pos.y + strafe.y * move_speed;
-	if (can_move(game, next.x, next.y))
+	if (is_position_valid_for_player(game, next))
 	{
 		game->player.last_pos = game->player.pos;
 		game->player.pos = next;
@@ -64,7 +64,7 @@ static void	strafe_right(t_game *game, double move_speed)
 	strafe.y = -game->player.dir.x;
 	next.x = game->player.pos.x + strafe.x * move_speed;
 	next.y = game->player.pos.y + strafe.y * move_speed;
-	if (can_move(game, next.x, next.y))
+	if (is_position_valid_for_player(game, next))
 	{
 		game->player.last_pos = game->player.pos;
 		game->player.pos = next;
@@ -78,6 +78,8 @@ void	handle_player_moves(t_game *game)
 	double			current_time;
 	static double	last_time;
 
+	if (is_any_npc_talking(game))
+		return ;
 	gettimeofday(&tv, NULL);
 	current_time = tv.tv_sec + tv.tv_usec / 1000000.0;
 	if (last_time == 0)

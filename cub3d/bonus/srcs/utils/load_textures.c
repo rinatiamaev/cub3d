@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:25:33 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 02:04:36 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/12 01:13:06 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ void	load_sprite_frames(t_game *game, t_sprite *sprite)
 		sprite->move_frames_count);
 	load_sprite_animation(game, &sprite->speak_frames, sprite->speak_paths,
 		sprite->speak_frames_count);
+	if (sprite->hit_paths)
+		load_sprite_animation(game, &sprite->hit_frames, sprite->hit_paths,
+			sprite->hit_frames_count);
 }
 
 void	load_game_textures(t_game *game, t_conf conf)

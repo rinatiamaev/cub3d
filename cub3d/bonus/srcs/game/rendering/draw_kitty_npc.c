@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:03:59 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/09 19:08:13 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/11 22:01:28 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static void	setup_temp_sprite(t_sprite *temp, t_npc *npc, t_texture *tex)
 	temp->size = npc->sprite.size;
 	temp->num_idle_frames = 1;
 	temp->idle_frames = tex;
-	temp->type = npc->sprite.type;
 }
 
 void	draw_kitty_npc(t_game *game, t_npc *npc, double *z_buffer)
@@ -69,13 +68,13 @@ void	draw_kitty_npc(t_game *game, t_npc *npc, double *z_buffer)
 	t_texture	*tex;
 	t_sprite	temp;
 
-	if (npc->state == NPC_STATE_WAIT)
+	if (npc->state == WAIT)
 		tex = get_npc_wait_texture(npc);
-	else if (npc->state == NPC_STATE_PATROL)
+	else if (npc->state == PATROL)
 		tex = get_npc_movement_texture(game, npc);
-	else if (npc->state == NPC_STATE_FOLLOW)
+	else if (npc->state == FOLLOW)
 		tex = get_npc_movement_texture(game, npc);
-	else if (npc->state == NPC_STATE_SPEAK)
+	else if (npc->state == SPEAK)
 		tex = get_npc_speak_texture(npc);
 	setup_temp_sprite(&temp, npc, tex);
 	draw_sprite(game, game->player, &temp, z_buffer);

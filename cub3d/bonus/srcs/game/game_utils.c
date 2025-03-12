@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 11:08:10 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 02:08:59 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/11 23:52:59 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,10 @@ t_door	*find_door_at(t_game *game, t_point pos)
 		i++;
 	}
 	return (NULL);
+}
+
+bool	is_within_bounds(t_game *game, t_point pos)
+{
+	return (pos.x >= 0 && pos.x < game->map->size.x
+		&& pos.y >= 0 && pos.y < game->map->size.y);
 }

@@ -6,7 +6,7 @@
 #    By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:23:28 by nlouis            #+#    #+#              #
-#    Updated: 2025/03/10 14:59:49 by nlouis           ###   ########.fr        #
+#    Updated: 2025/03/12 08:50:53 by nlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,9 @@ SRCS =  mandatory/srcs/main.c \
 		mandatory/srcs/game/moves/move_player.c \
 		mandatory/srcs/game/moves/rotate_camera.c
 
-SRCS_BONUS =	bonus/srcs/main.c \
+SRCS_BONUS := $(shell find bonus/srcs -name "*.c")
+
+# SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/init_game.c \
 				bonus/srcs/utils/error.c \
 				bonus/srcs/utils/free_memory.c \
@@ -58,6 +60,10 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/move_entity/move_npc.c \
 				bonus/srcs/game/move_entity/move_npc_patrol.c \
 				bonus/srcs/game/move_entity/move_npc_follow.c \
+				bonus/srcs/game/move_entity/setup_waypoints_bonus.c \
+				bonus/srcs/game/move_entity/move_player.c \
+				bonus/srcs/game/move_entity/move_utils.c \
+				bonus/srcs/game/move_entity/rotate_fov.c \
 				bonus/srcs/game/doors/spawn_door.c \
 				bonus/srcs/game/doors/update_doors.c \
 				bonus/srcs/events/event_follow_player.c \
@@ -67,9 +73,7 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/events/handle_pause.c \
 				bonus/srcs/events/interact_with_door.c \
 				bonus/srcs/events/interact_with_npc.c \
-				bonus/srcs/game/move_entity/move_player.c \
-				bonus/srcs/game/move_entity/move_utils.c \
-				bonus/srcs/game/move_entity/rotate_fov.c \
+				bonus/srcs/events/draw_lose_message.c \
 				bonus/srcs/game/rendering/raycasting/calculate_texture_mapping.c \
 				bonus/srcs/game/rendering/raycasting/caluclate_ray_properties.c \
 				bonus/srcs/game/rendering/raycasting/perform_dda.c \
@@ -78,18 +82,22 @@ SRCS_BONUS =	bonus/srcs/main.c \
 				bonus/srcs/game/rendering/draw_minimap.c \
 				bonus/srcs/game/rendering/draw_kitty_npc_utils.c \
 				bonus/srcs/game/rendering/draw_kitty_npc.c \
+				bonus/srcs/game/rendering/draw_fire_spirit.c \
 				bonus/srcs/game/rendering/draw_npcs.c \
 				bonus/srcs/game/rendering/draw_sprites.c \
 				bonus/srcs/game/rendering/draw_sprites_utils.c \
 				bonus/srcs/game/rendering/draw_utils.c \
 				bonus/srcs/game/rendering/draw_follow_state.c \
 				bonus/srcs/game/rendering/render_scene.c \
-				bonus/srcs/game/npc/setup_waypoints_bonus.c \
 				bonus/srcs/game/npc/spawn_npc_utils.c \
 				bonus/srcs/game/npc/spawn_witch_kitty.c \
 				bonus/srcs/game/npc/spawn_calico_kitty.c \
+				bonus/srcs/game/npc/spawn_fire_spirit.c \
 				bonus/srcs/game/npc/update_npc.c \
+				bonus/srcs/game/npc/update_enemy_npc.c \
+				bonus/srcs/game/npc/change_fire_spirit_behavior.c \
 				bonus/srcs/game/npc/play_npc_animation.c \
+				bonus/srcs/game/npc/has_line_of_sight.c \
 				bonus/srcs/game/game_utils.c \
 				bonus/srcs/game/game_loop.c	\
 				bonus/srcs/game/music/music.c

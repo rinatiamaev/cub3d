@@ -6,45 +6,11 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 07:18:04 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 14:28:04 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/11 23:59:22 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
-
-static bool	is_position_occupied_by_moving_npc(t_game *game, t_point pos)
-{
-	int	i;
-
-	i = 0;
-	while (i < game->npc_count)
-	{
-		if (game->npcs[i]->pos.x == pos.x && game->npcs[i]->pos.y == pos.y)
-		{
-			if (game->npcs[i]->move_vec.x != 0
-				|| game->npcs[i]->move_vec.y != 0)
-				return (true);
-			else
-				return (false);
-		}
-		i++;
-	}
-	return (false);
-}
-
-static int	is_position_valid(t_game *game, t_astar *astar, t_point pos)
-{
-	if (pos.x < 0 || pos.x >= game->map->size.x
-		|| pos.y < 0 || pos.y >= game->map->size.y
-		|| game->map->matrix[pos.y][pos.x] != FREE_SPACE
-		|| astar->open_list[pos.y][pos.x])
-		return (false);
-	if (is_position_occupied_by_moving_npc(game, pos))
-		return (true);
-	if (is_position_occupied_by_npc(game, pos))
-		return (false);
-	return (true);
-}
 
 /*The create_child_node function generates a new node representing a potential
 move. It allocates memory for the child node and initializes its position to
@@ -78,7 +44,7 @@ static void	process_single_child(t_game *game, t_astar *astar, int direction)
 
 	new_pos.x = astar->current_node->pos.x + astar->direction[direction].x;
 	new_pos.y = astar->current_node->pos.y + astar->direction[direction].y;
-	if (is_position_valid(game, astar, new_pos) == false)
+	if (!is_position_valid_for_npc(game, astar, new_pos))
 		return ;
 	child_node = create_child_node(game, astar, new_pos);
 	astar->node = child_node;

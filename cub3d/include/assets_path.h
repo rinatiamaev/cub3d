@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:37:18 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 14:48:22 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/10 17:42:42 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,15 @@
 # define CK_C8 "./bonus/assets/npc/calicoKitty/speak/curious08.xpm"
 # define CK_C9 "./bonus/assets/npc/calicoKitty/speak/curious09.xpm"
 
-# define CK_WTOW0 "./bonus/assets/npc/calicoKitty/move/tile000.xpm"
-# define CK_WTOW1 "./bonus/assets/npc/calicoKitty/move/tile001.xpm"
-# define CK_WTOW2 "./bonus/assets/npc/calicoKitty/move/tile002.xpm"
-# define CK_WTOW3 "./bonus/assets/npc/calicoKitty/move/tile003.xpm"
+# define CK_WAWAY0 "./bonus/assets/npc/calicoKitty/move/tile000.xpm"
+# define CK_WAWAY1 "./bonus/assets/npc/calicoKitty/move/tile001.xpm"
+# define CK_WAWAY2 "./bonus/assets/npc/calicoKitty/move/tile002.xpm"
+# define CK_WAWAY3 "./bonus/assets/npc/calicoKitty/move/tile003.xpm"
 
-# define CK_WAWAY0 "./bonus/assets/npc/calicoKitty/move/tile004.xpm"
-# define CK_WAWAY1 "./bonus/assets/npc/calicoKitty/move/tile005.xpm"
-# define CK_WAWAY2 "./bonus/assets/npc/calicoKitty/move/tile006.xpm"
-# define CK_WAWAY3 "./bonus/assets/npc/calicoKitty/move/tile007.xpm"
+# define CK_WTOW0 "./bonus/assets/npc/calicoKitty/move/tile004.xpm"
+# define CK_WTOW1 "./bonus/assets/npc/calicoKitty/move/tile005.xpm"
+# define CK_WTOW2 "./bonus/assets/npc/calicoKitty/move/tile006.xpm"
+# define CK_WTOW3 "./bonus/assets/npc/calicoKitty/move/tile007.xpm"
 
 # define CK_WLEFT0 "./bonus/assets/npc/calicoKitty/move/tile008.xpm"
 # define CK_WLEFT1 "./bonus/assets/npc/calicoKitty/move/tile009.xpm"
@@ -107,6 +107,22 @@
 # define CK_WRI1 "./bonus/assets/npc/calicoKitty/move/tile013.xpm"
 # define CK_WRI2 "./bonus/assets/npc/calicoKitty/move/tile014.xpm"
 # define CK_WRI3 "./bonus/assets/npc/calicoKitty/move/tile015.xpm"
+
+# define FS0 "./bonus/assets/npc/fire_spirit/idle/fireSpirit000.xpm"
+# define FS1 "./bonus/assets/npc/fire_spirit/idle/fireSpirit001.xpm"
+# define FS2 "./bonus/assets/npc/fire_spirit/idle/fireSpirit002.xpm"
+# define FS3 "./bonus/assets/npc/fire_spirit/idle/fireSpirit003.xpm"
+# define FS4 "./bonus/assets/npc/fire_spirit/idle/fireSpirit004.xpm"
+
+# define FS_H0 "./bonus/assets/npc/fire_spirit/hit/fireSpiritHit000.xpm"
+# define FS_H1 "./bonus/assets/npc/fire_spirit/hit/fireSpiritHit001.xpm"
+# define FS_H2 "./bonus/assets/npc/fire_spirit/hit/fireSpiritHit002.xpm"
+
+# define FS_N0 "./bonus/assets/npc/fire_spirit/nice/fireSpiritNice000.xpm"
+# define FS_N1 "./bonus/assets/npc/fire_spirit/nice/fireSpiritNice001.xpm"
+# define FS_N2 "./bonus/assets/npc/fire_spirit/nice/fireSpiritNice002.xpm"
+# define FS_N3 "./bonus/assets/npc/fire_spirit/nice/fireSpiritNice003.xpm"
+# define FS_N4 "./bonus/assets/npc/fire_spirit/nice/fireSpiritNice004.xpm"
 
 # define SLIDING_DOOR	"./bonus/assets/doors/sliding_door.xpm"
 # define DOOR_FRAME		"./bonus/assets/doors/door_frame.xpm"

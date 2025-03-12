@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:23:15 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 14:28:18 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/12 10:44:00 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,34 +37,24 @@ static void	update_npc_movement(t_npc *npc, t_dpoint delta, double delta_time)
 	npc->move_vec.y = delta.y;
 }
 
-static bool	is_target_occupied_by_npc(t_game *game, t_npc *npc, t_dpoint target)
-{
-	int	i;
-
-	i = 0;
-	while (i < game->npc_count)
-	{
-		if (game->npcs[i] != npc
-			&& has_reached_target(game->npcs[i], target))
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
 bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time)
 {
 	t_dpoint	delta;
 
+	if (npc->is_hit || is_any_npc_talking(game))
+	{
+		stop_npc(npc, npc->pos);
+		return (true);
+	}
 	delta.x = target.x - npc->pos.x;
 	delta.y = target.y - npc->pos.y;
+/* 	if (is_position_near_any_npc(npc->pos, game, 0.5, npc))
+		return (false); */
 	if (has_reached_target(npc, target))
 	{
 		stop_npc(npc, target);
 		return (true);
 	}
-	if (is_target_occupied_by_npc(game, npc, target))
-		return (false);
 	update_npc_movement(npc, delta, delta_time);
 	return (false);
 }
