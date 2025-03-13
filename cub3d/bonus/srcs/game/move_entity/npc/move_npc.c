@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:23:15 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/12 10:44:00 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 17:25:19 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time)
 	}
 	delta.x = target.x - npc->pos.x;
 	delta.y = target.y - npc->pos.y;
-/* 	if (is_position_near_any_npc(npc->pos, game, 0.5, npc))
-		return (false); */
 	if (has_reached_target(npc, target))
 	{
 		stop_npc(npc, target);

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 17:01:15 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 17:22:08 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -456,6 +456,8 @@ bool	has_line_of_sight(t_game *game, t_dpoint src, t_dpoint target);
 bool	is_occupied_by_any_npc(t_game *game, t_point pos);
 bool	is_position_near_any_npc(t_dpoint position, t_game *game,
 			double min_distance, t_npc *self_npc);
+bool	is_position_occupied_by_other_npc(t_game *game, t_npc *npc,
+				t_dpoint next_pos);
 
 // DOOR
 void	update_doors(t_game *game, double delta_time);

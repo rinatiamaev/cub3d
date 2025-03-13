@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 23:50:07 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/12 10:09:00 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 20:28:33 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ bool	is_any_npc_talking(t_game *game)
 	return (false);
 }
 
-/* bool	is_target_occupied_by_npc(t_game *game, t_npc *npc, t_point target)
+bool	is_position_occupied_by_other_npc(t_game *game, t_npc *npc,
+													t_dpoint next_pos)
 {
 	int i;
 
@@ -38,10 +39,9 @@ bool	is_any_npc_talking(t_game *game)
 			i++;
 			continue ;
 		}
-		if (game->npcs[i]->pos.x == target.x
-			&& game->npcs[i]->pos.y == target.y)
+		if (ft_cab_dist_dpoint(game->npcs[i]->pos, next_pos) < 0.5)
 			return (true);
 		i++;
 	}
 	return (false);
-} */
+}
