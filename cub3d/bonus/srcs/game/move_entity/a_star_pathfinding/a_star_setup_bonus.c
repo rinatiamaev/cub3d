@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 21:55:06 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 02:24:22 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 17:09:17 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	**create_open_list(t_game *game)
 	while (y < game->map->size.y)
 	{
 		open_list[y]
-			= (int *)ft_calloc(game->map->size.x, sizeof(int));
+			= (int *)x_calloc(game, game->map->size.x, sizeof(int));
 		if (!open_list[y])
 		{
 			while (--y >= 0)

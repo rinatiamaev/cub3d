@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 01:09:21 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 16:22:09 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 17:00:51 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ bool	advance_npc_dialogue(t_npc *npc, t_story_state *story)
 	return (true);
 }
 
-static bool	handle_npc_chase(t_game *game)
+bool	handle_npc_chase(t_game *game)
 {
 	t_npc	*npc;
 

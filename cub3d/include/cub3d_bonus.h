@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 15:53:24 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 17:01:15 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -435,6 +435,7 @@ void	move_npc_follow(t_game *game, t_npc *npc, double delta_time);
 
 // NPC
 void	init_sprite_frames_and_animation(t_game *game, t_sprite *sprite);
+void	init_npc_pathfinding(t_game *game, t_npc *npc);
 void	generate_npc_waypoints(t_npc *npc, t_game *game);
 void	update_npc_list(t_game *game, t_npc *npc);
 void	spawn_witch_kitty(t_game *game, double x, double y);
@@ -488,6 +489,7 @@ t_npc	*find_closest_npc(t_game *game, double max_distance);
 bool	interact_with_npc(t_game *game);
 bool	advance_npc_dialogue(t_npc *npc, t_story_state *story);
 void	update_story(t_game *game);
+bool	handle_npc_chase(t_game *game);
 void	handle_interaction(t_game *game);
 void	make_closest_npc_follow(t_game *game, double max_distance);
 int		pause_game(t_game *game);

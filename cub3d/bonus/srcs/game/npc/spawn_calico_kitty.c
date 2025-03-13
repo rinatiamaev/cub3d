@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:05:57 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 16:10:10 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 16:34:39 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,16 +98,8 @@ static void	init_calico_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 	npc->is_hit = false;
 	npc->pos.x = pos.x + 0.5;
 	npc->pos.y = pos.y + 0.5;
-	npc->speed = 0.2;
-	npc->patrol_range = 10;
-	npc->waypoint_count = 4;
-	npc->current_wp = 1;
-	npc->threshold_dist = 0.2;
-	npc->astar = x_calloc(game, 1, sizeof(t_astar));
-	npc->astar->direction[0] = (t_point){0, -1};
-	npc->astar->direction[1] = (t_point){0, 1};
-	npc->astar->direction[2] = (t_point){-1, 0};
-	npc->astar->direction[3] = (t_point){1, 0};
+	npc->speed = 1.2;
+	init_npc_pathfinding(game, npc);
 	generate_npc_waypoints(npc, game);
 	init_calico_kitty_sprites(npc);
 	init_sprite_frames_and_animation(game, &npc->sprite);
