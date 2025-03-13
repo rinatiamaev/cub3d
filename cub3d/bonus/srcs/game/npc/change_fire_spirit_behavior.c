@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:51:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 14:10:26 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 16:13:35 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,27 @@
 
 void	init_fire_spirit_dialogues(t_game *game, t_npc *npc)
 {
-	static char *dialogues[][11] = {
-		{	"I have to keep calm and not burn everything...",
-			"Aaaaahuuuummmmmmm...", NULL
-		},
-		{	"Oh thanks for cooling me down!",
-			"When I realized I was stuck in a labyrinth...",
-			"I panicked and started to burn everything...",
-			"I'm sorry for the mess...",
-			"I'm a fire spirit, you see...",
-			"I can't help it when I get too hot...",
-			"I am going to look for a way out...",
-			"If I find one, I'll let you know!", NULL
-		},
-		{	"You found a way out!?",
-			"Lead the way, I am right behind you!", NULL
-		}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}
+	static char	*dialogues[][11] = {
+	{"I have to keep calm and not burn everything...",
+		"Aaaaahuuuummmmmmm...", NULL
+	},
+	{"Oh thanks for cooling me down!",
+		"When I realized I was stuck in a labyrinth...",
+		"I panicked and started to burn everything...",
+		"I'm sorry for the mess...",
+		"I'm a fire spirit, you see...",
+		"I can't help it when I get too hot...",
+		"I am going to look for a way out...",
+		"If I find one, I'll let you know!", NULL
+	},
+	{"You found a way out!?",
+		"Lead the way, I am right behind you!", NULL
+	}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}
 	};
 
 	npc->dialogue.phase_count = sizeof(dialogues) / sizeof(dialogues[0]);
-	allocate_dialogues(game, &npc->dialogue, dialogues, npc->dialogue.phase_count);
+	allocate_dialogues
+		(game, &npc->dialogue, dialogues, npc->dialogue.phase_count);
 }
 
 static void	init_fire_spirit_sprites(t_npc *npc)

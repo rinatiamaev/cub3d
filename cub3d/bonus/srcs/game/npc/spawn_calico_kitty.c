@@ -5,65 +5,64 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 14:51:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 14:10:31 by nlouis           ###   ########.fr       */
+/*   Created: 2025/03/13 16:05:57 by nlouis            #+#    #+#             */
+/*   Updated: 2025/03/13 16:10:10 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-void init_calico_kitty_dialogues(t_game *game, t_npc *npc)
+void	init_calico_kitty_dialogues(t_game *game, t_npc *npc)
 {
-	static char *dialogues[][11] = {
-		{   "What a maze...", NULL },
-		{   "Oh, someone godferdumpin' help me!",
-			"I'm shlooby stuck here, a giant fire ball...",
-			"is wandering in there! I found a kind of...",
-			"watergun, but it's empty! I would need to go...",
-			"to the well to fill it up, but I'm too scared...",
-			"to go there while this fireball is around...",
-			"Could you fill up the watergun and get rid of...",
-			"the fireball for me?",
-			"Thank you! I'll wait here for you!", NULL
-		},
-		{   "...",
-			"You got rid of that fireball!?",
-			"Thank you so much!",
-			"I can't believe it is a spirit...",
-			"I hope it won't get mad again...",
-			"Well done! Would you like to help me get back to...",
-			"my sibling? I'm sure he's worried about me...", NULL
-		},
-		{   "...",
-			"You saw the fireball!?",
-			"I hope you can get rid of it...", NULL
-		},
-		{   "...",
-			"The fireball was an angry spirit!?",
-			"Good thing you cooled it down!",
-			"Hopefully, it won't get mad again...",
-			"Could you escort me to my sibling ?", NULL
-		},
-		{   "...",
-			"You got rid of the fireball!?",
-			"It turned into a nice blue fireball ?!",
-			"Weeeeiiiirrrd! But cool!",
-			"Hopefully, it won't get mad again...",
-			"Thank you so much for your help!",
-			"Could you escort me to my sibling ?", NULL
-		},
-		{	"I should look for an exit, but you are so...",
-			"fearless, that we'll just rely on you!", NULL
-		},
-		{   "A key, nice!", NULL },
-		{   "A locked door, nice!", NULL }, 
-		{	"Let's get the hell out of here!", NULL}, {NULL}
+	static char	*dialogues[][11] = {
+	{"What a maze...", NULL},
+	{"Oh, someone godferdumpin' help me!",
+		"I'm shlooby stuck here, a giant fire ball...",
+		"is wandering in there! I found a kind of...",
+		"watergun, but it's empty! I would need to go...",
+		"to the well to fill it up, but I'm too scared...",
+		"to go there while this fireball is around...",
+		"Could you fill up the watergun and get rid of...",
+		"the fireball for me?",
+		"Thank you! I'll wait here for you!", NULL
+	},
+	{"...",
+		"You got rid of that fireball!?",
+		"Thank you so much!",
+		"I can't believe it is a spirit...",
+		"I hope it won't get mad again...",
+		"Well done! Would you like to help me get back to...",
+		"my sibling? I'm sure he's worried about me...", NULL
+	},
+	{"...",
+		"You saw the fireball!?",
+		"I hope you can get rid of it...", NULL
+	},
+	{"...",
+		"The fireball was an angry spirit!?",
+		"Good thing you cooled it down!",
+		"Hopefully, it won't get mad again...",
+		"Could you escort me to my sibling ?", NULL
+	},
+	{"...",
+		"You got rid of the fireball!?",
+		"It turned into a nice blue fireball ?!",
+		"Weeeeiiiirrrd! But cool!",
+		"Hopefully, it won't get mad again...",
+		"Thank you so much for your help!",
+		"Could you escort me to my sibling ?", NULL
+	},
+	{"I should look for an exit, but you are so...",
+		"fearless, that we'll just rely on you!", NULL},
+	{"A key, nice!", NULL },
+	{"A locked door, nice!", NULL },
+	{"Let's get the hell out of here!", NULL}, {NULL}
 	};
-	
-	npc->dialogue.phase_count = sizeof(dialogues) / sizeof(dialogues[0]);
-	allocate_dialogues(game, &npc->dialogue, dialogues, npc->dialogue.phase_count);
-}
 
+	npc->dialogue.phase_count = sizeof(dialogues) / sizeof(dialogues[0]);
+	allocate_dialogues
+		(game, &npc->dialogue, dialogues, npc->dialogue.phase_count);
+}
 
 static void	init_calico_kitty_sprites(t_npc *npc)
 {

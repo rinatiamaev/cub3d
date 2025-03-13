@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 01:09:21 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 14:10:11 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 16:22:09 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,3 @@ bool	interact_with_npc(t_game *game)
 		return (false);
 	return (handle_npc_speak(game));
 }
-

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:51:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 14:10:35 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 16:10:33 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	init_fire_spirit_sprites(t_npc *npc)
 	static char	*enemy_frames[] = {
 		FS0, FS1, FS2, FS3, FS4
 	};
-	static char *hit_frames[] = {
+	static char	*hit_frames[] = {
 		FS_H0, FS_H1, FS_H2
 	};
 

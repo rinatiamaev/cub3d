@@ -6,20 +6,11 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:30:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 14:12:18 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 16:25:43 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
-
-void	free_npc_waypoints(t_npc *npc)
-{
-	if (npc->waypoints)
-	{
-		free(npc->waypoints);
-		npc->waypoints = NULL;
-	}
-}
 
 static void	free_tex_frames(t_game *game, t_texture *frames, int count)
 {
@@ -44,15 +35,17 @@ void	free_npc_textures(t_game *game, t_sprite *sprite)
 		free_tex_frames(game, sprite->hit_frames, sprite->hit_frames_count);
 }
 
-void free_dialogues(t_dial *dialog)
+static void	free_dialogues(t_dial *dialog)
 {
-	int i = 0;
+	int	i;
+	int	j;
 
+	i = 0;
 	while (i < dialog->phase_count)
 	{
 		if (dialog->dialogues[i])
 		{
-			int j = 0;
+			j = 0;
 			while (dialog->dialogues[i][j])
 			{
 				free(dialog->dialogues[i][j]);
@@ -65,7 +58,6 @@ void free_dialogues(t_dial *dialog)
 	free(dialog->dialogues);
 	free(dialog->dialogue_count);
 }
-
 
 void	free_single_npc(t_game *game, t_npc *npc)
 {

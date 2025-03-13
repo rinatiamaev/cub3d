@@ -6,13 +6,13 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:08:04 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 14:12:07 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 16:16:31 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static void update_sibling(t_game *game, t_npc *calico, t_npc *witch,
+static void	update_sibling(t_game *game, t_npc *calico, t_npc *witch,
 	t_npc *fire_spirit)
 {
 	t_story_state	*story;
@@ -33,7 +33,8 @@ static void update_sibling(t_game *game, t_npc *calico, t_npc *witch,
 		story->sibling = WAITING;
 	else if (story->sibling < HELPED && fire_spirit->is_hit)
 		story->sibling = HELPED;
-	else if (story->sibling == HELPED && has_line_of_sight(game, calico->pos, witch->pos))
+	else if (story->sibling == HELPED
+		&& has_line_of_sight(game, calico->pos, witch->pos))
 		story->sibling = SAVED;
 	else if (story->sibling == SAVED && story->key == FOUND)
 		story->sibling = EXIT_SEARCH;
@@ -41,8 +42,8 @@ static void update_sibling(t_game *game, t_npc *calico, t_npc *witch,
 		story->sibling = UNLOCKED;
 }
 
-static void update_fireball(t_game *game, t_story_state *story,
-											t_player *player, t_npc *npc)
+static void	update_fireball(t_game *game, t_story_state *story,
+												t_player *player, t_npc *npc)
 {
 	if (story->fireball < LOCATED
 		&& has_line_of_sight(game, player->pos, npc->pos))
@@ -55,13 +56,18 @@ static void update_fireball(t_game *game, t_story_state *story,
 		story->fireball = EXIT_SEARCH;
 }
 
-void update_story(t_game *game)
+void	update_story(t_game *game)
 {
-	t_npc *calico      = NULL;
-	t_npc *witch       = NULL;
-	t_npc *fire_spirit = NULL;
+	t_npc	*calico;
+	t_npc	*witch;
+	t_npc	*fire_spirit;
+	int		i;
 
-	for (int i = 0; i < game->npc_count; i++)
+	calico = NULL;
+	witch = NULL;
+	fire_spirit = NULL;
+	i = 0;
+	while (i < game->npc_count)
 	{
 		if (ft_strcmp(game->npcs[i]->name, "calico kitty") == 0)
 			calico = game->npcs[i];
@@ -69,6 +75,7 @@ void update_story(t_game *game)
 			witch = game->npcs[i];
 		else if (ft_strcmp(game->npcs[i]->name, "fire spirit") == 0)
 			fire_spirit = game->npcs[i];
+		i++;
 	}
 	update_sibling(game, calico, witch, fire_spirit);
 	update_fireball(game, &game->story, &game->player, fire_spirit);
@@ -76,4 +83,3 @@ void update_story(t_game *game)
 	calico->dialogue.phase = get_calico_phase(&game->story);
 	fire_spirit->dialogue.phase = get_fire_spirit_phase(&game->story);
 }
-

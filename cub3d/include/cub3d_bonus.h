@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 14:12:24 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 15:53:24 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -401,6 +401,7 @@ typedef struct s_game
 // UTILS
 void	error(t_game *game, char *err_msg);
 void	free_game(t_game *game);
+void	free_npc_waypoints(t_npc *npc);
 void	free_single_npc(t_game *game, t_npc *npc);
 void	free_npcs(t_game *game);
 double	get_delta_time(void);

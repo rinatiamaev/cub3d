@@ -6,13 +6,13 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 22:12:02 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/12 00:39:13 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 16:23:25 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static bool is_door_walkable(t_game *game, t_point pos)
+static bool	is_door_walkable(t_game *game, t_point pos)
 {
 	t_door	*door;
 

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:51:19 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 21:45:35 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 16:22:22 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static void	draw_pause_message(t_game *game)
 	mlx_string_put
 		(game->mlx, game->window->ptr, 20, 120, 0xFFFFFF,
 			"Press 'F' for the npc to follow you");
-	
 }
 
 int	pause_game(t_game *game)
