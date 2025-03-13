@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:02:28 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 01:55:36 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 14:10:18 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	open_door(t_door *door, double delta_time)
 	{
 		door->offset = 1.0;
 		door->state = DOOR_OPEN;
-		door->open_timer = 3.0;
+		door->open_timer = 1.5;
 	}
 }
 
@@ -36,7 +36,7 @@ static void	close_door(t_game *game, t_door *door, double delta_time)
 	if (is_player_on_door(game, door))
 	{
 		door->state = DOOR_OPEN;
-		door->open_timer = 3.0;
+		door->open_timer = 1.5;
 	}
 	else
 	{
@@ -52,7 +52,7 @@ static void	close_door(t_game *game, t_door *door, double delta_time)
 static void	handle_open_door(t_game *game, t_door *door, double delta_time)
 {
 	if (is_player_on_door(game, door))
-		door->open_timer = 3.0;
+		door->open_timer = 1.5;
 	else
 	{
 		door->open_timer -= delta_time;

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:28:02 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/11 22:01:28 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 14:11:51 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	draw_npc_dialogue(t_game *game)
 	int		color;
 	int		i;
 	t_npc	*npc;
+	char	*dialogue_text;
 
 	x = (WIN_W / 2 - 128);
 	y = (WIN_H - (WIN_H / 5));
@@ -27,16 +28,26 @@ void	draw_npc_dialogue(t_game *game)
 	while (i < game->npc_count)
 	{
 		npc = game->npcs[i];
-		if (npc->state == SPEAK)
+		if (npc->state == SPEAK && npc->dialogue.phase >= 0 && npc->dialogue.phase < 8)
 		{
+			if (!npc->dialogue.dialogues[npc->dialogue.phase])
+				continue ;
+			if (npc->dialogue.current_line < 0
+				|| npc->dialogue.current_line >= npc->dialogue.dialogue_count[npc->dialogue.phase])
+				npc->dialogue.current_line = 0;
+			dialogue_text = npc->dialogue.dialogues[npc->dialogue.phase][npc->dialogue.current_line];
+			if (!dialogue_text)
+				continue ;
 			mlx_put_image_to_window(game->mlx, game->window->ptr,
 				game->tex.dialogue_box.ptr, x, y);
-			mlx_string_put(game->mlx, game->window->ptr, x + 15, y + 35, color,
-				npc->lines[npc->current_line]);
+			mlx_string_put(game->mlx, game->window->ptr, x + 15, y + 35, color, dialogue_text);
+			if (npc->dialogue.current_line >= npc->dialogue.dialogue_count[npc->dialogue.phase])
+				npc->dialogue.current_line = 0;
 		}
 		i++;
 	}
 }
+
 
 static void	sort_npcs(t_game *game, t_player *player)
 {

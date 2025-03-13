@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:26:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 17:54:14 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 14:11:10 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,3 +49,31 @@ void	update_npc_list(t_game *game, t_npc *npc)
 	game->npcs[game->npc_count] = npc;
 	game->npc_count++;
 }
+
+void allocate_dialogues(t_game *game, t_dial *dialog, char *dialogues[][11], int phase_count)
+{
+	int i = 0;
+
+	dialog->dialogues = x_malloc(game, phase_count * sizeof(char **));
+	dialog->dialogue_count = x_malloc(game, phase_count * sizeof(int));
+	while (i < phase_count)
+	{
+		int count = 0;
+		while (dialogues[i][count])
+			count++;
+		dialog->dialogues[i] = x_malloc(game, (count + 1) * sizeof(char *));
+		if (!dialog->dialogues[i])
+			return;
+		dialog->dialogue_count[i] = count;
+		int j = 0;
+		while (j < count)
+		{
+			dialog->dialogues[i][j] = x_strdup(game, dialogues[i][j]);
+			j++;
+		}
+		dialog->dialogues[i][count] = NULL;
+		i++;
+	}
+}
+
+

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/12 11:18:47 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 14:12:24 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,20 +245,6 @@ typedef enum e_walk_block
 	WALK_RIGHT
 }	t_walk_block;
 
-typedef enum e_dial_phase
-{
-	PHASE_1,
-	END
-}	t_dial_phase;
-
-typedef struct s_dial
-{
-	char			**dialogues[4]; // Corresponds to the number of states
-	int				dialogue_counts[4];
-	int				current_line;
-	t_dial_phase	phase;
-}	t_dial;
-
 typedef struct s_sprite
 {
 	t_dpoint	pos;
@@ -289,9 +275,54 @@ typedef struct s_los
 	t_dpoint	delta_dist;
 }	t_los;
 
+typedef enum e_dial_phase
+{
+	IDLE,
+	PHASE_0,
+	PHASE_1,
+	PHASE_2,
+	PHASE_3,
+	PHASE_4,
+	PHASE_5,
+	PHASE_6,
+	PHASE_7,
+	PHASE_8
+}	t_dial_phase;
+
+# define NOT_STARTED	0
+# define SEARCHING		1
+# define FOUND			2
+# define LOCATED		3
+# define WAITING		4
+# define HELPED			5
+# define SAVED			6
+# define EXIT_SEARCH	7
+# define UNLOCKED		8
+
+typedef struct s_story_state
+{
+	bool has_spoken_to_witch;
+	bool has_spoken_to_calico;
+	bool has_spoken_to_fire_spirit;
+	int	sibling;
+	int	fireball;
+	int	key;
+	int	exit;
+} t_story_state;
+
+typedef struct s_dial
+{
+	char			***dialogues;
+	int				*dialogue_count;
+	int				current_line;
+	int 			phase_count;
+	t_dial_phase	phase;
+}	t_dial;
+
 typedef struct s_npc
 {
 	char		*type;
+	char		*name;
 	t_dpoint	pos;
 	t_npc_state	state;
 	double		speed;
@@ -299,9 +330,7 @@ typedef struct s_npc
 	t_dpoint	last_move_vec;
 	t_sprite	sprite;
 	t_astar		*astar;
-	char		**lines;
-	int			line_count;
-	int			current_line;
+	t_dial		dialogue;
 	int			patrol_range;
 	t_dpoint	*waypoints;
 	int			waypoint_count;
@@ -314,7 +343,7 @@ typedef struct s_npc
 	bool		is_enemy;
 	bool		is_hit;
 	double		hit_timer;
-    double		hit_duration;
+	double		hit_duration;
 }	t_npc;
 
 typedef enum e_door_state
@@ -354,6 +383,7 @@ typedef enum e_game_state
 typedef struct s_game
 {
 	t_game_state	state;
+	t_story_state	story;
 	t_map			*map;
 	void			*mlx;
 	t_window		*window;
@@ -455,7 +485,8 @@ void	draw_npc_dialogue(t_game *game);
 bool	interact_with_door(t_game *game);
 t_npc	*find_closest_npc(t_game *game, double max_distance);
 bool	interact_with_npc(t_game *game);
-bool	advance_npc_dialogue(t_npc *npc);
+bool	advance_npc_dialogue(t_npc *npc, t_story_state *story);
+void	update_story(t_game *game);
 void	handle_interaction(t_game *game);
 void	make_closest_npc_follow(t_game *game, double max_distance);
 int		pause_game(t_game *game);
@@ -493,6 +524,11 @@ char	*x_strjoin_free(t_game *game, char *s1, char *s2);
 char	*x_strdup(t_game *game, const char *s);
 char	**x_copy_strarray(t_game *game, char **array);
 int		**x_create_matrix(t_game *game, int row_count, int col_count);
+
+t_dial_phase	get_witch_kitty_phase(t_story_state *story);
+t_dial_phase	get_calico_phase(t_story_state *story);
+t_dial_phase	get_fire_spirit_phase(t_story_state *story);
+void			allocate_dialogues(t_game *game, t_dial *dialog, char *dialogues[][11], int phase_count);
 
 // MUSIC
 void	start_background_music(const char *music_file);

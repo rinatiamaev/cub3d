@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 01:13:03 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/11 22:01:28 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/12 14:02:19 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	handle_interaction(t_game *game)
 
 	npc = find_closest_npc(game, 2.0);
 	if (npc && npc->state == SPEAK)
-		advance_npc_dialogue(npc);
+		advance_npc_dialogue(npc, &game->story);
 	else if (!interact_with_npc(game))
 		interact_with_door(game);
 }

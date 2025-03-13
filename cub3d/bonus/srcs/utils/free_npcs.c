@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:30:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/12 01:35:30 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 14:12:18 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,29 @@ void	free_npc_textures(t_game *game, t_sprite *sprite)
 		free_tex_frames(game, sprite->hit_frames, sprite->hit_frames_count);
 }
 
+void free_dialogues(t_dial *dialog)
+{
+	int i = 0;
+
+	while (i < dialog->phase_count)
+	{
+		if (dialog->dialogues[i])
+		{
+			int j = 0;
+			while (dialog->dialogues[i][j])
+			{
+				free(dialog->dialogues[i][j]);
+				j++;
+			}
+			free(dialog->dialogues[i]);
+		}
+		i++;
+	}
+	free(dialog->dialogues);
+	free(dialog->dialogue_count);
+}
+
+
 void	free_single_npc(t_game *game, t_npc *npc)
 {
 	if (!npc)
@@ -60,6 +83,7 @@ void	free_single_npc(t_game *game, t_npc *npc)
 		reset_astar_struct(game, npc->astar);
 		free(npc->astar);
 	}
+	free_dialogues(&npc->dialogue);
 	free(npc);
 }
 
