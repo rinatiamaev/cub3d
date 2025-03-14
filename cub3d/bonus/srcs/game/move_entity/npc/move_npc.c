@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:23:15 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 23:59:57 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/14 11:54:20 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static void	stop_npc(t_npc *npc, t_dpoint target)
 bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time)
 {
 	t_dpoint	delta;
-	t_dpoint	next_pos;
 	double		dist;
 
 	if (npc->is_hit || is_any_npc_talking(game))
@@ -72,24 +71,17 @@ bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time)
 	}
 	delta.x /= dist;
 	delta.y /= dist;
-	next_pos.x = npc->pos.x + (delta.x * npc->speed * delta_time);
-	next_pos.y = npc->pos.y + (delta.y * npc->speed * delta_time);
-	if (is_position_occupied_by_other_npc(game, npc, next_pos))
+	npc->next_pos.x = npc->pos.x + (delta.x * npc->speed * delta_time);
+	npc->next_pos.y = npc->pos.y + (delta.y * npc->speed * delta_time);
+	if (is_position_occupied_by_other_npc(game, npc, npc->next_pos))
 	{
 		if (npc->is_following)
-		{
-			bool is_blocked = true;
-			if (is_blocked)
-			{
-				npc->is_following = false;
-				npc->state = WAIT;
-			}
-		}
+			npc->is_blocked = true;
 		else if (npc->state == PATROL)
 			generate_npc_waypoints(npc, game);
 		return (true);
 	}
-	npc->pos = next_pos;
+	npc->pos = npc->next_pos;
 	npc->move_vec.x = delta.x;
 	npc->move_vec.y = delta.y;
 	return (false);

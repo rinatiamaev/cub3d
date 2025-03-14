@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 23:24:03 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/14 11:53:40 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 # define MINIMAP_OFFSET_X	20
 # define MINIMAP_OFFSET_Y	20
 # define PLAYER_SCALE		0.6
-# define WALL_COLOR			0xFFFFFF	// White walls
-# define PLAYER_COLOR		0xFFFF00	// Yellow player
+# define WALL_COLOR			0xFFFFFF
+# define PLAYER_COLOR		0xFFFF00
 
 # define SUCCESS	0
 # define FAILURE	1
@@ -234,7 +234,8 @@ typedef enum e_npc_state
 	FOLLOW,
 	SPEAK,
 	CHASE,
-	HIT
+	HIT,
+	BLOCKED
 }	t_npc_state;
 
 typedef enum e_walk_block
@@ -324,6 +325,7 @@ typedef struct s_npc
 	char		*type;
 	char		*name;
 	t_dpoint	pos;
+	t_dpoint	next_pos;
 	t_npc_state	state;
 	double		speed;
 	t_dpoint	move_vec;
@@ -340,6 +342,7 @@ typedef struct s_npc
 	int			path_index;
 	double		threshold_dist;
 	bool		is_following;
+	bool		is_blocked;
 	bool		is_enemy;
 	bool		is_hit;
 	double		hit_timer;
