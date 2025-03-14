@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 17:22:08 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 23:24:03 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -458,6 +458,7 @@ bool	is_position_near_any_npc(t_dpoint position, t_game *game,
 			double min_distance, t_npc *self_npc);
 bool	is_position_occupied_by_other_npc(t_game *game, t_npc *npc,
 				t_dpoint next_pos);
+void	update_npc_follow_path(t_game *game, t_npc *npc);
 
 // DOOR
 void	update_doors(t_game *game, double delta_time);

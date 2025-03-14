@@ -6,13 +6,13 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:57:31 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 16:21:48 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 23:23:28 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static void	update_npc_follow_path(t_game *game, t_npc *npc)
+void	update_npc_follow_path(t_game *game, t_npc *npc)
 {
 	a_star_path(game, npc, (t_point){(int)npc->pos.x, (int)npc->pos.y},
 		(t_point){(int)game->player.last_pos.x, (int)game->player.last_pos.y});

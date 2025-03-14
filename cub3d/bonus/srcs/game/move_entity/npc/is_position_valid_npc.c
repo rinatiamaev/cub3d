@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 23:07:56 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 16:21:29 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 23:30:39 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ bool	is_position_valid_for_npc(t_game *game, t_astar *astar, t_point pos)
 	if (is_occupied_by_moving_npc(game, pos))
 		return (true);
 	if (is_occupied_by_any_npc(game, pos))
+		return (false);
+	if (is_position_occupied_by_other_npc(game, NULL, (t_dpoint){pos.x, pos.y}))
 		return (false);
 	return (true);
 }

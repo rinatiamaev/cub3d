@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:08:53 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 13:51:44 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 23:53:53 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,8 @@ void	a_star_path(t_game *game, t_npc *npc, t_point start, t_point goal)
 		}
 		spread_child_node(game, astar);
 	}
+	npc->path_length = 0;
+	npc->path_index = 0;
+	free(npc->path);
+	npc->path = NULL;
 }
