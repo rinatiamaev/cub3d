@@ -6,28 +6,35 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:51:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/12 01:37:30 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 16:33:26 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-void	init_fire_spirit_dialogue(t_npc *npc)
+void	init_fire_spirit_dialogues(t_game *game, t_npc *npc)
 {
-	static char	*fire_spirit_dialogue[] = {
-		"Oh thanks for cooling me down!",
+	static char	*dialogues[][11] = {
+	{"I have to keep calm and not burn everything...",
+		"Aaaaahuuuummmmmmm...", NULL
+	},
+	{"Oh thanks for cooling me down!",
 		"When I realized I was stuck in a labyrinth...",
 		"I panicked and started to burn everything...",
 		"I'm sorry for the mess...",
 		"I'm a fire spirit, you see...",
 		"I can't help it when I get too hot...",
 		"I am going to look for a way out...",
-		"if I find one, I'll let you know!"
+		"If I find one, I'll let you know!", NULL
+	},
+	{"You found a way out!?",
+		"Lead the way, I am right behind you!", NULL
+	}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}
 	};
 
-	npc->lines = fire_spirit_dialogue;
-	npc->line_count = sizeof(fire_spirit_dialogue) / sizeof(char *);
-	npc->current_line = 0;
+	npc->dialogue.phase_count = sizeof(dialogues) / sizeof(dialogues[0]);
+	allocate_dialogues
+		(game, &npc->dialogue, dialogues, npc->dialogue.phase_count);
 }
 
 static void	init_fire_spirit_sprites(t_npc *npc)
@@ -51,24 +58,15 @@ static void	init_fire_spirit_sprites(t_npc *npc)
 static void	init_fire_spirit(t_game *game, t_npc *npc, t_dpoint pos)
 {
 	npc->type = "fireSpirit";
-	npc->is_hit = false;
-	npc->is_enemy = false;
+	npc->name = "fire spirit";
 	npc->pos = pos;
 	npc->state = PATROL;
-	npc->speed = 1.4;
-	npc->patrol_range = 10;
-	npc->waypoint_count = 4;
-	npc->current_wp = 1;
-	npc->threshold_dist = 0.2;
-	npc->astar = x_calloc(game, 1, sizeof(t_astar));
-	npc->astar->direction[0] = (t_point){0, -1};
-	npc->astar->direction[1] = (t_point){0, 1};
-	npc->astar->direction[2] = (t_point){-1, 0};
-	npc->astar->direction[3] = (t_point){1, 0};
+	npc->speed = 2.0;
+	init_npc_pathfinding(game, npc);
 	generate_npc_waypoints(npc, game);
 	init_fire_spirit_sprites(npc);
 	init_sprite_frames_and_animation(game, &npc->sprite);
-	init_fire_spirit_dialogue(npc);
+	init_fire_spirit_dialogues(game, npc);
 }
 
 static void	reset_npc(t_game *game, t_npc *npc)

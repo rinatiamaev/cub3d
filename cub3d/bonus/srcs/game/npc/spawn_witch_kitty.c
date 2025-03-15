@@ -6,27 +6,59 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 00:23:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/12 11:23:47 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 16:35:08 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-void	init_witch_kitty_dialogue(t_npc *npc)
+void	init_witch_kitty_dialogues(t_game *game, t_npc *npc)
 {
-	static char	*kitty_dialogue[] = {
-		"Hi! Finally awake!",
+	static char	*dialogues[][11] = {
+	{"At least we have a well nearby to drink from...", NULL },
+	{"Hi! Finally awake!",
 		"My sibling and I are trapped in this Labyrinth!",
 		"He left to find an exit but never came back!",
 		"He told me to wait here...",
-		"Could you look for him past this door?",
+		"could you look for him past this door?",
 		"Please, I'm worried about him...",
-		"Thank you! I'll wait here for you!"
+		"thank you! I'll wait here for you!", NULL
+	},
+	{"...",
+		"What a giant fireball is wandering around!?",
+		"Oh my godferatu! I hope Calico is alright...",
+		"will you still help me find him?",
+		"Thank you, you're so brave!", NULL
+	},
+	{"...",
+		"You found him! I am relieved...",
+		"bring him back please!", NULL
+	},
+	{"...",
+		"You found him! I am relieved but scared...",
+		"at the same time, I hope you can get rid of...",
+		"ahat fireball! It sounds dangerous!", NULL
+	},
+	{"...",
+		"The fireball was an angry spirit!?",
+		"Good thing you cooled it down!",
+		"Hopefully, it won't get mad again...",
+		"Could you still bring Calico back to me?", NULL
+	},
+	{"...",
+		"Thank you so much for bringing him back!",
+		"We just have to find a way out now...", NULL
+	},
+	{"You found a key ?! We just need a door now!", NULL },
+	{"You found a locked door ?! We just need a key now!", NULL },
+	{"We are ready to leave this place, oh my godferatu!",
+		"What are we waiting for let's go!"
+	}, {NULL}
 	};
 
-	npc->lines = kitty_dialogue;
-	npc->line_count = sizeof(kitty_dialogue) / sizeof(char *);
-	npc->current_line = 0;
+	npc->dialogue.phase_count = sizeof(dialogues) / sizeof(dialogues[0]);
+	allocate_dialogues
+		(game, &npc->dialogue, dialogues, npc->dialogue.phase_count);
 }
 
 static void	init_witch_kitty_sprites(t_npc *npc)
@@ -60,23 +92,15 @@ static void	init_witch_kitty_sprites(t_npc *npc)
 static void	init_witch_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 {
 	npc->type = "kitty";
-	npc->is_hit = false;
+	npc->name = "witch kitty";
 	npc->pos.x = pos.x + 0.5;
 	npc->pos.y = pos.y + 0.5;
-	npc->speed = 1.0;
-	npc->patrol_range = 10;
-	npc->waypoint_count = 4;
-	npc->current_wp = 1;
-	npc->threshold_dist = 0.2;
-	npc->astar = x_calloc(game, 1, sizeof(t_astar));
-	npc->astar->direction[0] = (t_point){0, -1};
-	npc->astar->direction[1] = (t_point){0, 1};
-	npc->astar->direction[2] = (t_point){-1, 0};
-	npc->astar->direction[3] = (t_point){1, 0};
+	npc->speed = 1.2;
+	init_npc_pathfinding(game, npc);
 	generate_npc_waypoints(npc, game);
 	init_witch_kitty_sprites(npc);
 	init_sprite_frames_and_animation(game, &npc->sprite);
-	init_witch_kitty_dialogue(npc);
+	init_witch_kitty_dialogues(game, npc);
 }
 
 void	spawn_witch_kitty(t_game *game, double x, double y)

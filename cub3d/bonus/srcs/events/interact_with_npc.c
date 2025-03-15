@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 01:09:21 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/11 22:37:03 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/13 17:00:51 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,27 @@ t_npc	*find_closest_npc(t_game *game, double max_distance)
 	return (closest_npc);
 }
 
-bool	advance_npc_dialogue(t_npc *npc)
+bool	advance_npc_dialogue(t_npc *npc, t_story_state *story)
 {
 	if (npc->state != SPEAK)
 		return (false);
-	npc->current_line++;
-	if (npc->current_line >= npc->line_count)
+	npc->dialogue.current_line++;
+	if (npc->dialogue.current_line
+		>= npc->dialogue.dialogue_count[npc->dialogue.phase])
 	{
-		npc->current_line = 0;
+		if (ft_strcmp(npc->name, "witch kitty") == 0)
+			story->has_spoken_to_witch = true;
+		if (ft_strcmp(npc->name, "calico kitty") == 0)
+			story->has_spoken_to_calico = true;
+		if (ft_strcmp(npc->name, "fire spirit") == 0)
+			story->has_spoken_to_fire_spirit = true;
+		npc->dialogue.current_line = 0;
 		npc->state = WAIT;
 	}
 	return (true);
 }
 
-static bool	handle_npc_chase(t_game *game)
+bool	handle_npc_chase(t_game *game)
 {
 	t_npc	*npc;
 
@@ -81,4 +88,3 @@ bool	interact_with_npc(t_game *game)
 		return (false);
 	return (handle_npc_speak(game));
 }
-

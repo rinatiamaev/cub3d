@@ -6,11 +6,33 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:23:15 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/12 10:44:00 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/14 11:54:20 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
+
+bool	is_position_occupied_by_other_npc(t_game *game, t_npc *npc,
+	t_dpoint next_pos)
+{
+	int i;
+
+	i = 0;
+	while (i < game->npc_count)
+	{
+		
+		if (npc && game->npcs[i] == npc)
+		{
+			i++;
+			continue ;
+		}
+		if ((int)game->npcs[i]->pos.x == (int)next_pos.x
+			&& (int)game->npcs[i]->pos.y == (int)next_pos.y)
+			return (true);
+		i++;
+	}
+	return (false);
+}
 
 static bool	has_reached_target(t_npc *npc, t_dpoint target)
 {
@@ -24,22 +46,10 @@ static void	stop_npc(t_npc *npc, t_dpoint target)
 	npc->move_vec = (t_dpoint){0, 0};
 }
 
-static void	update_npc_movement(t_npc *npc, t_dpoint delta, double delta_time)
-{
-	double	dist;
-
-	dist = sqrt((delta.x * delta.x) + (delta.y * delta.y));
-	delta.x /= dist;
-	delta.y /= dist;
-	npc->pos.x += delta.x * npc->speed * delta_time;
-	npc->pos.y += delta.y * npc->speed * delta_time;
-	npc->move_vec.x = delta.x;
-	npc->move_vec.y = delta.y;
-}
-
 bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time)
 {
 	t_dpoint	delta;
+	double		dist;
 
 	if (npc->is_hit || is_any_npc_talking(game))
 	{
@@ -48,13 +58,32 @@ bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time)
 	}
 	delta.x = target.x - npc->pos.x;
 	delta.y = target.y - npc->pos.y;
-/* 	if (is_position_near_any_npc(npc->pos, game, 0.5, npc))
-		return (false); */
 	if (has_reached_target(npc, target))
 	{
 		stop_npc(npc, target);
 		return (true);
 	}
-	update_npc_movement(npc, delta, delta_time);
+	dist = sqrt((delta.x * delta.x) + (delta.y * delta.y));
+	if (dist == 0)
+	{
+		stop_npc(npc, npc->pos);
+		return (true);
+	}
+	delta.x /= dist;
+	delta.y /= dist;
+	npc->next_pos.x = npc->pos.x + (delta.x * npc->speed * delta_time);
+	npc->next_pos.y = npc->pos.y + (delta.y * npc->speed * delta_time);
+	if (is_position_occupied_by_other_npc(game, npc, npc->next_pos))
+	{
+		if (npc->is_following)
+			npc->is_blocked = true;
+		else if (npc->state == PATROL)
+			generate_npc_waypoints(npc, game);
+		return (true);
+	}
+	npc->pos = npc->next_pos;
+	npc->move_vec.x = delta.x;
+	npc->move_vec.y = delta.y;
 	return (false);
 }
+

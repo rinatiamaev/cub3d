@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:33:37 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 21:57:07 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/12 14:34:24 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	game_loop(t_game *game)
 	handle_mouse_movement(game, game->window);
 	update_all_npcs(game, delta_time);
 	update_doors(game, delta_time);
+	update_story(game);
 	render_scene(game);
 	return (0);
 }
