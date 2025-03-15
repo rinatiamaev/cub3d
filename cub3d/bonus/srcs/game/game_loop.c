@@ -19,7 +19,7 @@ int	game_loop(t_game *game)
 	if (game->state != RUNNING)
 		return (0);
 	delta_time = get_delta_time();
-	handle_player_moves(game);
+	handle_player_moves(game, delta_time);
 	handle_mouse_movement(game, game->window);
 	update_all_npcs(game, delta_time);
 	update_doors(game, delta_time);

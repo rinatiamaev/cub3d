@@ -38,7 +38,7 @@ static void	init_player(t_player *player)
 {
 	player->pos = (t_dpoint){player->pos.x + 0.5, player->pos.y + 0.5};
 	player->rot_speed = 5;
-	player->move_speed = 0.1;
+	player->move_speed = 1;
 	if (player->conf_dir == 'N')
 		player->angle = 3 * M_PI / 2;
 	else if (player->conf_dir == 'S')

@@ -509,7 +509,7 @@ bool	is_within_bounds(t_game *game, t_point pos);
 bool	is_any_npc_talking(t_game *game);
 bool	is_position_valid_for_player(t_game *game, t_dpoint pos);
 bool	is_position_valid_for_npc(t_game *game, t_astar *astar, t_point pos);
-void	handle_player_moves(t_game *game);
+void	handle_player_moves(t_game *game, double delta_time);
 void	rotate_left(t_player *player, double rot_speed, double delta_time);
 void	rotate_right(t_player *player, double rot_speed, double delta_time);
 
