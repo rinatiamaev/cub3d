@@ -43,7 +43,7 @@ double	get_delta_time(void)
 		last_time = current_time;
 	delta_time = current_time - last_time;
 	last_time = current_time;
-	printf("Delta Time: %f\n", delta_time); // Debug print
+	printf("Delta Time: %f\n", delta_time); // Debug print need delete before EVAL
 	return (delta_time);
 }
 
