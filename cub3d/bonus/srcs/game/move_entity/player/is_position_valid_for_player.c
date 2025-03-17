@@ -6,14 +6,14 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 23:44:16 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 23:36:30 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/17 11:13:15 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
 bool	is_position_near_any_npc(t_dpoint position, t_game *game,
-										double min_distance, t_npc *self_npc)
+	double min_distance, t_npc *self_npc)
 {
 	t_npc	*npc;
 	double	distance;
