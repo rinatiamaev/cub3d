@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 11:24:07 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/17 14:12:53 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,9 @@ typedef struct s_sprite
 	char		**hit_paths;
 	t_texture	*hit_frames;
 	int			hit_frames_count;
+	char		**splash_paths;
+	t_texture	*splash_frames;
+	int			splash_frames_count;
 	int			anim_start;
 	int			anim_index;
 	double		anim_timer;

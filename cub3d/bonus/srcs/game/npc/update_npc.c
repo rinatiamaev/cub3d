@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:06:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 11:23:22 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/17 14:01:52 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,17 @@ static bool	is_player_near_npc(t_npc *npc, t_player *player, double range)
 	return (ft_cab_dist_dpoint(player->pos, npc->pos) < range);
 }
 
-static void	reset_animations(t_npc *npc)
+static void	reset_animations_and_path(t_npc *npc)
 {
 	npc->sprite.anim_index = 0;
 	npc->sprite.anim_timer = 0.0;
+	if (npc->path)
+	{
+		free(npc->path);
+		npc->path = NULL;
+		npc->path_length = 0;
+		npc->path_index = 0;
+	}
 }
 
 static void	update_npc_state(t_npc *npc, t_player *player)
@@ -35,12 +42,14 @@ static void	update_npc_state(t_npc *npc, t_player *player)
 	else
 	{
 		if (npc->is_following)
+		{
 			npc->state = FOLLOW;
+		}
 		else
 			npc->state = PATROL;
 	}
-	if (npc->state != previous_state)
-		reset_animations(npc);
+    if (npc->state != previous_state)
+        reset_animations_and_path(npc);
 }
 
 static void	update_npc(t_game *game, t_npc *npc, double delta_time)
