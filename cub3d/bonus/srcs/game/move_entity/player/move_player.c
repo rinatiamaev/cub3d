@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:49:24 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/11 23:50:47 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/17 10:48:56 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	handle_player_moves(t_game *game, double delta_time)
 {
 	if (is_any_npc_talking(game))
 		return ;
-	printf("Player Position: (%f, %f)\n", game->player.pos.x, game->player.pos.y); // Debug print
 	if (game->keys[UP])
 		move_forward(game, game->player.move_speed * delta_time);
 	if (game->keys[DOWN])
@@ -88,5 +87,4 @@ void	handle_player_moves(t_game *game, double delta_time)
 		rotate_right(&game->player, game->player.rot_speed, delta_time);
 	if (game->keys[ARR_LEFT])
 		rotate_left(&game->player, game->player.rot_speed, delta_time);
-	printf("Updated Player Position: (%f, %f)\n", game->player.pos.x, game->player.pos.y); // Debug print
 }

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:06:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/14 12:04:02 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/17 11:23:22 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ static void	update_npc_state(t_npc *npc, t_player *player)
 		npc->state = WAIT;
 	else
 	{
-		if (npc->is_blocked)
-			npc->state = BLOCKED;
-		else if (npc->is_following)
+		if (npc->is_following)
 			npc->state = FOLLOW;
 		else
 			npc->state = PATROL;
@@ -61,12 +59,6 @@ static void	update_npc(t_game *game, t_npc *npc, double delta_time)
 	{
 		play_movement_animation(npc, delta_time);
 		move_npc_follow(game, npc, delta_time);
-	}
-	else if (npc->state == BLOCKED)
-	{
-		play_wait_animation(npc, delta_time);
-		if (!is_position_occupied_by_other_npc(game, npc, npc->next_pos))
-			npc->is_blocked = false;
 	}
 }
 

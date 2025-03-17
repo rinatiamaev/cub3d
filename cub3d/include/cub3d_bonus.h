@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/14 11:53:40 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/17 11:24:07 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,7 +325,6 @@ typedef struct s_npc
 	char		*type;
 	char		*name;
 	t_dpoint	pos;
-	t_dpoint	next_pos;
 	t_npc_state	state;
 	double		speed;
 	t_dpoint	move_vec;
@@ -342,7 +341,6 @@ typedef struct s_npc
 	int			path_index;
 	double		threshold_dist;
 	bool		is_following;
-	bool		is_blocked;
 	bool		is_enemy;
 	bool		is_hit;
 	double		hit_timer;
@@ -459,8 +457,6 @@ bool	has_line_of_sight(t_game *game, t_dpoint src, t_dpoint target);
 bool	is_occupied_by_any_npc(t_game *game, t_point pos);
 bool	is_position_near_any_npc(t_dpoint position, t_game *game,
 			double min_distance, t_npc *self_npc);
-bool	is_position_occupied_by_other_npc(t_game *game, t_npc *npc,
-				t_dpoint next_pos);
 void	update_npc_follow_path(t_game *game, t_npc *npc);
 
 // DOOR
