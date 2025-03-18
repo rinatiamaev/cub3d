@@ -6,13 +6,13 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:30:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 11:42:16 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 10:19:04 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static void	free_tex_frames(t_game *game, t_texture *frames, int count)
+void	free_tex_frames(t_game *game, t_texture *frames, int count)
 {
 	int	j;
 
@@ -28,7 +28,7 @@ static void	free_tex_frames(t_game *game, t_texture *frames, int count)
 
 void	free_npc_textures(t_game *game, t_sprite *sprite)
 {
-	free_tex_frames(game, sprite->idle_frames, sprite->num_idle_frames);
+	free_tex_frames(game, sprite->idle_frames, sprite->idle_frames_count);
 	free_tex_frames(game, sprite->move_frames, sprite->move_frames_count);
 	free_tex_frames(game, sprite->speak_frames, sprite->speak_frames_count);
 	if (sprite->hit_frames)

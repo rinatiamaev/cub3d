@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:29:13 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 13:55:48 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 13:11:33 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	update_npc_patrol_path(t_game *game, t_npc *npc)
 {
-
 	a_star_path(game, npc, (t_point){(int)npc->pos.x, (int)npc->pos.y},
 		(t_point){(int)npc->waypoints[npc->current_wp].x,
 		(int)npc->waypoints[npc->current_wp].y});

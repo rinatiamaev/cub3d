@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 14:12:53 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 13:52:15 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,8 @@ typedef enum e_char_value
 	WALL,
 	CONF_DIR,
 	EMPTY,
-	WITCH_KITTY,
-	CALICO_KITTY,
-	FIRE_SPIRIT,
+	WELL,
+	BUCKET,
 	DOOR
 }	t_char_value;
 
@@ -153,19 +152,6 @@ typedef struct s_window
 	t_point	size;
 	t_point	offset;
 }	t_window;
-
-typedef struct s_player
-{
-	char		conf_dir;
-	t_dpoint	pos;		// (x, y) in double precision
-	t_dpoint	last_pos;
-	t_dpoint	dir;		// Direction vector: which way is "forward"
-	t_dpoint	plane;		// Camera plane vector: perpendicular to dir
-	double		rot_speed;	// Rotation speed in radians per second
-	double		move_speed;	// Movement speed per frame
-	double		angle;		// Player’s facing angle (in radians)
-	bool		has_water;
-}	t_player;
 
 typedef struct s_img
 {
@@ -252,7 +238,7 @@ typedef struct s_sprite
 	t_point		size;
 	char		**idle_paths;
 	t_texture	*idle_frames;
-	int			num_idle_frames;
+	int			idle_frames_count;
 	char		**move_paths;
 	t_texture	*move_frames;
 	int			move_frames_count;
@@ -265,6 +251,7 @@ typedef struct s_sprite
 	char		**splash_paths;
 	t_texture	*splash_frames;
 	int			splash_frames_count;
+	t_texture	texture;
 	int			anim_start;
 	int			anim_index;
 	double		anim_timer;
@@ -367,6 +354,30 @@ typedef struct s_door
 	double			open_timer;	// Time the door stays open after fully opening
 }	t_door;
 
+typedef struct s_item
+{
+	char		*type;
+	char		*name;
+	t_dpoint	pos;
+	t_texture	texture;
+	t_sprite	sprite;
+	bool		is_collectible;
+	bool		is_collected;
+}	t_item;
+
+typedef enum e_entity_type
+{
+	NPC,
+	ITEM
+}	t_entity_type;
+
+typedef struct s_entity
+{
+	t_entity_type	type;
+	t_dpoint		pos;
+	void			*ptr;
+}	t_entity;
+
 typedef struct s_tex
 {
 	t_texture	no;
@@ -384,6 +395,22 @@ typedef enum e_game_state
 	GAME_OVER
 }	t_game_state;
 
+typedef struct s_player
+{
+	char		conf_dir;
+	t_dpoint	pos;		// (x, y) in double precision
+	t_dpoint	last_pos;
+	t_dpoint	dir;		// Direction vector: which way is "forward"
+	t_dpoint	plane;		// Camera plane vector: perpendicular to dir
+	double		rot_speed;	// Rotation speed in radians per second
+	double		move_speed;	// Movement speed per frame
+	double		angle;		// Player’s facing angle (in radians)
+	bool 		has_bucket;
+	bool		has_water;
+	bool		is_splashing;
+	t_sprite	sprite;
+}	t_player;
+
 typedef struct s_game
 {
 	t_game_state	state;
@@ -398,6 +425,8 @@ typedef struct s_game
 	int				npc_count;
 	t_door			**doors;
 	int				door_count;
+	t_item			**items;
+	int				item_count;
 	bool			minimap_visible;
 	bool			keys[66000];
 }	t_game;
@@ -405,9 +434,13 @@ typedef struct s_game
 // UTILS
 void	error(t_game *game, char *err_msg);
 void	free_game(t_game *game);
+void	free_tex_frames(t_game *game, t_texture *frames, int count);
 void	free_npc_waypoints(t_npc *npc);
 void	free_single_npc(t_game *game, t_npc *npc);
 void	free_npcs(t_game *game);
+void	free_single_item(t_game *game, t_item *item);
+void	free_items(t_game *game);
+void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx);
 double	get_delta_time(void);
 void	draw_lose_message(t_game *game);
 
@@ -428,7 +461,7 @@ void	parse_map(t_game *game, t_map *map);
 // INITIALIZATION
 t_game	*init_game(char *filename);
 void	load_game_textures(t_game *game, t_conf conf);
-void	load_sprite_frames(t_game *game, t_sprite *sprite);
+void	load_sprite_frames_npc(t_game *game, t_sprite *sprite);
 void	update_enemy_npc(t_game *game, t_npc *npc, double delta_time);
 void	update_all_npcs(t_game *game, double delta_time);
 void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
@@ -438,7 +471,7 @@ void	move_npc_patrol(t_game *game, t_npc *npc, double delta_time);
 void	move_npc_follow(t_game *game, t_npc *npc, double delta_time);
 
 // NPC
-void	init_sprite_frames_and_animation(t_game *game, t_sprite *sprite);
+void	init_npc_animation(t_game *game, t_sprite *sprite);
 void	init_npc_pathfinding(t_game *game, t_npc *npc);
 void	generate_npc_waypoints(t_npc *npc, t_game *game);
 void	update_npc_list(t_game *game, t_npc *npc);
@@ -457,10 +490,13 @@ void	free_npc_textures(t_game *game, t_sprite *sprite);
 void	free_npc_waypoints(t_npc *npc);
 void	spawn_fire_spirit(t_game *game, double x, double y);
 bool	has_line_of_sight(t_game *game, t_dpoint src, t_dpoint target);
-bool	is_occupied_by_any_npc(t_game *game, t_point pos);
-bool	is_position_near_any_npc(t_dpoint position, t_game *game,
-			double min_distance, t_npc *self_npc);
 void	update_npc_follow_path(t_game *game, t_npc *npc);
+
+// ITEM
+void	spawn_well(t_game *game, double x, double y);
+void	spawn_bucket(t_game *game, double x, double y);
+void	spawn_tree(t_game *game, double x, double y);
+void	update_item_list(t_game *game, t_item *item);
 
 // DOOR
 void	update_doors(t_game *game, double delta_time);
@@ -480,21 +516,32 @@ void	fill_ceiling_and_floor(t_img *img, int ceiling_color,
 			int floor_color);
 void	raycast(t_game *game, t_ray *ray, int *x, double *z_buffer);
 void	perform_dda(t_game *game, t_ray *ray);
-void	render_scene(t_game *game);
+void	render_scene(t_game *game, double delta_time);
 bool	init_sprite_draw_data(t_sprite_draw *data, t_player player,
 			t_sprite *sprite);
-void	draw_npcs(t_game *game, double *z_buffer);
 void	draw_minimap(t_game *game);
+void	draw_pause_message(t_game *game);
 void	draw_follow_state(t_game *game);
 void	draw_npc_dialogue(t_game *game);
+void	draw_splash(t_game *game, t_player *player, double delta_time);
+void	draw_bucket_state(t_game *game);
+void	init_player(t_game *game, t_player *player);
+void	load_sprite_animation(t_game *game, t_texture **frames,
+		char **paths, int frame_count);
+bool	init_texture_draw_data(t_sprite_draw *data, t_player player, t_item *item);
+void	draw_texture(t_game *game, t_player player, t_item *item, double *z_buffer);
+void	draw_entities(t_game *game, double *z_buffer);
 
 // HOOKS
 bool	interact_with_door(t_game *game);
+bool	interact_with_item(t_game *game);
 t_npc	*find_closest_npc(t_game *game, double max_distance);
 bool	interact_with_npc(t_game *game);
 bool	advance_npc_dialogue(t_npc *npc, t_story_state *story);
 void	update_story(t_game *game);
 bool	handle_npc_chase(t_game *game);
+bool	handle_npc_dialogue(t_game *game);
+bool	continue_npc_dialogue(t_game *game);
 void	handle_interaction(t_game *game);
 void	make_closest_npc_follow(t_game *game, double max_distance);
 int		pause_game(t_game *game);

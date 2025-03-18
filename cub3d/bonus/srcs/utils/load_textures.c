@@ -6,13 +6,13 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:25:33 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/12 01:13:06 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 10:55:28 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx)
+void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx)
 {
 	int	width;
 	int	height;
@@ -28,7 +28,7 @@ static void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx)
 		error(game, "mlx_get_data_addr() failed");
 }
 
-static void	load_sprite_animation(t_game *game, t_texture **frames,
+void	load_sprite_animation(t_game *game, t_texture **frames,
 	char **paths, int frame_count)
 {
 	int	i;
@@ -42,10 +42,10 @@ static void	load_sprite_animation(t_game *game, t_texture **frames,
 	}
 }
 
-void	load_sprite_frames(t_game *game, t_sprite *sprite)
+void	load_sprite_frames_npc(t_game *game, t_sprite *sprite)
 {
 	load_sprite_animation(game, &sprite->idle_frames, sprite->idle_paths,
-		sprite->num_idle_frames);
+		sprite->idle_frames_count);
 	load_sprite_animation(game, &sprite->move_frames, sprite->move_paths,
 		sprite->move_frames_count);
 	load_sprite_animation(game, &sprite->speak_frames, sprite->speak_paths,

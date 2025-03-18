@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:51:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 17:03:18 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 10:01:08 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	init_fire_spirit_sprites(t_npc *npc)
 
 	npc->sprite.size = (t_point){50, 50};
 	npc->sprite.idle_paths = enemy_frames;
-	npc->sprite.num_idle_frames
+	npc->sprite.idle_frames_count
 		= sizeof(enemy_frames) / sizeof(enemy_frames[0]);
 	npc->sprite.move_paths = enemy_frames;
 	npc->sprite.move_frames_count
@@ -43,13 +43,12 @@ static void	init_fire_spirit(t_game *game, t_npc *npc, t_dpoint pos)
 	npc->is_enemy = true;
 	npc->hit_duration = 2.0;
 	npc->state = PATROL;
-	npc->pos.x = pos.x + 0.5;
-	npc->pos.y = pos.y + 0.5;
+	npc->pos = (t_dpoint){pos.x + 0.5, pos.y + 0.5};
 	npc->speed = 3.0;
 	init_npc_pathfinding(game, npc);
 	generate_npc_waypoints(npc, game);
 	init_fire_spirit_sprites(npc);
-	init_sprite_frames_and_animation(game, &npc->sprite);
+	init_npc_animation(game, &npc->sprite);
 }
 
 void	spawn_fire_spirit(t_game *game, double x, double y)

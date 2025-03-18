@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 13:28:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 02:03:44 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 11:19:18 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ static void	free_doors(t_game *game)
 
 void	free_game(t_game *game)
 {
+	free_tex_frames(game, game->player.sprite.splash_frames,
+		game->player.sprite.splash_frames_count);
 	free_npcs(game);
+	free_items(game);
 	free_doors(game);
 	free_map(game->map);
 	if (game->window)

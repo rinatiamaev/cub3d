@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:06:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 14:01:52 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 13:10:18 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static void	update_npc_state(t_npc *npc, t_player *player)
 		else
 			npc->state = PATROL;
 	}
-    if (npc->state != previous_state)
-        reset_animations_and_path(npc);
+	if (npc->state != previous_state)
+		reset_animations_and_path(npc);
 }
 
 static void	update_npc(t_game *game, t_npc *npc, double delta_time)

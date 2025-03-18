@@ -6,13 +6,13 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 23:44:16 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 11:13:15 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 13:11:48 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-bool	is_position_near_any_npc(t_dpoint position, t_game *game,
+static bool	is_position_near_any_npc(t_dpoint position, t_game *game,
 	double min_distance, t_npc *self_npc)
 {
 	t_npc	*npc;
@@ -36,11 +36,34 @@ bool	is_position_near_any_npc(t_dpoint position, t_game *game,
 	return (false);
 }
 
+static bool	is_position_near_any_item(t_dpoint position, t_game *game,
+														double min_distance)
+{
+	t_item	*item;
+	double	distance;
+	int		i;
+
+	if (!game->items || game->item_count == 0)
+		return (false);
+	i = 0;
+	while (i < game->item_count)
+	{
+		item = game->items[i];
+		distance = ft_cab_dist_dpoint(position, item->pos);
+		if (distance < min_distance)
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
 bool	is_position_valid_for_player(t_game *game, t_dpoint pos)
 {
 	if (!is_map_position_valid(game, pos))
 		return (false);
 	if (is_position_near_any_npc(pos, game, 0.3, NULL))
+		return (false);
+	if (is_position_near_any_item(pos, game, 0.6))
 		return (false);
 	return (true);
 }
