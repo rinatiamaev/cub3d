@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:51:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 20:08:26 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 10:01:39 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	init_fire_spirit(t_game *game, t_npc *npc, t_dpoint pos)
 	init_npc_pathfinding(game, npc);
 	generate_npc_waypoints(npc, game);
 	init_fire_spirit_sprites(npc);
-	init_sprite_frames_and_animation_npc(game, &npc->sprite);
+	init_npc_animation(game, &npc->sprite);
 	init_fire_spirit_dialogues(game, npc);
 }
 

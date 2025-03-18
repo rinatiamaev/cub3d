@@ -6,13 +6,13 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:30:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 20:08:26 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 10:19:04 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static void	free_tex_frames(t_game *game, t_texture *frames, int count)
+void	free_tex_frames(t_game *game, t_texture *frames, int count)
 {
 	int	j;
 

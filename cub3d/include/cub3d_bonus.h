@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 20:53:35 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 10:19:18 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -407,6 +407,7 @@ typedef struct s_game
 // UTILS
 void	error(t_game *game, char *err_msg);
 void	free_game(t_game *game);
+void	free_tex_frames(t_game *game, t_texture *frames, int count);
 void	free_npc_waypoints(t_npc *npc);
 void	free_single_npc(t_game *game, t_npc *npc);
 void	free_npcs(t_game *game);
@@ -440,7 +441,7 @@ void	move_npc_patrol(t_game *game, t_npc *npc, double delta_time);
 void	move_npc_follow(t_game *game, t_npc *npc, double delta_time);
 
 // NPC
-void	init_sprite_frames_and_animation_npc(t_game *game, t_sprite *sprite);
+void	init_npc_animation(t_game *game, t_sprite *sprite);
 void	init_npc_pathfinding(t_game *game, t_npc *npc);
 void	generate_npc_waypoints(t_npc *npc, t_game *game);
 void	update_npc_list(t_game *game, t_npc *npc);
@@ -459,9 +460,6 @@ void	free_npc_textures(t_game *game, t_sprite *sprite);
 void	free_npc_waypoints(t_npc *npc);
 void	spawn_fire_spirit(t_game *game, double x, double y);
 bool	has_line_of_sight(t_game *game, t_dpoint src, t_dpoint target);
-bool	is_occupied_by_any_npc(t_game *game, t_point pos);
-bool	is_position_near_any_npc(t_dpoint position, t_game *game,
-			double min_distance, t_npc *self_npc);
 void	update_npc_follow_path(t_game *game, t_npc *npc);
 
 // DOOR
@@ -487,12 +485,12 @@ bool	init_sprite_draw_data(t_sprite_draw *data, t_player player,
 			t_sprite *sprite);
 void	draw_npcs(t_game *game, double *z_buffer);
 void	draw_minimap(t_game *game);
+void	draw_pause_message(t_game *game);
 void	draw_follow_state(t_game *game);
 void	draw_npc_dialogue(t_game *game);
 
 
-void	draw_player(t_game *game, t_player *player, double delta_time);
-void	play_splash_animation(t_player *player, double delta_time);
+void	draw_splash(t_game *game, t_player *player, double delta_time);
 void	init_player(t_game *game, t_player *player);
 void	load_sprite_animation(t_game *game, t_texture **frames,
 	char **paths, int frame_count);
@@ -504,6 +502,8 @@ bool	interact_with_npc(t_game *game);
 bool	advance_npc_dialogue(t_npc *npc, t_story_state *story);
 void	update_story(t_game *game);
 bool	handle_npc_chase(t_game *game);
+bool	handle_npc_dialogue(t_game *game);
+bool	continue_npc_dialogue(t_game *game);
 void	handle_interaction(t_game *game);
 void	make_closest_npc_follow(t_game *game, double max_distance);
 int		pause_game(t_game *game);

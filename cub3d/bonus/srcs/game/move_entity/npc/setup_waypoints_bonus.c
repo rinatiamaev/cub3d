@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 08:04:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/09 11:05:05 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 09:48:12 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ static int	is_patrol_point_valid(t_game *game, t_dpoint pos)
 {
 	t_point	check_pos;
 
-	check_pos = (t_point){pos.x, pos.y};
-	if (pos.y < 0 || pos.y >= game->map->size.y
-		|| pos.x < 0 || pos.x >= game->map->size.x)
+	check_pos = (t_point){(int)pos.x, (int)pos.y};
+	if (!is_within_bounds(game, check_pos))
 		return (false);
 	if (game->map->matrix[check_pos.y][check_pos.x] != FREE_SPACE)
 		return (false);
@@ -45,12 +44,11 @@ static int	is_patrol_point_unique(t_npc *npc, int count, t_dpoint pos)
 
 static t_dpoint	generate_point(t_dpoint pos, int range)
 {
-	int	offset_x;
-	int	offset_y;
+	t_point	offset;
 
-	offset_x = ft_rand(-range, range);
-	offset_y = ft_rand(-range, range);
-	return ((t_dpoint){pos.x + offset_x, pos.y + offset_y});
+	offset.x = ft_rand(-range, range);
+	offset.y = ft_rand(-range, range);
+	return ((t_dpoint){pos.x + offset.x, pos.y + offset.y});
 }
 
 static void	allocate_npc_waypoints(t_npc *npc, t_game *game)
@@ -62,7 +60,7 @@ static void	allocate_npc_waypoints(t_npc *npc, t_game *game)
 		free(npc->waypoints);
 		npc->waypoints = NULL;
 	}
-	npc->waypoints = x_calloc(game, 1, npc->waypoint_count * sizeof(t_dpoint));
+	npc->waypoints = x_calloc(game, npc->waypoint_count, sizeof(t_dpoint));
 }
 
 void	generate_npc_waypoints(t_npc *npc, t_game *game)
@@ -74,7 +72,7 @@ void	generate_npc_waypoints(t_npc *npc, t_game *game)
 
 	allocate_npc_waypoints(npc, game);
 	count = 0;
-	max_attempts = 10000000;
+	max_attempts = 1000;
 	failed_attempts = 0;
 	while (count < npc->waypoint_count && failed_attempts < max_attempts)
 	{

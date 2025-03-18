@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:05:57 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 20:08:26 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 10:01:01 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,12 @@ static void	init_calico_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 	npc->type = "kitty";
 	npc->name = "calico kitty";
 	npc->is_hit = false;
-	npc->pos.x = pos.x + 0.5;
-	npc->pos.y = pos.y + 0.5;
+	npc->pos = (t_dpoint){pos.x + 0.5, pos.y + 0.5};
 	npc->speed = 1.2;
 	init_npc_pathfinding(game, npc);
 	generate_npc_waypoints(npc, game);
 	init_calico_kitty_sprites(npc);
-	init_sprite_frames_and_animation_npc(game, &npc->sprite);
+	init_npc_animation(game, &npc->sprite);
 	init_calico_kitty_dialogues(game, npc);
 }
 

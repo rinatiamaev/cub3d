@@ -6,19 +6,30 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:02:28 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 14:10:18 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 09:35:19 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static bool	is_player_on_door(t_game *game, t_door *door)
+static bool	is_entity_on_door(t_game *game, t_door *door)
 {
+	int	i;
+
 	if ((int)game->player.pos.x == (int)door->pos.x
 		&& (int)game->player.pos.y == (int)door->pos.y)
 		return (true);
+	i = 0;
+	while (i < game->npc_count)
+	{
+		if ((int)game->npcs[i]->pos.x == (int)door->pos.x
+			&& (int)game->npcs[i]->pos.y == (int)door->pos.y)
+			return (true);
+		i++;
+	}
 	return (false);
 }
+
 
 static void	open_door(t_door *door, double delta_time)
 {
@@ -33,7 +44,7 @@ static void	open_door(t_door *door, double delta_time)
 
 static void	close_door(t_game *game, t_door *door, double delta_time)
 {
-	if (is_player_on_door(game, door))
+	if (is_entity_on_door(game, door))
 	{
 		door->state = DOOR_OPEN;
 		door->open_timer = 1.5;
@@ -51,7 +62,7 @@ static void	close_door(t_game *game, t_door *door, double delta_time)
 
 static void	handle_open_door(t_game *game, t_door *door, double delta_time)
 {
-	if (is_player_on_door(game, door))
+	if (is_entity_on_door(game, door))
 		door->open_timer = 1.5;
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:57:31 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 13:55:54 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 09:38:03 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,16 @@ static bool	is_follow_path_valid(t_npc *npc)
 
 void	move_npc_follow(t_game *game, t_npc *npc, double delta_time)
 {
-	t_dpoint	targ;
+	t_dpoint	target;
 
 	if (!is_follow_path_valid(npc))
+	{
 		update_npc_follow_path(game, npc);
-	if (!npc->path || npc->path_length == 0)
-		return ;
-	targ = npc->path[npc->path_index];
-	if (move_npc(game, npc, targ, delta_time))
+		if (!is_follow_path_valid(npc))
+			return;
+	}
+	target = npc->path[npc->path_index];
+	if (move_npc(game, npc, target, delta_time))
 	{
 		npc->path_index++;
 		if (npc->path_index >= npc->path_length)
