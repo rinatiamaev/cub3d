@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:05 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 10:49:35 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/17 20:39:05 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,6 @@ static void	init_window(t_game *game, t_window *window)
 		error(game, "mlx_new_window() failed");
 }
 
-static void	init_player(t_player *player)
-{
-	player->pos = (t_dpoint){player->pos.x + 0.5, player->pos.y + 0.5};
-	player->rot_speed = 5;
-	player->move_speed = 3;
-	if (player->conf_dir == 'N')
-		player->angle = 3 * M_PI / 2;
-	else if (player->conf_dir == 'S')
-		player->angle = M_PI / 2;
-	else if (player->conf_dir == 'W')
-		player->angle = M_PI;
-	else if (player->conf_dir == 'E')
-		player->angle = 0;
-	player->dir.x = cos(player->angle);
-	player->dir.y = sin(player->angle);
-	player->plane.x = -sin(player->angle) * FOV;
-	player->plane.y = cos(player->angle) * FOV;
-	player->has_water = true;
-}
-
 t_game	*init_game(char *filename)
 {
 	t_game	*game;
@@ -67,7 +47,7 @@ t_game	*init_game(char *filename)
 	game->window = x_calloc(game, 1, sizeof(t_window));
 	init_window(game, game->window);
 	load_game_textures(game, game->map->conf);
-	init_player(&game->player);
+	init_player(game, &game->player);
 	game->state = RUNNING;
 	return (game);
 }

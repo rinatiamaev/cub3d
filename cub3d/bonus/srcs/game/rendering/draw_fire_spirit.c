@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 20:32:30 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/12 01:11:14 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/17 20:08:26 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_texture	*get_npc_texture(t_npc *npc)
 	int	index;
 
 	index = npc->sprite.anim_index;
-	if (index < 0 || index >= npc->sprite.num_idle_frames)
+	if (index < 0 || index >= npc->sprite.idle_frames_count)
 		index = 0;
 	return (&npc->sprite.idle_frames[index]);
 }
@@ -37,7 +37,7 @@ static void	setup_temp_sprite(t_sprite *temp, t_npc *npc, t_texture *tex)
 	ft_memset(temp, 0, sizeof(t_sprite));
 	temp->pos = npc->pos;
 	temp->size = npc->sprite.size;
-	temp->num_idle_frames = 1;
+	temp->idle_frames_count = 1;
 	temp->idle_frames = tex;
 }
 

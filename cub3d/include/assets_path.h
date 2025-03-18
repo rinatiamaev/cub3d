@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:37:18 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 17:42:42 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/17 14:17:01 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,14 @@
 
 # define SLIDING_DOOR	"./bonus/assets/doors/sliding_door.xpm"
 # define DOOR_FRAME		"./bonus/assets/doors/door_frame.xpm"
+
+# define SPLASH_1 "./bonus/assets/splash/splash00.xpm"
+# define SPLASH_2 "./bonus/assets/splash/splash01.xpm"
+# define SPLASH_3 "./bonus/assets/splash/splash02.xpm"
+# define SPLASH_4 "./bonus/assets/splash/splash03.xpm"
+# define SPLASH_5 "./bonus/assets/splash/splash04.xpm"
+# define SPLASH_6 "./bonus/assets/splash/splash05.xpm"
+# define SPLASH_7 "./bonus/assets/splash/splash06.xpm"
 
 # define IO "./bonus/assets/items/well.xpm"
 

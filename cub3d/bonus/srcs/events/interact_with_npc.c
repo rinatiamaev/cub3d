@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 01:09:21 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 17:00:51 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/17 20:47:29 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,13 @@ bool	advance_npc_dialogue(t_npc *npc, t_story_state *story)
 	return (true);
 }
 
+void trigger_splash_animation(t_player *player)
+{
+	player->is_splashing = true;
+	player->sprite.anim_index = 0;
+	player->sprite.anim_timer = 0.0;
+}
+
 bool	handle_npc_chase(t_game *game)
 {
 	t_npc	*npc;
@@ -66,6 +73,7 @@ bool	handle_npc_chase(t_game *game)
 		&& has_line_of_sight(game, game->player.pos, npc->pos))
 	{
 		npc->is_hit = true;
+		trigger_splash_animation(&game->player);
 		return (false);
 	}
 	return (true);

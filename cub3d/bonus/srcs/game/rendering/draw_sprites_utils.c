@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_draw_sprite_data.c                            :+:      :+:    :+:   */
+/*   draw_sprites_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 22:18:50 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/26 23:50:13 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/17 20:08:26 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	select_texture_frame(t_sprite_draw *data, t_sprite *sprite)
 {
 	data->current_frame = get_current_frame(
 			sprite->anim_start,
-			sprite->num_idle_frames,
+			sprite->idle_frames_count,
 			200);
 	data->texture = &sprite->idle_frames[data->current_frame];
 	data->texture_size.x = data->texture->size.x;

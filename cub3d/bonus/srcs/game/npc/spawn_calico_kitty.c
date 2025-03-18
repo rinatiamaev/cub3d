@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:05:57 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 16:34:39 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/17 20:08:26 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static void	init_calico_kitty_sprites(t_npc *npc)
 
 	npc->sprite.size = (t_point){64, 64};
 	npc->sprite.idle_paths = idle_frames;
-	npc->sprite.num_idle_frames
+	npc->sprite.idle_frames_count
 		= sizeof(idle_frames) / sizeof(idle_frames[0]);
 	npc->sprite.move_paths = move_frames;
 	npc->sprite.move_frames_count
@@ -102,7 +102,7 @@ static void	init_calico_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 	init_npc_pathfinding(game, npc);
 	generate_npc_waypoints(npc, game);
 	init_calico_kitty_sprites(npc);
-	init_sprite_frames_and_animation(game, &npc->sprite);
+	init_sprite_frames_and_animation_npc(game, &npc->sprite);
 	init_calico_kitty_dialogues(game, npc);
 }
 

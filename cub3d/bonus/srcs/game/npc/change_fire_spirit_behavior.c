@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:51:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 16:33:26 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/17 20:08:26 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	init_fire_spirit_sprites(t_npc *npc)
 
 	npc->sprite.size = (t_point){50, 50};
 	npc->sprite.idle_paths = npc_frames;
-	npc->sprite.num_idle_frames
+	npc->sprite.idle_frames_count
 		= sizeof(npc_frames) / sizeof(npc_frames[0]);
 	npc->sprite.move_paths = npc_frames;
 	npc->sprite.move_frames_count
@@ -65,7 +65,7 @@ static void	init_fire_spirit(t_game *game, t_npc *npc, t_dpoint pos)
 	init_npc_pathfinding(game, npc);
 	generate_npc_waypoints(npc, game);
 	init_fire_spirit_sprites(npc);
-	init_sprite_frames_and_animation(game, &npc->sprite);
+	init_sprite_frames_and_animation_npc(game, &npc->sprite);
 	init_fire_spirit_dialogues(game, npc);
 }
 

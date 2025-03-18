@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 15:47:15 by riamaev           #+#    #+#             */
-/*   Updated: 2025/02/26 21:24:17 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/17 20:54:13 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	draw_walls(t_game *game, int tile_size)
 	}
 }
 
-static void	draw_player(t_game *game, int tile_size, int player_radius)
+static void	draw_player_token(t_game *game, int tile_size, int player_radius)
 {
 	t_point	player_pos;
 	t_point	player_offset;
@@ -88,5 +88,5 @@ void	draw_minimap(t_game *game)
 			MINIMAP_SIZE / game->map->size.y);
 	player_radius = tile_size * PLAYER_SCALE;
 	draw_walls(game, tile_size);
-	draw_player(game, tile_size, player_radius);
+	draw_player_token(game, tile_size, player_radius);
 }

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:26:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 16:32:10 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/17 20:08:26 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ static void	set_frame_sizes(t_texture *frames, int count, t_point size)
 		frames[i++].size = size;
 }
 
-void	init_sprite_frames_and_animation(t_game *game, t_sprite *sprite)
+void	init_sprite_frames_and_animation_npc(t_game *game, t_sprite *sprite)
 {
 	struct timeval	tv;
 
-	load_sprite_frames(game, sprite);
+	load_sprite_frames_npc(game, sprite);
 	set_frame_sizes
-		(sprite->idle_frames, sprite->num_idle_frames, sprite->size);
+		(sprite->idle_frames, sprite->idle_frames_count, sprite->size);
 	set_frame_sizes
 		(sprite->move_frames, sprite->move_frames_count, sprite->size);
 	set_frame_sizes

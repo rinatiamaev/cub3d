@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 14:12:53 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/17 20:53:35 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,19 +154,6 @@ typedef struct s_window
 	t_point	offset;
 }	t_window;
 
-typedef struct s_player
-{
-	char		conf_dir;
-	t_dpoint	pos;		// (x, y) in double precision
-	t_dpoint	last_pos;
-	t_dpoint	dir;		// Direction vector: which way is "forward"
-	t_dpoint	plane;		// Camera plane vector: perpendicular to dir
-	double		rot_speed;	// Rotation speed in radians per second
-	double		move_speed;	// Movement speed per frame
-	double		angle;		// Player’s facing angle (in radians)
-	bool		has_water;
-}	t_player;
-
 typedef struct s_img
 {
 	void	*ptr;
@@ -252,7 +239,7 @@ typedef struct s_sprite
 	t_point		size;
 	char		**idle_paths;
 	t_texture	*idle_frames;
-	int			num_idle_frames;
+	int			idle_frames_count;
 	char		**move_paths;
 	t_texture	*move_frames;
 	int			move_frames_count;
@@ -384,6 +371,21 @@ typedef enum e_game_state
 	GAME_OVER
 }	t_game_state;
 
+typedef struct s_player
+{
+	char		conf_dir;
+	t_dpoint	pos;		// (x, y) in double precision
+	t_dpoint	last_pos;
+	t_dpoint	dir;		// Direction vector: which way is "forward"
+	t_dpoint	plane;		// Camera plane vector: perpendicular to dir
+	double		rot_speed;	// Rotation speed in radians per second
+	double		move_speed;	// Movement speed per frame
+	double		angle;		// Player’s facing angle (in radians)
+	bool		has_water;
+	bool		is_splashing;
+	t_sprite	sprite;
+}	t_player;
+
 typedef struct s_game
 {
 	t_game_state	state;
@@ -428,7 +430,7 @@ void	parse_map(t_game *game, t_map *map);
 // INITIALIZATION
 t_game	*init_game(char *filename);
 void	load_game_textures(t_game *game, t_conf conf);
-void	load_sprite_frames(t_game *game, t_sprite *sprite);
+void	load_sprite_frames_npc(t_game *game, t_sprite *sprite);
 void	update_enemy_npc(t_game *game, t_npc *npc, double delta_time);
 void	update_all_npcs(t_game *game, double delta_time);
 void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
@@ -438,7 +440,7 @@ void	move_npc_patrol(t_game *game, t_npc *npc, double delta_time);
 void	move_npc_follow(t_game *game, t_npc *npc, double delta_time);
 
 // NPC
-void	init_sprite_frames_and_animation(t_game *game, t_sprite *sprite);
+void	init_sprite_frames_and_animation_npc(t_game *game, t_sprite *sprite);
 void	init_npc_pathfinding(t_game *game, t_npc *npc);
 void	generate_npc_waypoints(t_npc *npc, t_game *game);
 void	update_npc_list(t_game *game, t_npc *npc);
@@ -480,13 +482,20 @@ void	fill_ceiling_and_floor(t_img *img, int ceiling_color,
 			int floor_color);
 void	raycast(t_game *game, t_ray *ray, int *x, double *z_buffer);
 void	perform_dda(t_game *game, t_ray *ray);
-void	render_scene(t_game *game);
+void	render_scene(t_game *game, double delta_time);
 bool	init_sprite_draw_data(t_sprite_draw *data, t_player player,
 			t_sprite *sprite);
 void	draw_npcs(t_game *game, double *z_buffer);
 void	draw_minimap(t_game *game);
 void	draw_follow_state(t_game *game);
 void	draw_npc_dialogue(t_game *game);
+
+
+void	draw_player(t_game *game, t_player *player, double delta_time);
+void	play_splash_animation(t_player *player, double delta_time);
+void	init_player(t_game *game, t_player *player);
+void	load_sprite_animation(t_game *game, t_texture **frames,
+	char **paths, int frame_count);
 
 // HOOKS
 bool	interact_with_door(t_game *game);
