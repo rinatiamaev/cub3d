@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 01:13:03 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 09:24:41 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 12:48:22 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	handle_interaction(t_game *game)
 {
+	if (interact_with_item(game))
+		return ;
 	if (continue_npc_dialogue(game))
 		return ;
 	if (!handle_npc_chase(game))

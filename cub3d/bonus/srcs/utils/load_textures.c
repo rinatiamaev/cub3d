@@ -6,13 +6,13 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:25:33 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 20:52:39 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 10:55:28 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx)
+void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx)
 {
 	int	width;
 	int	height;

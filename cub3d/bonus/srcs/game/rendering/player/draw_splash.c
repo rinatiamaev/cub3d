@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:13:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 10:13:35 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 13:03:30 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 static void	play_splash_animation(t_player *player, double delta_time)
 {
-	const double anim_speed = 100.0;
+	double	anim_speed;
 
+	anim_speed = 100.0;
 	player->sprite.anim_timer += delta_time * 1000.0;
 	if (player->sprite.anim_timer >= anim_speed)
 	{
@@ -29,7 +30,7 @@ static void	play_splash_animation(t_player *player, double delta_time)
 	}
 }
 
-void draw_splash(t_game *game, t_player *player, double delta_time)
+void	draw_splash(t_game *game, t_player *player, double delta_time)
 {
 	int			x;
 	int			y;
@@ -38,7 +39,7 @@ void draw_splash(t_game *game, t_player *player, double delta_time)
 	int			color;
 
 	if (!player->is_splashing)
-		return;
+		return ;
 	play_splash_animation(player, delta_time);
 	splash_frame = &player->sprite.splash_frames[player->sprite.anim_index];
 	start.x = (WIN_W - splash_frame->size.x) / 2;
@@ -53,5 +54,5 @@ void draw_splash(t_game *game, t_player *player, double delta_time)
 			if (color != 42 && (color & 0x00FFFFFF) != 0x000000)
 				put_pixel(&game->img, start.x + x, start.y + y, color);
 		}
-	}	
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 10:19:18 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 13:52:15 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,8 @@ typedef enum e_char_value
 	WALL,
 	CONF_DIR,
 	EMPTY,
-	WITCH_KITTY,
-	CALICO_KITTY,
-	FIRE_SPIRIT,
+	WELL,
+	BUCKET,
 	DOOR
 }	t_char_value;
 
@@ -252,6 +251,7 @@ typedef struct s_sprite
 	char		**splash_paths;
 	t_texture	*splash_frames;
 	int			splash_frames_count;
+	t_texture	texture;
 	int			anim_start;
 	int			anim_index;
 	double		anim_timer;
@@ -354,6 +354,30 @@ typedef struct s_door
 	double			open_timer;	// Time the door stays open after fully opening
 }	t_door;
 
+typedef struct s_item
+{
+	char		*type;
+	char		*name;
+	t_dpoint	pos;
+	t_texture	texture;
+	t_sprite	sprite;
+	bool		is_collectible;
+	bool		is_collected;
+}	t_item;
+
+typedef enum e_entity_type
+{
+	NPC,
+	ITEM
+}	t_entity_type;
+
+typedef struct s_entity
+{
+	t_entity_type	type;
+	t_dpoint		pos;
+	void			*ptr;
+}	t_entity;
+
 typedef struct s_tex
 {
 	t_texture	no;
@@ -381,6 +405,7 @@ typedef struct s_player
 	double		rot_speed;	// Rotation speed in radians per second
 	double		move_speed;	// Movement speed per frame
 	double		angle;		// Player’s facing angle (in radians)
+	bool 		has_bucket;
 	bool		has_water;
 	bool		is_splashing;
 	t_sprite	sprite;
@@ -400,6 +425,8 @@ typedef struct s_game
 	int				npc_count;
 	t_door			**doors;
 	int				door_count;
+	t_item			**items;
+	int				item_count;
 	bool			minimap_visible;
 	bool			keys[66000];
 }	t_game;
@@ -411,6 +438,9 @@ void	free_tex_frames(t_game *game, t_texture *frames, int count);
 void	free_npc_waypoints(t_npc *npc);
 void	free_single_npc(t_game *game, t_npc *npc);
 void	free_npcs(t_game *game);
+void	free_single_item(t_game *game, t_item *item);
+void	free_items(t_game *game);
+void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx);
 double	get_delta_time(void);
 void	draw_lose_message(t_game *game);
 
@@ -462,6 +492,12 @@ void	spawn_fire_spirit(t_game *game, double x, double y);
 bool	has_line_of_sight(t_game *game, t_dpoint src, t_dpoint target);
 void	update_npc_follow_path(t_game *game, t_npc *npc);
 
+// ITEM
+void	spawn_well(t_game *game, double x, double y);
+void	spawn_bucket(t_game *game, double x, double y);
+void	spawn_tree(t_game *game, double x, double y);
+void	update_item_list(t_game *game, t_item *item);
+
 // DOOR
 void	update_doors(t_game *game, double delta_time);
 void	spawn_door(t_game *game, double x, double y);
@@ -483,20 +519,22 @@ void	perform_dda(t_game *game, t_ray *ray);
 void	render_scene(t_game *game, double delta_time);
 bool	init_sprite_draw_data(t_sprite_draw *data, t_player player,
 			t_sprite *sprite);
-void	draw_npcs(t_game *game, double *z_buffer);
 void	draw_minimap(t_game *game);
 void	draw_pause_message(t_game *game);
 void	draw_follow_state(t_game *game);
 void	draw_npc_dialogue(t_game *game);
-
-
 void	draw_splash(t_game *game, t_player *player, double delta_time);
+void	draw_bucket_state(t_game *game);
 void	init_player(t_game *game, t_player *player);
 void	load_sprite_animation(t_game *game, t_texture **frames,
-	char **paths, int frame_count);
+		char **paths, int frame_count);
+bool	init_texture_draw_data(t_sprite_draw *data, t_player player, t_item *item);
+void	draw_texture(t_game *game, t_player player, t_item *item, double *z_buffer);
+void	draw_entities(t_game *game, double *z_buffer);
 
 // HOOKS
 bool	interact_with_door(t_game *game);
+bool	interact_with_item(t_game *game);
 t_npc	*find_closest_npc(t_game *game, double max_distance);
 bool	interact_with_npc(t_game *game);
 bool	advance_npc_dialogue(t_npc *npc, t_story_state *story);

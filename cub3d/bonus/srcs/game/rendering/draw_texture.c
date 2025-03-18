@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_sprites.c                                     :+:      :+:    :+:   */
+/*   draw_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/20 21:05:31 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/01 01:09:29 by nlouis           ###   ########.fr       */
+/*   Created: 2025/03/18 11:16:45 by nlouis            #+#    #+#             */
+/*   Updated: 2025/03/18 13:09:14 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static void	draw_sprite_column(t_game *game, t_sprite_draw *data)
+static void	draw_item_column(t_game *game, t_sprite_draw *data)
 {
 	data->y = data->draw_start.y;
 	while (data->y < data->draw_end.y)
 	{
 		data->d = (data->y * 256) - (WIN_H * 128) + (data->height * 128);
 		data->texture_y
-			= (int)((data->d * data->texture_size.y) / data->height) / 256;
+			= ((data->d * data->texture_size.y) / data->height) / 256;
 		data->color
 			= get_tex_color(data->texture, data->texture_x, data->texture_y);
 		if (data->color != 42)
@@ -28,7 +28,7 @@ static void	draw_sprite_column(t_game *game, t_sprite_draw *data)
 	}
 }
 
-static void	draw_sprite_stripe(t_game *game, t_sprite_draw *data,
+static void	draw_item_stripe(t_game *game, t_sprite_draw *data,
 														double *z_buffer)
 {
 	data->texture_x
@@ -38,20 +38,20 @@ static void	draw_sprite_stripe(t_game *game, t_sprite_draw *data,
 		&& data->stripe_x >= 0
 		&& data->stripe_x < WIN_W
 		&& data->transform_y < z_buffer[data->stripe_x])
-		draw_sprite_column(game, data);
+		draw_item_column(game, data);
 }
 
-void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
+void	draw_texture(t_game *game, t_player player, t_item *item,
 														double *z_buffer)
 {
 	t_sprite_draw	data;
 
-	if (!init_sprite_draw_data(&data, player, sprite))
+	if (!init_texture_draw_data(&data, player, item))
 		return ;
 	data.stripe_x = data.draw_start.x;
 	while (data.stripe_x < data.draw_end.x)
 	{
-		draw_sprite_stripe(game, &data, z_buffer);
+		draw_item_stripe(game, &data, z_buffer);
 		data.stripe_x++;
 	}
 }

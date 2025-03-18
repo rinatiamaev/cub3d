@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:37:18 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 14:17:01 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 12:17:15 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@
 # define SPLASH_6 "./bonus/assets/splash/splash05.xpm"
 # define SPLASH_7 "./bonus/assets/splash/splash06.xpm"
 
-# define IO "./bonus/assets/items/well.xpm"
+# define WELL_TEX	"./bonus/assets/items/well.xpm"
+# define BUCKET_TEX	"./bonus/assets/items/bucket.xpm"
+# define TREE_TEX	"./bonus/assets/items/tree.xpm"
 
 #endif

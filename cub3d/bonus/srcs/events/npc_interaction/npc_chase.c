@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:16:34 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 09:23:56 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 13:35:26 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ bool	handle_npc_chase(t_game *game)
 		&& has_line_of_sight(game, game->player.pos, npc->pos))
 	{
 		npc->is_hit = true;
+		game->player.has_water = false;
 		trigger_splash_animation(&game->player);
 		return (false);
 	}

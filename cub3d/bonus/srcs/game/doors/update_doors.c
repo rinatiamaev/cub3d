@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:02:28 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 09:35:19 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 13:10:43 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static bool	is_entity_on_door(t_game *game, t_door *door)
 	}
 	return (false);
 }
-
 
 static void	open_door(t_door *door, double delta_time)
 {

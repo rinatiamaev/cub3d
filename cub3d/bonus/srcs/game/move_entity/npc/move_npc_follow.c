@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:57:31 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 09:38:03 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 13:11:18 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	move_npc_follow(t_game *game, t_npc *npc, double delta_time)
 	{
 		update_npc_follow_path(game, npc);
 		if (!is_follow_path_valid(npc))
-			return;
+			return ;
 	}
 	target = npc->path[npc->path_index];
 	if (move_npc(game, npc, target, delta_time))

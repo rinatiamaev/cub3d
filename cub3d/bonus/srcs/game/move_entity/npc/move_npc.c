@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:23:15 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 09:41:01 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 13:11:11 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time)
 {
 	double		dist;
 	t_dpoint	delta;
-	
+
 	if (npc->is_hit || is_any_npc_talking(game))
 		return (true);
 	if (has_reached_target(npc, target))
@@ -48,8 +48,3 @@ bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time)
 	npc->move_vec = delta;
 	return (false);
 }
-
-
-
-
-
