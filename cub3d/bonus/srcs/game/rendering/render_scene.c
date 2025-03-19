@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:06:19 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 13:52:15 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/19 10:39:58 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	render_scene(t_game *game, double delta_time)
 	draw_follow_state(game);
 	draw_bucket_state(game);
 	draw_splash(game, &game->player, delta_time);
+	draw_temp_message(game);
 	mlx_destroy_image(game->mlx, game->img.ptr);
 	free(z_buffer);
 }

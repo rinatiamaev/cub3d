@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:39:09 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/19 07:49:54 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/19 10:25:23 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	spawn_entity_at_position(t_game *game, char cell,
 		spawn_tree(game, x, y);
 	else if (cell == 'I')
 		spawn_key(game, x, y);
+	else if (cell == 'X')
+		spawn_exit_door(game, x, y);
 }
 
 static int	get_entity_map_value(char cell)
@@ -40,6 +42,8 @@ static int	get_entity_map_value(char cell)
 		return (FREE_SPACE);
 	if (cell == 'D')
 		return (DOOR);
+	if (cell == 'X')
+		return (EXIT_DOOR);
 	if (cell == 'P')
 		return (WELL);
 	if (cell == 'B')

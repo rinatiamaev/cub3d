@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 00:23:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 10:01:17 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/19 13:56:05 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	init_witch_kitty_dialogues(t_game *game, t_npc *npc)
 	{"...",
 		"You found him! I am relieved but scared...",
 		"at the same time, I hope you can get rid of...",
-		"ahat fireball! It sounds dangerous!", NULL
+		"that fireball! It sounds dangerous!", NULL
 	},
 	{"...",
 		"The fireball was an angry spirit!?",
@@ -49,11 +49,10 @@ void	init_witch_kitty_dialogues(t_game *game, t_npc *npc)
 		"Thank you so much for bringing him back!",
 		"We just have to find a way out now...", NULL
 	},
-	{"You found a key ?! We just need a door now!", NULL },
-	{"You found a locked door ?! We just need a key now!", NULL },
-	{"We are ready to leave this place, oh my godferatu!",
+	{"...",
+		"We are ready to leave this place? Oh my Ladferatu!",
 		"What are we waiting for let's go!"
-	}, {NULL}
+	}, {NULL}, {NULL}, {NULL}
 	};
 
 	npc->dialogue.phase_count = sizeof(dialogues) / sizeof(dialogues[0]);

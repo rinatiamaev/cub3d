@@ -6,13 +6,13 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 01:11:26 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 16:45:23 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/19 12:03:19 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static t_door	*find_closest_door(t_game *game, double range)
+t_door	*find_closest_door(t_game *game, double range)
 {
 	t_door	*closest_door;
 	double	min_distance;
@@ -47,5 +47,16 @@ bool	interact_with_door(t_game *game)
 		door->state = DOOR_OPENING;
 	else if (door->state == DOOR_OPEN)
 		door->state = DOOR_CLOSING;
+	else if (door->state == DOOR_LOCKED)
+	{
+		if (game->player.has_key)
+		{
+			door->state = DOOR_CLOSED;
+			game->player.has_key = false;
+			show_temp_message(game, 3.0, "Door unlocked!");
+		}
+		else
+			show_temp_message(game, 3.0, "The door is locked!");
+	}
 	return (true);
 }

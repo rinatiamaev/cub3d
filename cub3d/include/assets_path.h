@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:37:18 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 21:50:06 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/19 10:14:17 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@
 # define FS_N4 "./bonus/assets/npc/fire_spirit/nice/fireSpiritNice004.xpm"
 
 # define SLIDING_DOOR	"./bonus/assets/doors/sliding_door.xpm"
+# define DOOR_EXIT		"./bonus/assets/doors/exit_door.xpm"
 # define DOOR_FRAME		"./bonus/assets/doors/door_frame.xpm"
 
 # define SPLASH_1 "./bonus/assets/splash/splash00.xpm"
