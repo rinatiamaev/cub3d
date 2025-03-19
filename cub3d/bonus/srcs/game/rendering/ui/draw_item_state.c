@@ -14,13 +14,16 @@
 
 static void	get_bucket_message(t_player *player, char *message, size_t size)
 {
-	if (player->has_bucket)
-	{
-		if (player->has_water)
-			ft_strlcpy(message, "You have a bucket filled with water!", size);
-		else
-			ft_strlcpy(message, "You have an empty bucket!", size);
-	}
+	if (player->has_water)
+		ft_strlcpy(message, "You have a bucket filled with water!", size);
+	else if (player->has_bucket)
+		ft_strlcpy(message, "You have an empty bucket!", size);
+}
+
+static void get_key_message(t_player *player, char *message, size_t size)
+{
+	if (player->has_key)
+		ft_strlcpy(message, "You have a key!", size);
 }
 
 void	draw_bucket_state(t_game *game)
@@ -29,15 +32,17 @@ void	draw_bucket_state(t_game *game)
 	int		y;
 	int		color;
 	char    bucket_message[50];
+	char	key_message[50];
 
-	if (!game->player.has_bucket)
-		return ;
 	get_bucket_message(&game->player, bucket_message, sizeof(bucket_message));
+	get_key_message(&game->player, key_message, sizeof(key_message));
 	x = (WIN_W - 260);
 	y = 70;
 	color = 43;
 	mlx_put_image_to_window
 		(game->mlx, game->window->ptr, game->tex.dialogue_box.ptr, x, y);
 	mlx_string_put
-		(game->mlx, game->window->ptr, x + 15, y + 35, color, bucket_message);
+		(game->mlx, game->window->ptr, x + 15, y + 25, color, bucket_message);
+	mlx_string_put
+		(game->mlx, game->window->ptr, x + 15, y + 45, color, key_message);
 }

@@ -6,13 +6,13 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:26:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 09:58:22 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 21:56:57 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static void	set_frame_sizes(t_texture *frames, int count, t_point size)
+void	set_frame_sizes(t_texture *frames, int count, t_point size)
 {
 	int	i;
 

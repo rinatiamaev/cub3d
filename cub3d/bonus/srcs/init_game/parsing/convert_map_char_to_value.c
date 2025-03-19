@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:39:09 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 13:15:27 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/19 07:49:54 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,14 @@ static void	spawn_entity_at_position(t_game *game, char cell,
 		spawn_bucket(game, x, y);
 	else if (cell == 'T')
 		spawn_tree(game, x, y);
+	else if (cell == 'I')
+		spawn_key(game, x, y);
 }
 
 static int	get_entity_map_value(char cell)
 {
-	if (cell == 'K' || cell == 'C' || cell == 'F' || cell == 'T')
+	if (cell == 'K' || cell == 'C' || cell == 'F'
+		|| cell == 'T' || cell == 'I')
 		return (FREE_SPACE);
 	if (cell == 'D')
 		return (DOOR);

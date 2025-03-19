@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 13:52:15 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/19 09:12:18 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -408,6 +408,7 @@ typedef struct s_player
 	bool 		has_bucket;
 	bool		has_water;
 	bool		is_splashing;
+	bool		has_key;
 	t_sprite	sprite;
 }	t_player;
 
@@ -496,7 +497,9 @@ void	update_npc_follow_path(t_game *game, t_npc *npc);
 void	spawn_well(t_game *game, double x, double y);
 void	spawn_bucket(t_game *game, double x, double y);
 void	spawn_tree(t_game *game, double x, double y);
+void	spawn_key(t_game *game, double x, double y);
 void	update_item_list(t_game *game, t_item *item);
+void	update_items(t_game *game, double delta_time);
 
 // DOOR
 void	update_doors(t_game *game, double delta_time);
@@ -526,11 +529,13 @@ void	draw_npc_dialogue(t_game *game);
 void	draw_splash(t_game *game, t_player *player, double delta_time);
 void	draw_bucket_state(t_game *game);
 void	init_player(t_game *game, t_player *player);
+void	set_frame_sizes(t_texture *frames, int count, t_point size);
 void	load_sprite_animation(t_game *game, t_texture **frames,
 		char **paths, int frame_count);
 bool	init_texture_draw_data(t_sprite_draw *data, t_player player, t_item *item);
 void	draw_texture(t_game *game, t_player player, t_item *item, double *z_buffer);
 void	draw_entities(t_game *game, double *z_buffer);
+void	draw_key(t_game *game, t_item *item, double *z_buffer);
 
 // HOOKS
 bool	interact_with_door(t_game *game);

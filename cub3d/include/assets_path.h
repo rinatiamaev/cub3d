@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:37:18 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 12:17:15 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 21:50:06 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,26 @@
 # define SPLASH_5 "./bonus/assets/splash/splash04.xpm"
 # define SPLASH_6 "./bonus/assets/splash/splash05.xpm"
 # define SPLASH_7 "./bonus/assets/splash/splash06.xpm"
+
+# define KEY00 "./bonus/assets/items/key/key00.xpm" 
+# define KEY01 "./bonus/assets/items/key/key01.xpm"
+# define KEY02 "./bonus/assets/items/key/key02.xpm"
+# define KEY03 "./bonus/assets/items/key/key03.xpm"
+# define KEY04 "./bonus/assets/items/key/key04.xpm"
+# define KEY05 "./bonus/assets/items/key/key05.xpm"
+# define KEY06 "./bonus/assets/items/key/key06.xpm"
+# define KEY07 "./bonus/assets/items/key/key07.xpm"
+# define KEY08 "./bonus/assets/items/key/key08.xpm"
+# define KEY09 "./bonus/assets/items/key/key09.xpm"
+# define KEY10 "./bonus/assets/items/key/key10.xpm"
+# define KEY11 "./bonus/assets/items/key/key11.xpm"
+# define KEY12 "./bonus/assets/items/key/key12.xpm"
+# define KEY13 "./bonus/assets/items/key/key13.xpm"
+# define KEY14 "./bonus/assets/items/key/key14.xpm"
+# define KEY15 "./bonus/assets/items/key/key15.xpm"
+# define KEY16 "./bonus/assets/items/key/key16.xpm"
+# define KEY17 "./bonus/assets/items/key/key17.xpm"
+# define KEY18 "./bonus/assets/items/key/key18.xpm"
 
 # define WELL_TEX	"./bonus/assets/items/well.xpm"
 # define BUCKET_TEX	"./bonus/assets/items/bucket.xpm"
