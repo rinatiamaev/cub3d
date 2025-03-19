@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/19 12:52:45 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/19 15:51:33 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -441,6 +441,7 @@ typedef struct s_game
 	int				door_count;
 	t_item			**items;
 	int				item_count;
+	t_dpoint		exit_pos;
 	bool			minimap_visible;
 	bool			keys[66000];
 	bool            temp_msg_visible;
