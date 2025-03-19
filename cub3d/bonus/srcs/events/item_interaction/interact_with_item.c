@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 12:48:46 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 13:13:01 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/19 09:23:14 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ bool	interact_with_item(t_game *game)
 		item->is_collected = true;
 		if (ft_strcmp(item->name, "bucket") == 0)
 			game->player.has_bucket = true;
+		if (ft_strcmp(item->name, "key") == 0)
+			game->player.has_key = true;
 		remove_item_from_list(game, item);
 		return (true);
 	}

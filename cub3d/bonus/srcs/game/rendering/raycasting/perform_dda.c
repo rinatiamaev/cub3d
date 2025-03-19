@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 11:01:12 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 11:04:52 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/19 10:22:41 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void	perform_dda(t_game *game, t_ray *ray)
 		advance_dda_step(ray);
 		if (is_wall_hit(game, ray))
 			break ;
-		if (game->map->matrix[ray->map.y][ray->map.x] == DOOR)
+		if (game->map->matrix[ray->map.y][ray->map.x] == DOOR
+			|| game->map->matrix[ray->map.y][ray->map.x] == EXIT_DOOR)
 		{
 			door = find_door_at(game, ray->map);
 			if (is_closed_door_hit(ray, door)

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:34:03 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 13:05:44 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/18 22:10:19 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,14 @@ static void	draw_npc(t_game *game, t_npc *npc, double *z_buffer)
 		draw_fire_spirit(game, npc, z_buffer);
 }
 
+static void draw_item(t_game *game, t_item *item, double *z_buffer)
+{
+	if (ft_strcmp(item->name, "key") == 0)
+		draw_key(game, item, z_buffer);
+	else
+		draw_texture(game, game->player, item, z_buffer);
+}
+
 void	draw_entities(t_game *game, double *z_buffer)
 {
 	t_entity	*entities;
@@ -79,8 +87,7 @@ void	draw_entities(t_game *game, double *z_buffer)
 		}
 		else if (entities[i].type == ITEM)
 		{
-			draw_texture
-				(game, game->player, (t_item *)entities[i].ptr, z_buffer);
+			draw_item(game, (t_item *)entities[i].ptr, z_buffer);
 		}
 	}
 	free(entities);

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:05:57 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 10:01:01 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/19 13:54:43 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,6 @@ void	init_calico_kitty_dialogues(t_game *game, t_npc *npc)
 		"Thank you! I'll wait here for you!", NULL
 	},
 	{"...",
-		"You got rid of that fireball!?",
-		"Thank you so much!",
-		"I can't believe it is a spirit...",
-		"I hope it won't get mad again...",
-		"Well done! Would you like to help me get back to...",
-		"my sibling? I'm sure he's worried about me...", NULL
-	},
-	{"...",
 		"You saw the fireball!?",
 		"I hope you can get rid of it...", NULL
 	},
@@ -48,15 +40,15 @@ void	init_calico_kitty_dialogues(t_game *game, t_npc *npc)
 		"You got rid of the fireball!?",
 		"It turned into a nice blue fireball ?!",
 		"Weeeeiiiirrrd! But cool!",
-		"Hopefully, it won't get mad again...",
 		"Thank you so much for your help!",
 		"Could you escort me to my sibling ?", NULL
 	},
 	{"I should look for an exit, but you are so...",
-		"fearless, that we'll just rely on you!", NULL},
-	{"A key, nice!", NULL },
-	{"A locked door, nice!", NULL },
-	{"Let's get the hell out of here!", NULL}, {NULL}
+		"fearless, that we'll just rely on you!", NULL
+	},
+	{"...",
+		"You find a way out!?",
+		"Let's get the heaven out of here!", NULL}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}
 	};
 
 	npc->dialogue.phase_count = sizeof(dialogues) / sizeof(dialogues[0]);

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:06:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 13:10:18 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/19 11:46:18 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	update_npc_state(t_npc *npc, t_player *player)
 		reset_animations_and_path(npc);
 }
 
-static void	update_npc(t_game *game, t_npc *npc, double delta_time)
+void	update_npc(t_game *game, t_npc *npc, double delta_time)
 {
 	update_npc_state(npc, &game->player);
 	if (npc->state == SPEAK)
@@ -68,22 +68,5 @@ static void	update_npc(t_game *game, t_npc *npc, double delta_time)
 	{
 		play_movement_animation(npc, delta_time);
 		move_npc_follow(game, npc, delta_time);
-	}
-}
-
-void	update_all_npcs(t_game *game, double delta_time)
-{
-	t_npc	*npc;
-	int		i;
-
-	i = 0;
-	while (i < game->npc_count)
-	{
-		npc = game->npcs[i];
-		if (!npc->is_enemy)
-			update_npc(game, npc, delta_time);
-		else
-			update_enemy_npc(game, npc, delta_time);
-		i++;
 	}
 }

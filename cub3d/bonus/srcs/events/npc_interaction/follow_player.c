@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event_follow_player.c                              :+:      :+:    :+:   */
+/*   follow_player.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 01:08:20 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 11:35:31 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/19 12:52:18 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	make_closest_npc_follow(t_game *game, double max_distance)
 	t_npc	*npc;
 
 	npc = find_closest_npc(game, max_distance);
-	if (npc && ft_strcmp(npc->type, "kitty") == 0)
+	if (npc && npc->can_follow)
 	{
 		npc->path = NULL;
 		npc->is_following = !npc->is_following;

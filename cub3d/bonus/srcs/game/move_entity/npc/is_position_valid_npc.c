@@ -6,11 +6,23 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 23:07:56 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 09:34:18 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/19 12:33:47 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
+
+static bool is_door_walkable_npc(t_game *game, t_npc *npc, t_point pos)
+{
+	t_door	*door;
+
+	door = find_door_at(game, pos);
+	if (!door)
+		return (true);
+	if (npc->state == FOLLOW)
+		return (true);
+	return (false);
+}
 
 static bool	is_occupied_by_any_npc(t_game *game, t_point pos)
 {
@@ -27,13 +39,15 @@ static bool	is_occupied_by_any_npc(t_game *game, t_point pos)
 	return (false);
 }
 
-bool	is_position_valid_for_npc(t_game *game, t_astar *astar, t_point pos)
+bool	is_position_valid_for_npc(t_game *game, t_npc *npc, t_astar *astar, t_point pos)
 {
 	if (!is_map_position_valid(game, (t_dpoint){(double)pos.x, (double)pos.y}))
 		return (false);
 	if (astar->open_list[pos.y][pos.x])
 		return (false);
 	if (is_occupied_by_any_npc(game, pos))
+		return (false);
+	if (!is_door_walkable_npc(game, npc, pos))
 		return (false);
 	return (true);
 }

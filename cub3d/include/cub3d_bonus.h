@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 13:52:15 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/19 12:52:45 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ typedef enum e_char_value
 	EMPTY,
 	WELL,
 	BUCKET,
-	DOOR
+	DOOR,
+	EXIT_DOOR
 }	t_char_value;
 
 typedef struct s_node
@@ -330,11 +331,13 @@ typedef struct s_npc
 	int			path_length;
 	int			path_index;
 	double		threshold_dist;
+	bool		can_follow;
 	bool		is_following;
 	bool		is_enemy;
 	bool		is_hit;
 	double		hit_timer;
 	double		hit_duration;
+	bool		is_saved;
 }	t_npc;
 
 typedef enum e_door_state
@@ -342,11 +345,19 @@ typedef enum e_door_state
 	DOOR_CLOSED,
 	DOOR_OPENING,
 	DOOR_OPEN,
-	DOOR_CLOSING
+	DOOR_CLOSING,
+	DOOR_LOCKED
 }	t_door_state;
+
+typedef enum e_door_type
+{
+	NORMAL_DOOR,
+	EXIT_DOOR_TYPE
+} t_door_type;
 
 typedef struct s_door
 {
+	t_door_type		type;		// Door type
 	t_dpoint		pos;		// Door grid position
 	double			offset;		// Sliding offset
 	t_door_state	state;		// Door current state
@@ -385,6 +396,7 @@ typedef struct s_tex
 	t_texture	we;
 	t_texture	ea;
 	t_texture	door;
+	t_texture	exit_door;
 	t_texture	dialogue_box;
 }	t_tex;
 
@@ -392,7 +404,8 @@ typedef enum e_game_state
 {
 	RUNNING,
 	PAUSED,
-	GAME_OVER
+	GAME_OVER,
+	WIN
 }	t_game_state;
 
 typedef struct s_player
@@ -408,6 +421,7 @@ typedef struct s_player
 	bool 		has_bucket;
 	bool		has_water;
 	bool		is_splashing;
+	bool		has_key;
 	t_sprite	sprite;
 }	t_player;
 
@@ -429,6 +443,9 @@ typedef struct s_game
 	int				item_count;
 	bool			minimap_visible;
 	bool			keys[66000];
+	bool            temp_msg_visible;
+    char            temp_msg[50];
+    double          temp_msg_timer;
 }	t_game;
 
 // UTILS
@@ -443,6 +460,8 @@ void	free_items(t_game *game);
 void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx);
 double	get_delta_time(void);
 void	draw_lose_message(t_game *game);
+void	check_win_condition(t_game *game);
+void	draw_win_message(t_game *game);
 
 // PARSING
 void	extract_file_content(t_game *game, t_map *map);
@@ -470,6 +489,11 @@ bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time);
 void	move_npc_patrol(t_game *game, t_npc *npc, double delta_time);
 void	move_npc_follow(t_game *game, t_npc *npc, double delta_time);
 
+// TEMP_MESSAGE
+void	update_temp_message(t_game *game, double delta_time);
+void	show_temp_message(t_game *game, double duration, const char *message);
+void	draw_temp_message(t_game *game);
+
 // NPC
 void	init_npc_animation(t_game *game, t_sprite *sprite);
 void	init_npc_pathfinding(t_game *game, t_npc *npc);
@@ -491,17 +515,22 @@ void	free_npc_waypoints(t_npc *npc);
 void	spawn_fire_spirit(t_game *game, double x, double y);
 bool	has_line_of_sight(t_game *game, t_dpoint src, t_dpoint target);
 void	update_npc_follow_path(t_game *game, t_npc *npc);
-
+void	update_npc(t_game *game, t_npc *npc, double delta_time);
 // ITEM
 void	spawn_well(t_game *game, double x, double y);
 void	spawn_bucket(t_game *game, double x, double y);
 void	spawn_tree(t_game *game, double x, double y);
+void	spawn_key(t_game *game, double x, double y);
 void	update_item_list(t_game *game, t_item *item);
+void	update_items(t_game *game, double delta_time);
 
 // DOOR
 void	update_doors(t_game *game, double delta_time);
+void	update_door_list(t_game *game, t_door *door);
+void	spawn_exit_door(t_game *game, double x, double y);
 void	spawn_door(t_game *game, double x, double y);
 t_door	*find_door_at(t_game *game, t_point pos);
+t_door	*find_closest_door(t_game *game, double range);
 
 // RENDERING
 void	calculate_texture_mapping(t_game *game, t_ray *ray);
@@ -526,11 +555,13 @@ void	draw_npc_dialogue(t_game *game);
 void	draw_splash(t_game *game, t_player *player, double delta_time);
 void	draw_bucket_state(t_game *game);
 void	init_player(t_game *game, t_player *player);
+void	set_frame_sizes(t_texture *frames, int count, t_point size);
 void	load_sprite_animation(t_game *game, t_texture **frames,
 		char **paths, int frame_count);
 bool	init_texture_draw_data(t_sprite_draw *data, t_player player, t_item *item);
 void	draw_texture(t_game *game, t_player player, t_item *item, double *z_buffer);
 void	draw_entities(t_game *game, double *z_buffer);
+void	draw_key(t_game *game, t_item *item, double *z_buffer);
 
 // HOOKS
 bool	interact_with_door(t_game *game);
@@ -554,7 +585,7 @@ bool	is_map_position_valid(t_game *game, t_dpoint pos);
 bool	is_within_bounds(t_game *game, t_point pos);
 bool	is_any_npc_talking(t_game *game);
 bool	is_position_valid_for_player(t_game *game, t_dpoint pos);
-bool	is_position_valid_for_npc(t_game *game, t_astar *astar, t_point pos);
+bool	is_position_valid_for_npc(t_game *game, t_npc *npc, t_astar *astar, t_point pos);
 void	handle_player_moves(t_game *game, double delta_time);
 void	rotate_left(t_player *player, double rot_speed, double delta_time);
 void	rotate_right(t_player *player, double rot_speed, double delta_time);
@@ -566,7 +597,7 @@ t_node	*closed_list_extract_min(t_closed_list *closed_list);
 void	reconstruct_path(t_game *game, t_node *goal_node, t_npc *npc);
 void	setup_astar_struct(t_game *game, t_astar *astar, t_point start,
 			t_point goal);
-void	spread_child_node(t_game *game, t_astar *astar);
+void	spread_child_node(t_game *game, t_npc *npc, t_astar *astar);
 void	reset_astar_struct(t_game *game, t_astar *astar);
 void	a_star_path(t_game *game, t_npc *npc, t_point start, t_point goal);
 void	handle_event_hooks(t_game *game, t_window *window);
