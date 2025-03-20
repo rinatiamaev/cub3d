@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 11:51:15 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 14:27:25 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/20 14:02:27 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	get_follow_message(int following_count, char *message, size_t size)
 	char	*count_str;
 
 	if (following_count == 1)
-		ft_strlcpy(message, "You are followed by a kitty!", size);
+		ft_strlcpy(message, "You are followed by someone!", size);
 	else
 	{
 		count_str = ft_itoa(following_count);
@@ -41,7 +41,7 @@ static void	get_follow_message(int following_count, char *message, size_t size)
 			return ;
 		ft_strlcpy(message, "You are followed by ", size);
 		ft_strlcat(message, count_str, size);
-		ft_strlcat(message, " kitties!", size);
+		ft_strlcat(message, " people!", size);
 		free(count_str);
 	}
 }

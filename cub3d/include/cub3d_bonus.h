@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/19 15:51:33 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/20 14:06:10 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,13 @@
 
 # define FOV				0.66
 
-# define UP				122
+/* # define UP				122
 # define DOWN			115
 # define LEFT			113
+# define RIGHT			100 */
+# define UP				119
+# define DOWN			115
+# define LEFT			97
 # define RIGHT			100
 # define ARR_RIGHT		65361
 # define ARR_LEFT		65363
@@ -64,8 +68,8 @@
 # define FOLLOW_PLAYER	102
 
 # define WIN_NAME	"Cube3D"
-# define WIN_W		1200
-# define WIN_H		900
+# define WIN_W		1600
+# define WIN_H		1200
 
 # define TEX_W		128
 # define TEX_H		128
