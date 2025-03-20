@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 01:09:21 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 09:34:43 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/20 22:38:50 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ t_npc	*find_closest_npc(t_game *game, double max_distance)
 	while (i < game->npc_count)
 	{
 		current_dist
-			= ft_cab_dist_dpoint(game->player.pos, game->npcs[i]->pos);
-		if (current_dist < closest_dist)
+			= ft_euclidean_dist_dpoint(game->player.pos, game->npcs[i]->pos);
+		if (current_dist < closest_dist
+			&& is_facing_target(&game->player, game->npcs[i]->pos))
 		{
 			closest_dist = current_dist;
 			closest_npc = game->npcs[i];

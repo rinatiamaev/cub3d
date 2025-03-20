@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:02:28 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 13:10:43 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/20 22:15:50 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,15 @@ void	update_doors(t_game *game, double delta_time)
 {
 	t_door	*door;
 	int		i;
+	double	distance;
 
 	i = 0;
 	while (i < game->door_count)
 	{
 		door = game->doors[i];
+		distance = ft_euclidean_dist_dpoint(game->player.pos, door->pos);
+		if (distance <= 2.0 && door->state == DOOR_CLOSED)
+			door->state = DOOR_OPENING;
 		if (door->state == DOOR_OPENING)
 			open_door(door, delta_time);
 		else if (door->state == DOOR_CLOSING)
@@ -89,3 +93,4 @@ void	update_doors(t_game *game, double delta_time)
 		i++;
 	}
 }
+

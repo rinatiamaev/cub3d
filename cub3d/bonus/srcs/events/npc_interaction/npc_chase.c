@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:16:34 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 13:35:26 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/20 22:45:21 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool	handle_npc_chase(t_game *game)
 	npc = find_closest_npc(game, 4.0);
 	if (npc && npc->state == CHASE
 		&& game->player.has_water
-		&& has_line_of_sight(game, game->player.pos, npc->pos))
+		&& is_facing_target(&game->player, npc->pos))
 	{
 		npc->is_hit = true;
 		game->player.has_water = false;
