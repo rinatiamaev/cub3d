@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 12:48:46 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/19 09:23:14 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/20 14:01:13 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ bool	interact_with_item(t_game *game)
 {
 	t_item	*item;
 
-	item = find_closest_item(game, 2.0);
+	item = find_closest_item(game, 1.5);
 	if (!item)
 		return (false);
 	if (item->is_collectible && !item->is_collected)

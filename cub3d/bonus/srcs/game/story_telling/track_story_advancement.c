@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:08:04 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/19 14:04:01 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/20 13:55:04 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	update_sibling_story(t_game *game, t_npc *calico, t_npc *witch, t_np
 
 	if (story->sibling == SEARCHING && has_line_of_sight(game, game->player.pos, calico->pos))
 		story->sibling = LOCATED;
-
 	if (story->sibling == LOCATED && story->fireball >= LOCATED && story->has_spoken_to_calico)
 		story->sibling = FOUND;
 
@@ -34,16 +33,14 @@ static void	update_sibling_story(t_game *game, t_npc *calico, t_npc *witch, t_np
 		calico->can_follow = true;
 	}
 
-	if (story->sibling == HELPED && has_line_of_sight(game, calico->pos, witch->pos))
+	if (has_line_of_sight(game, calico->pos, witch->pos) && story->sibling != UNLOCKED)
 	{
 		story->sibling = SAVED;
+		calico->is_following = false;
 		calico->can_follow = false;
 	}
 
-	if (story->sibling == SAVED && story->key == FOUND)
-		story->sibling = EXIT_SEARCH;
-
-	if (story->sibling == EXIT_SEARCH && story->exit == FOUND)
+	if (story->sibling == SAVED && story->key == FOUND && story->exit == FOUND)
 	{
 		story->sibling = UNLOCKED;
 		calico->can_follow = true;
@@ -58,10 +55,8 @@ static void update_fireball_story(t_game *game, t_npc *fire_spirit)
 
 	if (story->fireball == NOT_STARTED && has_line_of_sight(game, player->pos, fire_spirit->pos))
 		story->fireball = LOCATED;
-
 	if (story->fireball == LOCATED && fire_spirit->is_hit)
 		story->fireball = SAVED;
-
 	if (story->fireball == SAVED && story->has_spoken_to_fire_spirit)
 		story->fireball = EXIT_SEARCH;
 
@@ -72,23 +67,23 @@ static void update_fireball_story(t_game *game, t_npc *fire_spirit)
 	}
 }
 
-/* static void update_exit_story(t_game *game)
+static void update_key_story(t_game *game, t_item *key)
 {
 	t_story_state *story = &game->story;
 
-	if (story->exit == NOT_STARTED && has_line_of_sight(game, game->player.pos, game->exit.pos))
-		story->exit = FOUND;
+	if (story->key == NOT_STARTED && has_line_of_sight(game, game->player.pos, key->pos))
+		story->key = LOCATED;
+	if (game->player.has_key)
+		story->key = FOUND;
 }
 
-static void update_key_story(t_game *game)
+static void update_exit_story(t_game *game)
 {
 	t_story_state *story = &game->story;
 
-	if (story->key == NOT_STARTED && has_line_of_sight(game, game->player.pos, game->key.pos))
-		story->key = LOCATED;
-	else if (game->player.has_key && story->key == LOCATED)
-		story->key = FOUND;
-} */
+	if (story->exit == NOT_STARTED && has_line_of_sight(game, game->player.pos, game->exit_pos))
+		story->exit = FOUND;
+}
 
 static void	update_npc_references(t_game *game, t_npc **calico, t_npc **witch, t_npc **fire_spirit)
 {
@@ -106,21 +101,35 @@ static void	update_npc_references(t_game *game, t_npc **calico, t_npc **witch, t
 	}
 }
 
+static void	update_item_references(t_game *game, t_item **key)
+{
+	int i = 0;
+
+	while (i < game->item_count)
+	{
+		if (ft_strcmp(game->items[i]->name, "key") == 0)
+			*key = game->items[i];
+		i++;
+	}
+}
+
 void	update_story(t_game *game)
 {
 	t_npc	*calico = NULL;
 	t_npc	*witch = NULL;
 	t_npc	*fire_spirit = NULL;
+	t_item	*key = NULL;
 
 	update_npc_references(game, &calico, &witch, &fire_spirit);
-
+	update_item_references(game, &key);
 	if (calico && witch && fire_spirit)
 	{
 		update_fireball_story(game, fire_spirit);
 		update_sibling_story(game, calico, witch, fire_spirit);
-
 		witch->dialogue.phase = get_witch_kitty_phase(&game->story);
 		calico->dialogue.phase = get_calico_phase(&game->story);
 		fire_spirit->dialogue.phase = get_fire_spirit_phase(&game->story);
 	}
+	update_key_story(game, key);
+	update_exit_story(game);
 }

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 01:11:26 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/19 12:03:19 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/20 14:00:58 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	interact_with_door(t_game *game)
 {
 	t_door	*door;
 
-	door = find_closest_door(game, 3.0);
+	door = find_closest_door(game, 1.5);
 	if (!door)
 		return (false);
 	if (door->state == DOOR_CLOSED)
