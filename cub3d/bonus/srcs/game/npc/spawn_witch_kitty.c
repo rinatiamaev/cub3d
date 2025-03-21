@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 00:23:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/19 13:56:05 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/21 11:40:04 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	init_witch_kitty_dialogues(t_game *game, t_npc *npc)
 		"We just have to find a way out now...", NULL
 	},
 	{"...",
-		"We are ready to leave this place? Oh my Ladferatu!",
+		"We are ready to leave this place?",
+		"Oh my Ladferatu!",
 		"What are we waiting for let's go!"
 	}, {NULL}, {NULL}, {NULL}
 	};
@@ -94,6 +95,7 @@ static void	init_witch_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 	npc->name = "witch kitty";
 	npc->pos = (t_dpoint){pos.x + 0.5, pos.y + 0.5};
 	npc->speed = 1.2;
+	npc->following_speed = 2.5;
 	init_npc_pathfinding(game, npc);
 	generate_npc_waypoints(npc, game);
 	init_witch_kitty_sprites(npc);

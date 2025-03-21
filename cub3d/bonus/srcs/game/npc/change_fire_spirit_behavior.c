@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:51:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 10:01:39 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/21 09:48:15 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static void	init_fire_spirit(t_game *game, t_npc *npc, t_dpoint pos)
 	npc->pos = pos;
 	npc->state = PATROL;
 	npc->speed = 2.0;
+	npc->following_speed = 3.0;
 	init_npc_pathfinding(game, npc);
 	generate_npc_waypoints(npc, game);
 	init_fire_spirit_sprites(npc);

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 12:48:46 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/20 22:44:16 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/21 11:00:06 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ bool	interact_with_item(t_game *game)
 		item->is_collected = true;
 		if (ft_strcmp(item->name, "bucket") == 0)
 		{
-			show_temp_message(game, 3.0, "DYou picked up a bucket!");
+			show_temp_message(game, 3.0, "You picked up a bucket!");
 			game->player.has_bucket = true;
 		}
 		if (ft_strcmp(item->name, "key") == 0)
@@ -107,10 +107,10 @@ bool	interact_with_item(t_game *game)
 		return (true);
 	}
 	else if (ft_strcmp(item->name, "well") == 0
-		&& game->player.has_bucket)
+		&& game->player.has_bucket && !game->player.has_water)
 		{
 			show_temp_message(game, 3.0, "You filled up your bucket!");
-			game->player.has_key = true;
+			game->player.has_water = true;
 		}
 	return (true);
 }

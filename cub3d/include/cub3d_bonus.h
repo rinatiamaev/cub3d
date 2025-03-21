@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/20 22:57:09 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/21 10:44:45 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@
 # define DOT_FOV_THRESHOLD	0.84
 # define INFINITY_DIST		1e6
 
-# define UP				122
+/* # define UP				122
 # define DOWN			115
 # define LEFT			113
-# define RIGHT			100
-/* # define UP			119
-# define DOWN			115
-# define LEFT			97
 # define RIGHT			100 */
+# define UP				119
+# define DOWN			115
+# define LEFT			100
+# define RIGHT			97
 # define ARR_RIGHT		65361
 # define ARR_LEFT		65363
 # define PAUSE			32
@@ -70,8 +70,8 @@
 # define FOLLOW_PLAYER	102
 
 # define WIN_NAME	"Cube3D"
-# define WIN_W		1920
-# define WIN_H		1080
+# define WIN_W		1600
+# define WIN_H		1200
 
 # define TEX_W		128
 # define TEX_H		128
@@ -324,6 +324,7 @@ typedef struct s_npc
 	t_dpoint	pos;
 	t_npc_state	state;
 	double		speed;
+	double		following_speed;
 	t_dpoint	move_vec;
 	t_dpoint	last_move_vec;
 	t_sprite	sprite;
@@ -445,9 +446,11 @@ typedef struct s_game
 	int				npc_count;
 	t_door			**doors;
 	int				door_count;
+	t_dpoint		exit_pos;
 	t_item			**items;
 	int				item_count;
-	t_dpoint		exit_pos;
+	t_entity		*entities;
+    int				entity_count;
 	bool			minimap_visible;
 	bool			keys[66000];
 	bool			temp_msg_visible;
@@ -470,6 +473,7 @@ void	draw_lose_message(t_game *game);
 void	check_win_condition(t_game *game);
 void	draw_win_message(t_game *game);
 bool	is_facing_target(t_player *player, t_dpoint target_pos);
+void	update_entities_sort(t_game *game);
 
 // PARSING
 void	extract_file_content(t_game *game, t_map *map);

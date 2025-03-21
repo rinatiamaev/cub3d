@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 09:27:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 09:28:13 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/21 09:21:28 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,7 @@ void	draw_pause_message(t_game *game)
 	mlx_string_put
 		(game->mlx, game->window->ptr, 20, 120, 0xFFFFFF,
 			"Press 'F' for the npc to follow you");
+	mlx_string_put
+		(game->mlx, game->window->ptr, 20, 140, 0xFFFFFF,
+			"Press 'M' yo display the minimap");
 }
