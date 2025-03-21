@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:50:27 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 16:24:33 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/20 23:02:21 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@ static void	init_los_data(t_los *los, t_dpoint src, t_dpoint target)
 {
 	los->ray_dir.x = target.x - src.x;
 	los->ray_dir.y = target.y - src.y;
-	los->map_check.x = (int)src.x;
-	los->map_check.y = (int)src.y;
+	los->map_check.x = (int)floor(src.x);
+	los->map_check.y = (int)floor(src.y);
 	if (los->ray_dir.x != 0)
 		los->delta_dist.x = fabs(1.0 / los->ray_dir.x);
 	else
-		los->delta_dist.x = 1000000.0;
+		los->delta_dist.x = INFINITY_DIST;
 	if (los->ray_dir.y != 0)
 		los->delta_dist.y = fabs(1.0 / los->ray_dir.y);
 	else
-		los->delta_dist.y = 1000000.0;
+		los->delta_dist.y = INFINITY_DIST;
 }
 
 static void	calculate_step_and_side_dist(t_los *los, t_dpoint src)
@@ -58,6 +58,8 @@ static void	calculate_step_and_side_dist(t_los *los, t_dpoint src)
 
 static bool	perform_los_dda(t_game *game, t_los *los, t_dpoint target)
 {
+	int	cell;
+	
 	while (true)
 	{
 		if (los->side_dist.x < los->side_dist.y)
@@ -73,11 +75,11 @@ static bool	perform_los_dda(t_game *game, t_los *los, t_dpoint target)
 		if (los->map_check.x < 0 || los->map_check.x >= game->map->size.x
 			|| los->map_check.y < 0 || los->map_check.y >= game->map->size.y)
 			return (false);
-		if (game->map->matrix[los->map_check.y][los->map_check.x] == WALL
-			|| game->map->matrix[los->map_check.y][los->map_check.x] == DOOR)
+		cell = game->map->matrix[los->map_check.y][los->map_check.x];
+		if (cell == WALL || cell == DOOR)
 			return (false);
-		if (los->map_check.x == (int)target.x
-			&& los->map_check.y == (int)target.y)
+		if (los->map_check.x == (int)floor(target.x)
+			&& los->map_check.y == (int)floor(target.y))
 			return (true);
 	}
 }

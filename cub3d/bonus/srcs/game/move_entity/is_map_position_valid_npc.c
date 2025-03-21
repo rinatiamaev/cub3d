@@ -1,37 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   npc_chase.c                                        :+:      :+:    :+:   */
+/*   is_map_position_valid.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/18 09:16:34 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/20 22:45:21 by nlouis           ###   ########.fr       */
+/*   Created: 2025/02/26 22:12:02 by nlouis            #+#    #+#             */
+/*   Updated: 2025/03/21 12:12:49 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static void	trigger_splash_animation(t_player *player)
+static bool	is_wall(t_game *game, t_point pos)
 {
-	player->is_splashing = true;
-	player->sprite.anim_index = 0;
-	player->sprite.anim_timer = 0.0;
+	return (game->map->matrix[(int)(pos.y)][(int)pos.x] == WALL);
 }
 
-bool	handle_npc_chase(t_game *game)
+bool	is_map_position_valid_npc(t_game *game, t_dpoint pos)
 {
-	t_npc	*npc;
+	t_point			grid_pos;
 
-	npc = find_closest_npc(game, 4.0);
-	if (npc && npc->state == CHASE
-		&& game->player.has_water
-		&& is_facing_target(&game->player, npc->pos))
-	{
-		npc->is_hit = true;
-		game->player.has_water = false;
-		trigger_splash_animation(&game->player);
+	grid_pos = (t_point){(int)pos.x, (int)pos.y};
+	if (is_wall(game, grid_pos))
 		return (false);
-	}
+	if (!is_within_bounds(game, grid_pos))
+		return (false);
 	return (true);
 }

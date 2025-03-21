@@ -6,20 +6,44 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 01:13:03 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 12:48:22 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/21 10:58:35 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
+static bool	interact_with_sorted_entities(t_game *game)
+{
+	t_entity	*entity;
+	double		interaction_range;
+	int			i;
+
+	interaction_range = 2.0;
+	i = -1;
+	while (++i < game->entity_count)
+	{
+		entity = &game->entities[i];
+		double dist = ft_euclidean_dist_dpoint(game->player.pos, entity->pos);
+
+		if (dist > interaction_range)
+			continue ;
+		if (!is_facing_target(&game->player, entity->pos))
+			continue ;
+		if (entity->type == ITEM && interact_with_item(game))
+			return (true);
+		if (entity->type == NPC && interact_with_npc(game))
+			return (true);
+	}
+	return (false);
+}
+
 void	handle_interaction(t_game *game)
 {
-	if (interact_with_item(game))
-		return ;
 	if (continue_npc_dialogue(game))
+		return ;
+	if (interact_with_sorted_entities(game))
 		return ;
 	if (!handle_npc_chase(game))
 		return ;
-	if (!interact_with_door(game))
-		interact_with_npc(game);
+	interact_with_door(game);
 }

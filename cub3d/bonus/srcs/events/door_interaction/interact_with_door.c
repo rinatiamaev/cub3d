@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 01:11:26 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/20 14:00:58 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/20 22:44:44 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ t_door	*find_closest_door(t_game *game, double range)
 	while (i < game->door_count)
 	{
 		current_distance
-			= ft_cab_dist_dpoint(game->player.pos, game->doors[i]->pos);
-		if (current_distance <= min_distance)
+			= ft_euclidean_dist_dpoint(game->player.pos, game->doors[i]->pos);
+		if (current_distance <= min_distance
+			&& is_facing_target(&game->player, game->doors[i]->pos))
 		{
 			min_distance = current_distance;
 			closest_door = game->doors[i];
@@ -40,20 +41,16 @@ bool	interact_with_door(t_game *game)
 {
 	t_door	*door;
 
-	door = find_closest_door(game, 1.5);
+	door = find_closest_door(game, 2.0);
 	if (!door)
 		return (false);
-	if (door->state == DOOR_CLOSED)
-		door->state = DOOR_OPENING;
-	else if (door->state == DOOR_OPEN)
-		door->state = DOOR_CLOSING;
-	else if (door->state == DOOR_LOCKED)
+	if (door->state == DOOR_LOCKED)
 	{
 		if (game->player.has_key)
 		{
 			door->state = DOOR_CLOSED;
 			game->player.has_key = false;
-			show_temp_message(game, 3.0, "Door unlocked!");
+			show_temp_message(game, 3.0, "You unlocked the door!");
 		}
 		else
 			show_temp_message(game, 3.0, "The door is locked!");

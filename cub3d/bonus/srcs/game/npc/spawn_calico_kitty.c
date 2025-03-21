@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:05:57 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/19 13:54:43 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/21 11:41:00 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ void	init_calico_kitty_dialogues(t_game *game, t_npc *npc)
 	static char	*dialogues[][11] = {
 	{"What a maze...", NULL},
 	{"Oh, someone godferdumpin' help me!",
-		"I'm shlooby stuck here, a giant fire ball...",
-		"is wandering in there! I found a kind of...",
-		"watergun, but it's empty! I would need to go...",
-		"to the well to fill it up, but I'm too scared...",
-		"to go there while this fireball is around...",
-		"Could you fill up the watergun and get rid of...",
-		"the fireball for me?",
+		"My sibling and I are trapped here...",
+		"I tried to find a way out...",
+		"but a giant fire ball is wandering around!",
+		"I'm too scared to get back to my...",
+		"sibling or continue my search for an exit.",
+		"Could you get rid of it for me?",
+		"That's so kind of you...",
 		"Thank you! I'll wait here for you!", NULL
 	},
 	{"...",
@@ -48,7 +48,9 @@ void	init_calico_kitty_dialogues(t_game *game, t_npc *npc)
 	},
 	{"...",
 		"You find a way out!?",
-		"Let's get the heaven out of here!", NULL}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}
+		"Let's get the heaven out of here!",
+		NULL
+	}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}
 	};
 
 	npc->dialogue.phase_count = sizeof(dialogues) / sizeof(dialogues[0]);
@@ -90,6 +92,7 @@ static void	init_calico_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 	npc->is_hit = false;
 	npc->pos = (t_dpoint){pos.x + 0.5, pos.y + 0.5};
 	npc->speed = 1.2;
+	npc->following_speed = 2.5;
 	init_npc_pathfinding(game, npc);
 	generate_npc_waypoints(npc, game);
 	init_calico_kitty_sprites(npc);

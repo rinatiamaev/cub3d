@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 23:44:16 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/19 12:16:25 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/21 12:15:20 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static bool	is_position_near_any_item(t_dpoint position, t_game *game,
 
 bool	is_position_valid_for_player(t_game *game, t_dpoint pos)
 {
-	if (!is_map_position_valid(game, pos))
+	if (!is_map_position_valid_player(game, pos))
 		return (false);
 	if (is_position_near_any_npc(pos, game, 0.3, NULL))
 		return (false);

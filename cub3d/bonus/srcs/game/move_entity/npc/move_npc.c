@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:23:15 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 13:11:11 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/21 10:19:37 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	stop_npc(t_npc *npc, t_dpoint target)
 bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time)
 {
 	double		dist;
+	double		current_speed;
 	t_dpoint	delta;
 
 	if (npc->is_hit || is_any_npc_talking(game))
@@ -39,12 +40,16 @@ bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time)
 	delta.x = target.x - npc->pos.x;
 	delta.y = target.y - npc->pos.y;
 	dist = ft_cab_dist_dpoint(npc->pos, target);
-	if (dist == 0.0)
+	if (dist <= 0.01)
 		return (true);
 	delta.x /= dist;
 	delta.y /= dist;
-	npc->pos.x += delta.x * npc->speed * delta_time;
-	npc->pos.y += delta.y * npc->speed * delta_time;
+	if (npc->is_following)
+		current_speed = npc->following_speed;
+	else
+		current_speed = npc->speed;
+	npc->pos.x += delta.x * current_speed * delta_time;
+	npc->pos.y += delta.y * current_speed * delta_time;
 	npc->move_vec = delta;
 	return (false);
 }

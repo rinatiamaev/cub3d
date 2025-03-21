@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:29:13 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 13:11:33 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/21 12:54:42 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,14 @@
 
 static void	update_npc_patrol_path(t_game *game, t_npc *npc)
 {
-	a_star_path(game, npc, (t_point){(int)npc->pos.x, (int)npc->pos.y},
-		(t_point){(int)npc->waypoints[npc->current_wp].x,
-		(int)npc->waypoints[npc->current_wp].y});
+	t_point	start;
+	t_point	goal;
+
+	start = (t_point){(int)npc->pos.x, (int)npc->pos.y};
+	goal = (t_point){
+		(int)npc->waypoints[npc->current_wp].x,
+		(int)npc->waypoints[npc->current_wp].y};
+	a_star_path(game, npc, start, goal);
 }
 
 static bool	is_patrol_path_valid(t_npc *npc)

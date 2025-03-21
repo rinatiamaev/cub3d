@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:06:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 16:36:03 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/20 22:55:14 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static bool	is_player_near_npc(t_npc *npc, t_player *player, double range)
 {
-	return (ft_cab_dist_dpoint(player->pos, npc->pos) < range);
+	return (ft_euclidean_dist_dpoint(player->pos, npc->pos) < range);
 }
 
 static void	reset_animations(t_npc *npc)

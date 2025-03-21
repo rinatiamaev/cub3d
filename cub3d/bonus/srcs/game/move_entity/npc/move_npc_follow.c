@@ -6,17 +6,22 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:57:31 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 13:11:18 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/21 12:55:46 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-void	update_npc_follow_path(t_game *game, t_npc *npc)
+void	update_npc_follow_path(t_game *game, t_player *player, t_npc *npc)
 {
-	a_star_path(game, npc, (t_point){(int)npc->pos.x, (int)npc->pos.y},
-		(t_point){(int)game->player.last_pos.x, (int)game->player.last_pos.y});
+	t_point	start;
+	t_point	goal;
+
+	start = (t_point){(int)npc->pos.x, (int)npc->pos.y};
+	goal = (t_point){(int)player->last_pos.x, (int)player->last_pos.y};
+	a_star_path(game, npc, start, goal);
 }
+
 
 static bool	is_follow_path_valid(t_npc *npc)
 {
@@ -29,7 +34,7 @@ void	move_npc_follow(t_game *game, t_npc *npc, double delta_time)
 
 	if (!is_follow_path_valid(npc))
 	{
-		update_npc_follow_path(game, npc);
+		update_npc_follow_path(game, &game->player, npc);
 		if (!is_follow_path_valid(npc))
 			return ;
 	}
@@ -39,7 +44,7 @@ void	move_npc_follow(t_game *game, t_npc *npc, double delta_time)
 		npc->path_index++;
 		if (npc->path_index >= npc->path_length)
 		{
-			update_npc_follow_path(game, npc);
+			update_npc_follow_path(game, &game->player, npc);
 			npc->path_index = 0;
 		}
 	}

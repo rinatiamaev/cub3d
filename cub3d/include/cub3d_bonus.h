@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/20 14:06:10 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/21 12:56:59 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@
 # define STRUCTURE_NOTIFY_MASK	131072
 
 # define FOV				0.66
+# define DOT_FOV_THRESHOLD	0.84
+# define INFINITY_DIST		1e6
 
 /* # define UP				122
 # define DOWN			115
@@ -57,8 +59,8 @@
 # define RIGHT			100 */
 # define UP				119
 # define DOWN			115
-# define LEFT			97
-# define RIGHT			100
+# define LEFT			100
+# define RIGHT			97
 # define ARR_RIGHT		65361
 # define ARR_LEFT		65363
 # define PAUSE			32
@@ -322,6 +324,7 @@ typedef struct s_npc
 	t_dpoint	pos;
 	t_npc_state	state;
 	double		speed;
+	double		following_speed;
 	t_dpoint	move_vec;
 	t_dpoint	last_move_vec;
 	t_sprite	sprite;
@@ -443,14 +446,16 @@ typedef struct s_game
 	int				npc_count;
 	t_door			**doors;
 	int				door_count;
+	t_dpoint		exit_pos;
 	t_item			**items;
 	int				item_count;
-	t_dpoint		exit_pos;
+	t_entity		*entities;
+    int				entity_count;
 	bool			minimap_visible;
 	bool			keys[66000];
-	bool            temp_msg_visible;
-    char            temp_msg[50];
-    double          temp_msg_timer;
+	bool			temp_msg_visible;
+	char			temp_msg[50];
+	double			temp_msg_timer;
 }	t_game;
 
 // UTILS
@@ -467,6 +472,8 @@ double	get_delta_time(void);
 void	draw_lose_message(t_game *game);
 void	check_win_condition(t_game *game);
 void	draw_win_message(t_game *game);
+bool	is_facing_target(t_player *player, t_dpoint target_pos);
+void	update_entities_sort(t_game *game);
 
 // PARSING
 void	extract_file_content(t_game *game, t_map *map);
@@ -519,8 +526,9 @@ void	free_npc_textures(t_game *game, t_sprite *sprite);
 void	free_npc_waypoints(t_npc *npc);
 void	spawn_fire_spirit(t_game *game, double x, double y);
 bool	has_line_of_sight(t_game *game, t_dpoint src, t_dpoint target);
-void	update_npc_follow_path(t_game *game, t_npc *npc);
+void	update_npc_follow_path(t_game *game, t_player *player, t_npc *npc);
 void	update_npc(t_game *game, t_npc *npc, double delta_time);
+
 // ITEM
 void	spawn_well(t_game *game, double x, double y);
 void	spawn_bucket(t_game *game, double x, double y);
@@ -586,7 +594,8 @@ void	handle_event_hooks(t_game *game, t_window *window);
 // GAME LOOP
 int		game_loop(t_game *game);
 void	handle_mouse_movement(t_game *game, t_window *window);
-bool	is_map_position_valid(t_game *game, t_dpoint pos);
+bool	is_map_position_valid_npc(t_game *game, t_dpoint pos);
+bool	is_map_position_valid_player(t_game *game, t_dpoint pos);
 bool	is_within_bounds(t_game *game, t_point pos);
 bool	is_any_npc_talking(t_game *game);
 bool	is_position_valid_for_player(t_game *game, t_dpoint pos);
