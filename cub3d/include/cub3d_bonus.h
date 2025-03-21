@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/21 10:44:45 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/21 12:56:59 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -526,8 +526,9 @@ void	free_npc_textures(t_game *game, t_sprite *sprite);
 void	free_npc_waypoints(t_npc *npc);
 void	spawn_fire_spirit(t_game *game, double x, double y);
 bool	has_line_of_sight(t_game *game, t_dpoint src, t_dpoint target);
-void	update_npc_follow_path(t_game *game, t_npc *npc);
+void	update_npc_follow_path(t_game *game, t_player *player, t_npc *npc);
 void	update_npc(t_game *game, t_npc *npc, double delta_time);
+
 // ITEM
 void	spawn_well(t_game *game, double x, double y);
 void	spawn_bucket(t_game *game, double x, double y);
@@ -593,7 +594,8 @@ void	handle_event_hooks(t_game *game, t_window *window);
 // GAME LOOP
 int		game_loop(t_game *game);
 void	handle_mouse_movement(t_game *game, t_window *window);
-bool	is_map_position_valid(t_game *game, t_dpoint pos);
+bool	is_map_position_valid_npc(t_game *game, t_dpoint pos);
+bool	is_map_position_valid_player(t_game *game, t_dpoint pos);
 bool	is_within_bounds(t_game *game, t_point pos);
 bool	is_any_npc_talking(t_game *game);
 bool	is_position_valid_for_player(t_game *game, t_dpoint pos);

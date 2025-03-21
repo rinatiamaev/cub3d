@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 23:07:56 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/21 10:14:38 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/21 12:49:17 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,12 @@ static bool	is_occupied_by_any_npc(t_game *game, t_point pos)
 	return (false);
 }
 
-bool	is_position_valid_for_npc(t_game *game, t_npc *npc, t_astar *astar, t_point pos)
+bool	is_position_valid_for_npc(t_game *game, t_npc *npc, t_astar *astar,
+																t_point pos)
 {
 	
-	if (!is_map_position_valid(game, (t_dpoint){(double)pos.x, (double)pos.y}))
+	if (!is_map_position_valid_npc(game,
+		(t_dpoint){(double)pos.x, (double)pos.y}))
 		return (false);
 	if (astar && astar->open_list[pos.y][pos.x])
 		return (false);	
