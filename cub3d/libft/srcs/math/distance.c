@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 23:08:07 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/20 22:27:30 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/22 14:15:04 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,4 @@ int	ft_euclidean_dist_point(t_point a, t_point b)
 double	ft_euclidean_dist_dpoint(t_dpoint a, t_dpoint b)
 {
 	return (sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2)));
-}
-
-double	get_dot_product(t_dpoint a, t_dpoint b)
-{
-	return (a.x * b.x + a.y * b.y);
 }

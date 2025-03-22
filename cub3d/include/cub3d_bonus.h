@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/21 12:56:59 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/22 18:50:47 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,16 @@
 # define STRUCTURE_NOTIFY_MASK	131072
 
 # define FOV				0.66
-# define DOT_FOV_THRESHOLD	0.84
 # define INFINITY_DIST		1e6
 
-/* # define UP				122
+# define UP				122
 # define DOWN			115
 # define LEFT			113
-# define RIGHT			100 */
-# define UP				119
+# define RIGHT			100
+/* # define UP				119
 # define DOWN			115
 # define LEFT			100
-# define RIGHT			97
+# define RIGHT			97 */
 # define ARR_RIGHT		65361
 # define ARR_LEFT		65363
 # define PAUSE			32
@@ -70,8 +69,8 @@
 # define FOLLOW_PLAYER	102
 
 # define WIN_NAME	"Cube3D"
-# define WIN_W		1600
-# define WIN_H		1200
+# define WIN_W		1200
+# define WIN_H		900
 
 # define TEX_W		128
 # define TEX_H		128
@@ -420,7 +419,7 @@ typedef struct s_player
 	char		conf_dir;
 	t_dpoint	pos;		// (x, y) in double precision
 	t_dpoint	last_pos;
-	t_dpoint	dir;		// Direction vector: which way is "forward"
+	t_dpoint	facing_dir;		// Direction vector: which way is "forward"
 	t_dpoint	plane;		// Camera plane vector: perpendicular to dir
 	double		rot_speed;	// Rotation speed in radians per second
 	double		move_speed;	// Movement speed per frame

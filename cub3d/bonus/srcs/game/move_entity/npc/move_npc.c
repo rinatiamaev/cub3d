@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:23:15 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/21 10:19:37 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/22 14:43:17 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 static bool	has_reached_target(t_npc *npc, t_dpoint target)
 {
-	return (ft_cab_dist_dpoint(npc->pos, target) < npc->threshold_dist);
+	double	distance_to_target;
+
+	distance_to_target = ft_cab_dist_dpoint(npc->pos, target);
+	return (distance_to_target < npc->threshold_dist);
 }
 
 static void	stop_npc(t_npc *npc, t_dpoint target)
@@ -24,32 +27,40 @@ static void	stop_npc(t_npc *npc, t_dpoint target)
 	npc->move_vec = (t_dpoint){0, 0};
 }
 
-bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time)
+static bool	should_stop_npc(t_game *game, t_npc *npc, t_dpoint target)
 {
-	double		dist;
-	double		current_speed;
-	t_dpoint	delta;
-
-	if (npc->is_hit || is_any_npc_talking(game))
+	if (npc->is_hit)
+		return (true);
+	if (is_any_npc_talking(game))
 		return (true);
 	if (has_reached_target(npc, target))
-	{
-		stop_npc(npc, npc->pos);
 		return (true);
-	}
-	delta.x = target.x - npc->pos.x;
-	delta.y = target.y - npc->pos.y;
-	dist = ft_cab_dist_dpoint(npc->pos, target);
-	if (dist <= 0.01)
-		return (true);
-	delta.x /= dist;
-	delta.y /= dist;
-	if (npc->is_following)
-		current_speed = npc->following_speed;
-	else
-		current_speed = npc->speed;
-	npc->pos.x += delta.x * current_speed * delta_time;
-	npc->pos.y += delta.y * current_speed * delta_time;
-	npc->move_vec = delta;
 	return (false);
 }
+
+static double	get_current_speed(t_npc *npc)
+{
+	if (npc->is_following)
+		return (npc->following_speed);
+	return (npc->speed);
+}
+
+bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time)
+{
+	double		current_speed;
+	double		step;
+
+	if (should_stop_npc(game, npc, target))
+	{
+		if (has_reached_target(npc, target))
+			stop_npc(npc, npc->pos);
+		return (true);
+	}
+	current_speed = get_current_speed(npc);
+	npc->move_vec = get_unit_direction_vector(npc->pos, target);
+	step = current_speed * delta_time;
+	npc->pos.x += npc->move_vec.x * step;
+	npc->pos.y += npc->move_vec.y * step;
+	return (false);
+}
+

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:49:24 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 10:48:56 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/22 15:13:42 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,60 +14,60 @@
 
 static void	move_forward(t_game *game, double move_speed)
 {
-	t_dpoint	next;
+	t_dpoint	next_pos;
 
-	next.x = game->player.pos.x + game->player.dir.x * move_speed;
-	next.y = game->player.pos.y + game->player.dir.y * move_speed;
-	if (is_position_valid_for_player(game, next))
+	next_pos.x = game->player.pos.x + game->player.dir.x * move_speed;
+	next_pos.y = game->player.pos.y + game->player.dir.y * move_speed;
+	if (is_position_valid_for_player(game, next_pos))
 	{
 		game->player.last_pos = game->player.pos;
-		game->player.pos = next;
+		game->player.pos = next_pos;
 	}
 }
 
 static void	move_backward(t_game *game, double move_speed)
 {
-	t_dpoint	next;
+	t_dpoint	next_pos;
 
 	move_speed *= -1;
-	next.x = game->player.pos.x + game->player.dir.x * move_speed;
-	next.y = game->player.pos.y + game->player.dir.y * move_speed;
-	if (is_position_valid_for_player(game, next))
+	next_pos.x = game->player.pos.x + game->player.dir.x * move_speed;
+	next_pos.y = game->player.pos.y + game->player.dir.y * move_speed;
+	if (is_position_valid_for_player(game, next_pos))
 	{
 		game->player.last_pos = game->player.pos;
-		game->player.pos = next;
+		game->player.pos = next_pos;
 	}
 }
 
 static void	strafe_left(t_game *game, double move_speed)
 {
 	t_dpoint	strafe;
-	t_dpoint	next;
+	t_dpoint	next_pos;
 
 	strafe.x = -game->player.dir.y;
 	strafe.y = game->player.dir.x;
-	next.x = game->player.pos.x + strafe.x * move_speed;
-	next.y = game->player.pos.y + strafe.y * move_speed;
-	if (is_position_valid_for_player(game, next))
+	next_pos.x = game->player.pos.x + strafe.x * move_speed;
+	next_pos.y = game->player.pos.y + strafe.y * move_speed;
+	if (is_position_valid_for_player(game, next_pos))
 	{
 		game->player.last_pos = game->player.pos;
-		game->player.pos = next;
+		game->player.pos = next_pos;
 	}
 }
 
 static void	strafe_right(t_game *game, double move_speed)
 {
 	t_dpoint	strafe;
-	t_dpoint	next;
+	t_dpoint	next_pos;
 
 	strafe.x = game->player.dir.y;
 	strafe.y = -game->player.dir.x;
-	next.x = game->player.pos.x + strafe.x * move_speed;
-	next.y = game->player.pos.y + strafe.y * move_speed;
-	if (is_position_valid_for_player(game, next))
+	next_pos.x = game->player.pos.x + strafe.x * move_speed;
+	next_pos.y = game->player.pos.y + strafe.y * move_speed;
+	if (is_position_valid_for_player(game, next_pos))
 	{
 		game->player.last_pos = game->player.pos;
-		game->player.pos = next;
+		game->player.pos = next_pos;
 	}
 }
 

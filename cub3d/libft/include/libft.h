@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 01:23:16 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/20 22:28:04 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/22 18:47:20 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,8 @@ int			ft_manhattan_dist_point(t_point a, t_point b);
 double		ft_cab_dist_dpoint(t_dpoint a, t_dpoint b);
 int			ft_euclidean_dist_point(t_point a, t_point b);
 double		ft_euclidean_dist_dpoint(t_dpoint a, t_dpoint b);
-double		get_dot_product(t_dpoint a, t_dpoint b);
+t_dpoint	get_unit_direction_vector(t_dpoint from, t_dpoint to);
+double		get_dot_product(t_dpoint vec1, t_dpoint vec2);
 
 int			ft_printf(const char *format, ...);
 int			initialize_printf_structs(t_pf *pf);
