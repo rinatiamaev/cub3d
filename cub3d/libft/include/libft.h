@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 01:23:16 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/22 18:47:20 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/23 23:27:38 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@
 # define FLAG_SPACE   16
 
 # define ATOI_ERROR 9223372036854775807LL
+
+# define M_PI		3.14159265358979323846
 
 typedef struct s_point
 {
@@ -157,12 +159,25 @@ char		*get_next_line(int fd);
 void		ft_swap(void *a, void *b, size_t size);
 int			ft_rand(int min, int max);
 
+double		deg_to_rad(double degrees);
+double		rad_to_deg(double radians);
+double		wrap_angle(double angle);
 int			ft_manhattan_dist_point(t_point a, t_point b);
 double		ft_cab_dist_dpoint(t_dpoint a, t_dpoint b);
 int			ft_euclidean_dist_point(t_point a, t_point b);
 double		ft_euclidean_dist_dpoint(t_dpoint a, t_dpoint b);
+double		clamp(double value, double min, double max);
+double		get_fractional_part(double value);
+double		wrap_in_range(double value, double range);
+double		get_vector_length(t_dpoint vec);
+t_dpoint	divide_vector_by_scalar(t_dpoint vec, double scalar);
+t_dpoint	get_normalized_vector(t_dpoint vector);
+double		get_vector_angle(t_dpoint vector);
+double		get_vector_angle_between(t_dpoint from, t_dpoint to);
+t_dpoint	get_direction_vector(t_dpoint from, t_dpoint to);
 t_dpoint	get_unit_direction_vector(t_dpoint from, t_dpoint to);
 double		get_dot_product(t_dpoint vec1, t_dpoint vec2);
+
 
 int			ft_printf(const char *format, ...);
 int			initialize_printf_structs(t_pf *pf);

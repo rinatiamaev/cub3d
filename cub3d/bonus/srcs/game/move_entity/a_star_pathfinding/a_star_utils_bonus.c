@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 07:18:04 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/19 12:21:09 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/22 20:34:04 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	process_single_child(t_game *game, t_npc *npc, t_astar *astar, int d
 
 	new_pos.x = astar->current_node->pos.x + astar->direction[direction].x;
 	new_pos.y = astar->current_node->pos.y + astar->direction[direction].y;
-	if (!is_position_valid_for_npc(game, npc, astar, new_pos))
+	if (!is_position_valid_npc(game, npc, astar, new_pos))
 		return ;
 	child_node = create_child_node(game, astar, new_pos);
 	astar->node = child_node;

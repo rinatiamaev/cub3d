@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:06:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/20 22:55:14 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/23 11:39:22 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ static void	update_npc_state(t_game *game, t_npc *npc, t_player *player)
 	t_npc_state	previous_state;
 
 	previous_state = npc->state;
-	if (is_player_near_npc(npc, player, 3.0)
-		|| has_line_of_sight(game, npc->pos, player->pos))
+	if (is_player_near_npc(npc, player, 5.0)
+		|| has_line_of_sight(game, npc->pos, player->pos)
+		|| is_facing_target(&game->player, npc->pos))
 		npc->state = CHASE;
 	else
 		npc->state = PATROL;

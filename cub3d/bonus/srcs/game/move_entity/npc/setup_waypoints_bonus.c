@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 08:04:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/22 15:02:08 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/22 21:34:15 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static bool	is_patrol_point_valid(t_game *game, t_dpoint pos)
 	int 	cell;
 
 	check_pos = (t_point){(int)pos.x, (int)pos.y};
-	cell = game->map->matrix[check_pos.y][check_pos.x];
 	if (!is_within_bounds(game, check_pos))
 		return (false);
+	cell = game->map->matrix[check_pos.y][check_pos.x];
 	if (cell != FREE_SPACE)
 		return (false);
 	return (true);

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:03:59 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/17 20:08:26 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/23 20:38:50 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,7 @@ static t_texture	*get_npc_movement_texture(t_game *game, t_npc *npc)
 	int	index;
 
 	block = get_walk_block(npc, &game->player);
-	base_index = 0;
-	if (block == WALK_AWAY)
-		base_index = 0;
-	else if (block == WALK_TOWARD)
-		base_index = 4;
-	else if (block == WALK_LEFT)
-		base_index = 8;
-	else
-		base_index = 12;
+	base_index = get_walk_animation_base_index(block);
 	index = base_index + (npc->sprite.anim_index % 4);
 	if (index < 0 || index >= npc->sprite.move_frames_count)
 		index = base_index;

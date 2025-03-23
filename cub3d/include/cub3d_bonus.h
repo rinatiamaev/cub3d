@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/22 18:50:47 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/23 22:34:07 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@
 # define TEX_W		128
 # define TEX_H		128
 
-# define M_PI		3.14159265358979323846
 # define DEAD_ZONE	1.0
 
 # define MAX_LINE_LENGTH	40
@@ -201,8 +200,7 @@ typedef struct s_sprite_draw
 {
 	t_dpoint	relative_position;		// Sprite position relative to player
 	double		inverse_determinant;	// Inverse of the det of the camera mat
-	double		transform_x;			// Sprite X in camera space
-	double		transform_y;			// Sprite Y in camera space
+	t_dpoint	transform;				// Sprite position in camera space
 	int			screen_x;				// X coordinate of sprite center screen
 	int			height;					// Calculated sprite height on screen
 	int			width;					// Calculated sprite width on screen
@@ -210,12 +208,8 @@ typedef struct s_sprite_draw
 	t_point		draw_end;				// (bott-right) of sprite bounding box
 	int			current_frame;			// Chosen animation frame
 	t_texture	*texture;				// Pointer to the sprite texture
-	t_point		texture_size;			// (width, height) of the sprite tex
 	int			stripe_x;				// Current vert stripe in screen space
-	int			texture_x;				// Corresponding x in the sprite tex
-	int			y;						// Loop index for screen Y
-	int			d;						// Helper for fixed-point texture Y
-	int			texture_y;				// Corresponding y in the sprite tex
+	t_point 	tex_pixel;				// Current pixel in texture
 	int			color;					// Final color from texture
 }	t_sprite_draw;
 
@@ -363,12 +357,12 @@ typedef enum e_door_type
 
 typedef struct s_door
 {
-	t_door_type		type;		// Door type
-	t_dpoint		pos;		// Door grid position
-	double			offset;		// Sliding offset
-	t_door_state	state;		// Door current state
-	double			speed;		// How fast the door opens/closes
-	double			open_timer;	// Time the door stays open after fully opening
+	t_door_type		type;
+	t_dpoint		pos;
+	double			offset;
+	t_door_state	state;
+	double			speed;
+	double			open_timer;
 }	t_door;
 
 typedef struct s_item
@@ -417,13 +411,13 @@ typedef enum e_game_state
 typedef struct s_player
 {
 	char		conf_dir;
-	t_dpoint	pos;		// (x, y) in double precision
+	t_dpoint	pos;
 	t_dpoint	last_pos;
-	t_dpoint	facing_dir;		// Direction vector: which way is "forward"
-	t_dpoint	plane;		// Camera plane vector: perpendicular to dir
-	double		rot_speed;	// Rotation speed in radians per second
-	double		move_speed;	// Movement speed per frame
-	double		angle;		// Player’s facing angle (in radians)
+	t_dpoint	facing_dir;		// Direction vector
+	t_dpoint	view_plane;		// Camera plane vector: perp to facing_dir
+	double		rot_speed;		// (in radians)
+	double		move_speed;
+	double		facing_angle; 	// (in radians)
 	bool 		has_bucket;
 	bool		has_water;
 	bool		is_splashing;
@@ -473,6 +467,7 @@ void	check_win_condition(t_game *game);
 void	draw_win_message(t_game *game);
 bool	is_facing_target(t_player *player, t_dpoint target_pos);
 void	update_entities_sort(t_game *game);
+int		handle_game_state(t_game *game);
 
 // PARSING
 void	extract_file_content(t_game *game, t_map *map);
@@ -494,8 +489,6 @@ void	load_game_textures(t_game *game, t_conf conf);
 void	load_sprite_frames_npc(t_game *game, t_sprite *sprite);
 void	update_enemy_npc(t_game *game, t_npc *npc, double delta_time);
 void	update_all_npcs(t_game *game, double delta_time);
-void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
-			double *z_buffer);
 bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time);
 void	move_npc_patrol(t_game *game, t_npc *npc, double delta_time);
 void	move_npc_follow(t_game *game, t_npc *npc, double delta_time);
@@ -512,6 +505,7 @@ void	generate_npc_waypoints(t_npc *npc, t_game *game);
 void	update_npc_list(t_game *game, t_npc *npc);
 void	spawn_witch_kitty(t_game *game, double x, double y);
 void	spawn_calico_kitty(t_game *game, double x, double y);
+int		get_walk_animation_base_index(int walk_block);
 int		get_walk_block(t_npc *npc, t_player *player);
 void	draw_kitty_npc(t_game *game, t_npc *npc, double *z_buffer);
 void	draw_fire_spirit(t_game *game, t_npc *npc, double *z_buffer);
@@ -570,10 +564,23 @@ void	init_player(t_game *game, t_player *player);
 void	set_frame_sizes(t_texture *frames, int count, t_point size);
 void	load_sprite_animation(t_game *game, t_texture **frames,
 		char **paths, int frame_count);
-bool	init_texture_draw_data(t_sprite_draw *data, t_player player, t_item *item);
-void	draw_texture(t_game *game, t_player player, t_item *item, double *z_buffer);
+void	draw_texture(t_game *game, t_texture *texture,
+		t_dpoint texture_pos, double *z_buffer);
 void	draw_entities(t_game *game, double *z_buffer);
 void	draw_key(t_game *game, t_item *item, double *z_buffer);
+double	compute_determinant(t_player player);
+double	compute_inverse_determinant(double det);
+double	compute_transform_x(t_player player, t_dpoint rel, double inv_det);
+double	compute_transform_y(t_player player, t_dpoint rel, double inv_det);
+bool	is_sprite_in_front(double transform_y);
+bool	calc_sprite_screen_coords(t_sprite_draw *data);
+void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
+		double *z_buffer);
+void	draw_sprite_column(t_game *game, t_sprite_draw *data,
+		double *z_buffer);
+int		get_tile_size(t_map *map);
+t_point	get_minimap_position(t_point map_pos, int tile_size);
+bool	is_point_in_circle(t_point offset, int radius);
 
 // HOOKS
 bool	interact_with_door(t_game *game);
@@ -593,15 +600,23 @@ void	handle_event_hooks(t_game *game, t_window *window);
 // GAME LOOP
 int		game_loop(t_game *game);
 void	handle_mouse_movement(t_game *game, t_window *window);
-bool	is_map_position_valid_npc(t_game *game, t_dpoint pos);
 bool	is_map_position_valid_player(t_game *game, t_dpoint pos);
 bool	is_within_bounds(t_game *game, t_point pos);
 bool	is_any_npc_talking(t_game *game);
-bool	is_position_valid_for_player(t_game *game, t_dpoint pos);
-bool	is_position_valid_for_npc(t_game *game, t_npc *npc, t_astar *astar, t_point pos);
+bool	is_player_move_valid(t_game *game, t_dpoint pos);
+bool	is_position_valid_npc(t_game *game, t_npc *npc, t_astar *astar, t_point pos);
+bool	is_wall(t_game *game, t_point pos);
 void	handle_player_moves(t_game *game, double delta_time);
-void	rotate_left(t_player *player, double rot_speed, double delta_time);
-void	rotate_right(t_player *player, double rot_speed, double delta_time);
+void	rotate_player_left(t_player *player, double delta_time);
+void	rotate_player_right(t_player *player, double delta_time);
+void	move_player_forward(t_game *game, t_player *player,
+		double delta_time);
+void	move_player_backward(t_game *game, t_player *player,
+		double delta_time);
+void	strafe_player_left(t_game *game, t_player *player,
+		double delta_time);
+void	strafe_player_right(t_game *game, t_player *player,
+		double delta_time);
 
 // A_STAR_SEARCH
 void	closed_list_insert(t_closed_list *closed_list, t_node *node,
@@ -627,7 +642,10 @@ int		**x_create_matrix(t_game *game, int row_count, int col_count);
 t_dial_phase	get_witch_kitty_phase(t_story_state *story);
 t_dial_phase	get_calico_phase(t_story_state *story);
 t_dial_phase	get_fire_spirit_phase(t_story_state *story);
-void			allocate_dialogues(t_game *game, t_dial *dialog, char *dialogues[][11], int phase_count);
+void			allocate_dialogues(t_game *game, t_dial *dialog,
+				char *dialogues[][11], int phase_count);
+void			update_npc_story(t_game *game, t_npc *calico, t_npc *witch,
+				t_npc *fire_spirit);
 
 // MUSIC
 void	start_background_music(const char *music_file);

@@ -5,86 +5,63 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/19 11:49:24 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/22 15:13:42 by nlouis           ###   ########.fr       */
+/*   Created: 2025/03/22 20:42:22 by nlouis            #+#    #+#             */
+/*   Updated: 2025/03/23 11:04:35 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static void	move_forward(t_game *game, double move_speed)
+static void	move_player(t_game *game, t_player *player,
+									t_dpoint direction, double delta_time)
 {
+	t_dpoint	step;
 	t_dpoint	next_pos;
 
-	next_pos.x = game->player.pos.x + game->player.dir.x * move_speed;
-	next_pos.y = game->player.pos.y + game->player.dir.y * move_speed;
-	if (is_position_valid_for_player(game, next_pos))
+	step.x = direction.x * player->move_speed * delta_time;
+	step.y = direction.y * player->move_speed * delta_time;
+	next_pos.x = player->pos.x + step.x;
+	next_pos.y = player->pos.y + step.y;
+	if (is_player_move_valid(game, next_pos))
 	{
-		game->player.last_pos = game->player.pos;
-		game->player.pos = next_pos;
+		player->last_pos = player->pos;
+		player->pos = next_pos;
 	}
 }
 
-static void	move_backward(t_game *game, double move_speed)
-{
-	t_dpoint	next_pos;
 
-	move_speed *= -1;
-	next_pos.x = game->player.pos.x + game->player.dir.x * move_speed;
-	next_pos.y = game->player.pos.y + game->player.dir.y * move_speed;
-	if (is_position_valid_for_player(game, next_pos))
-	{
-		game->player.last_pos = game->player.pos;
-		game->player.pos = next_pos;
-	}
+void	move_player_forward(t_game *game, t_player *player,
+											double delta_time)
+{
+	move_player(game, player, player->facing_dir, delta_time);
 }
 
-static void	strafe_left(t_game *game, double move_speed)
+void	move_player_backward(t_game *game, t_player *player,
+											double delta_time)
 {
-	t_dpoint	strafe;
-	t_dpoint	next_pos;
+	t_dpoint	backward_direction;
 
-	strafe.x = -game->player.dir.y;
-	strafe.y = game->player.dir.x;
-	next_pos.x = game->player.pos.x + strafe.x * move_speed;
-	next_pos.y = game->player.pos.y + strafe.y * move_speed;
-	if (is_position_valid_for_player(game, next_pos))
-	{
-		game->player.last_pos = game->player.pos;
-		game->player.pos = next_pos;
-	}
+	backward_direction.x = -player->facing_dir.x;
+	backward_direction.y = -player->facing_dir.y;
+	move_player(game, player, backward_direction, delta_time);
 }
 
-static void	strafe_right(t_game *game, double move_speed)
+void	strafe_player_left(t_game *game, t_player *player,
+											double delta_time)
 {
-	t_dpoint	strafe;
-	t_dpoint	next_pos;
+	t_dpoint	strafe_left_direction;
 
-	strafe.x = game->player.dir.y;
-	strafe.y = -game->player.dir.x;
-	next_pos.x = game->player.pos.x + strafe.x * move_speed;
-	next_pos.y = game->player.pos.y + strafe.y * move_speed;
-	if (is_position_valid_for_player(game, next_pos))
-	{
-		game->player.last_pos = game->player.pos;
-		game->player.pos = next_pos;
-	}
+	strafe_left_direction.x = -player->facing_dir.y;
+	strafe_left_direction.y = player->facing_dir.x;
+	move_player(game, player, strafe_left_direction, delta_time);
 }
 
-void	handle_player_moves(t_game *game, double delta_time)
+void	strafe_player_right(t_game *game, t_player *player,
+											double delta_time)
 {
-	if (is_any_npc_talking(game))
-		return ;
-	if (game->keys[UP])
-		move_forward(game, game->player.move_speed * delta_time);
-	if (game->keys[DOWN])
-		move_backward(game, game->player.move_speed * delta_time);
-	if (game->keys[LEFT])
-		strafe_left(game, game->player.move_speed * delta_time);
-	if (game->keys[RIGHT])
-		strafe_right(game, game->player.move_speed * delta_time);
-	if (game->keys[ARR_RIGHT])
-		rotate_right(&game->player, game->player.rot_speed, delta_time);
-	if (game->keys[ARR_LEFT])
-		rotate_left(&game->player, game->player.rot_speed, delta_time);
+	t_dpoint	strafe_right_direction;
+
+	strafe_right_direction.x = player->facing_dir.y;
+	strafe_right_direction.y = -player->facing_dir.x;
+	move_player(game, player, strafe_right_direction, delta_time);
 }

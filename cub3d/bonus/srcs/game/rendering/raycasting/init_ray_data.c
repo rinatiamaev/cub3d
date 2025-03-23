@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:55:59 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 10:57:33 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/23 23:16:45 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ void	init_ray(t_game *game, t_ray *ray, int x)
 	double	camera_x;
 
 	camera_x = 2.0 * (double)x / (double)WIN_W - 1.0;
-	ray->dir.x = game->player.dir.x + game->player.plane.x * camera_x;
-	ray->dir.y = game->player.dir.y + game->player.plane.y * camera_x;
+	ray->dir.x
+		= game->player.facing_dir.x + game->player.view_plane.x * camera_x;
+	ray->dir.y
+		= game->player.facing_dir.y + game->player.view_plane.y * camera_x;
 	ray->map.x = (int)game->player.pos.x;
 	ray->map.y = (int)game->player.pos.y;
 	ray->delta_dist.x = fabs(1.0 / ray->dir.x);

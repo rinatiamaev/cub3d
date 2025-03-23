@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:04:48 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/20 20:56:05 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/23 16:42:23 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,5 @@ int	main(int argc, char **argv)
 	start_background_music("./bonus/assets/background_music.wav");
 	handle_event_hooks(game, game->window);
 	mlx_loop(game->mlx);
-	free_game(game);
-	stop_background_music();
 	return (0);
 }
