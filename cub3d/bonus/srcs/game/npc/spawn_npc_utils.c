@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:26:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 21:56:57 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/22 14:33:57 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	init_npc_pathfinding(t_game *game, t_npc *npc)
 	npc->patrol_range = 10;
 	npc->waypoint_count = 4;
 	npc->current_wp = 1;
-	npc->threshold_dist = 0.2;
+	npc->threshold_dist = 0.1;
 	npc->astar = x_calloc(game, 1, sizeof(t_astar));
 	npc->astar->direction[0] = (t_point){0, -1};
 	npc->astar->direction[1] = (t_point){0, 1};

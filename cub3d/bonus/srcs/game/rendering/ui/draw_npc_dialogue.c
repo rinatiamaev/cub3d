@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:58:30 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/13 16:04:05 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 01:25:48 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	render_npc_dialogue(t_game *game, t_npc *npc)
 	int		color;
 	char	*dialogue_text;
 
-	x = (WIN_W / 2 - 128);
+	x = ((WIN_W >> 1) - 128);
 	y = (WIN_H - (WIN_H / 5));
-	color = 0x141B1B;
+	color = 43;
 	dialogue_text = get_current_dialogue_line(npc);
 	if (!dialogue_text)
 		return ;

@@ -6,25 +6,12 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:59:48 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/10 00:58:53 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 00:51:27 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-/*
-This function tracks the horizontal movement of the mouse and applies rotation
-to the player accordingly. The rotation speed is dynamically adjusted based
-on the distance of the mouse from the center of the window.
-
-If the mouse moves beyond a certain threshold, the rotation speed is set 
-proportionally to the displacement. Otherwise, a damping effect is applied 
-to gradually reduce the rotation speed, ensuring smooth deceleration when 
-the mouse stops moving.
-
-The function also recenters the mouse when it enters the dead zone to 
-prevent uncontrolled drift.
-*/
 static bool	is_mouse_inside_window(t_mouse_data *m, t_window *window)
 {
 	return (m->position.x >= 0 && m->position.x < window->size.x
@@ -52,9 +39,9 @@ static void	update_rotation_speed(t_mouse_data *m, t_game *game,
 static void	apply_rotation(t_mouse_data *m, t_game *game)
 {
 	if (m->rotation_speed > 0)
-		rotate_left(&game->player, m->rotation_speed, 1);
+		rotate_player_left(&game->player, m->rotation_speed);
 	else if (m->rotation_speed < 0)
-		rotate_right(&game->player, -m->rotation_speed, 1);
+		rotate_player_right(&game->player, -m->rotation_speed);
 }
 
 void	handle_mouse_movement(t_game *game, t_window *window)
@@ -62,9 +49,9 @@ void	handle_mouse_movement(t_game *game, t_window *window)
 	static double	stored_rotation_speed;
 	t_mouse_data	m;
 
-	m.sensitivity = 0.00003;
-	m.center.x = window->size.x / 2;
-	m.center.y = window->size.y / 2;
+	m.sensitivity = 0.000009;
+	m.center.x = window->size.x >> 1;
+	m.center.y = window->size.y >> 1;
 	mlx_mouse_get_pos(game->mlx, window->ptr, &m.position.x, &m.position.y);
 	m.rotation_speed = stored_rotation_speed;
 	update_rotation_speed(&m, game, window);

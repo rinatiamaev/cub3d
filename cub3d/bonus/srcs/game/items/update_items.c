@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:12:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/21 12:42:05 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:14:59 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	play_key_animation(t_item *item, double delta_time)
 void	update_items(t_game *game, double delta_time)
 {
 	t_item	*item;
-	int i;
+	int		i;
 
 	i = 0;
 	while (i < game->item_count)

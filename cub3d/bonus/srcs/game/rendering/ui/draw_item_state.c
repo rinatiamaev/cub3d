@@ -12,7 +12,7 @@
 
 #include "cub3d_bonus.h"
 
-static void	get_bucket_message(t_player *player, char *message, size_t size)
+static void	get_bucket_mess(t_player *player, char *message, size_t size)
 {
 	if (player->has_water)
 		ft_strlcpy(message, "You have a bucket filled with water!", size);
@@ -22,7 +22,7 @@ static void	get_bucket_message(t_player *player, char *message, size_t size)
 		message[0] = '\0';
 }
 
-static void get_key_message(t_player *player, char *message, size_t size)
+static void	get_key_message(t_player *player, char *message, size_t size)
 {
 	if (player->has_key)
 		ft_strlcpy(message, "You have a key!", size);
@@ -35,21 +35,21 @@ void	draw_bucket_state(t_game *game)
 	int		x;
 	int		y;
 	int		color;
-	char    bucket_message[50];
+	char	bucket_mess[50];
 	char	key_message[50];
 
-	get_bucket_message(&game->player, bucket_message, sizeof(bucket_message));
+	get_bucket_mess(&game->player, bucket_mess, sizeof(bucket_mess));
 	get_key_message(&game->player, key_message, sizeof(key_message));
 	x = (WIN_W - 260);
 	y = 70;
 	color = 43;
-	if (bucket_message[0] || key_message[0])
-	mlx_put_image_to_window
-		(game->mlx, game->window->ptr, game->tex.dialogue_box.ptr, x, y);
-	if (bucket_message[0])
-	mlx_string_put
-		(game->mlx, game->window->ptr, x + 15, y + 25, color, bucket_message);
+	if (bucket_mess[0] || key_message[0])
+		mlx_put_image_to_window
+			(game->mlx, game->window->ptr, game->tex.dialogue_box.ptr, x, y);
+	if (bucket_mess[0])
+		mlx_string_put
+			(game->mlx, game->window->ptr, x + 15, y + 25, color, bucket_mess);
 	if (key_message[0])
-	mlx_string_put
-		(game->mlx, game->window->ptr, x + 15, y + 45, color, key_message);
+		mlx_string_put
+			(game->mlx, game->window->ptr, x + 15, y + 45, color, key_message);
 }

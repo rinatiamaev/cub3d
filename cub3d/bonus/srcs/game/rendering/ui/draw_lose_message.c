@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 20:17:25 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/21 11:38:59 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 01:25:33 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	draw_lose_message(t_game *game)
 {
 	t_point	pos;
 
-	pos.x = game->window->size.x / 2;
-	pos.y = game->window->size.y / 2;
+	pos.x = game->window->size.x >> 1;
+	pos.y = game->window->size.y >> 1;
 	mlx_clear_window(game->mlx, game->window->ptr);
 	mlx_string_put
 		(game->mlx, game->window->ptr, pos.x, pos.y, 0xFFFFFF,

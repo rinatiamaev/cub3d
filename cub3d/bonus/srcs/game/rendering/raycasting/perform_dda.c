@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 11:01:12 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/19 10:22:41 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:18:43 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@ static void	advance_dda_step(t_ray *ray)
 
 static bool	is_wall_hit(t_game *game, t_ray *ray)
 {
+	if (ray->map.x < 0 || ray->map.x >= game->map->size.x
+		|| ray->map.y < 0 || ray->map.y >= game->map->size.y)
+	{
+		ray->hit = 1;
+		return (true);
+	}
 	if (game->map->matrix[ray->map.y][ray->map.x] == WALL)
 	{
 		ray->hit = 1;

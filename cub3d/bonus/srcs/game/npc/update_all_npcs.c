@@ -6,20 +6,21 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:46:20 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/19 12:39:18 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:29:55 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static bool npc_interact_with_door(t_game *game, t_npc *npc)
+static bool	npc_interact_with_door(t_game *game, t_npc *npc)
 {
 	t_door	*door;
-	double	range = 1.5;
+	double	range;
 	int		i;
 	double	current_distance;
 
 	door = NULL;
+	range = 1.5;
 	i = 0;
 	while (i < game->door_count)
 	{

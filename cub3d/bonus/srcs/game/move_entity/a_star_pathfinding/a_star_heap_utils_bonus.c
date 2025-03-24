@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:08:53 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/02 00:03:44 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 01:19:32 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ the heap property is already maintained.
 Claculate the parent index in a binary heap represented as an array:
 	Left Child Index: 2 * parent_index + 1
 	Right Child Index: 2 * parent_index + 2
-	Parent Index: (child_index - 1) / 2
+	Parent Index: (child_index - 1) >> 1
 */
 static void	heapify_up(t_closed_list *closed_list)
 {
@@ -42,7 +42,7 @@ static void	heapify_up(t_closed_list *closed_list)
 	index = closed_list->size;
 	while (index > 0)
 	{
-		parent_index = (index - 1) / 2;
+		parent_index = (index - 1) >> 1;
 		if (closed_list->nodes[index]->f_cost
 			>= closed_list->nodes[parent_index]->f_cost)
 			break ;
@@ -65,7 +65,7 @@ void	closed_list_insert(t_closed_list *closed_list, t_node *node,
 	{
 		closed_list->capacity *= 2;
 		closed_list->nodes = (t_node **)x_realloc(game, closed_list->nodes,
-				sizeof(t_node *) * (closed_list->capacity / 2),
+				sizeof(t_node *) * (closed_list->capacity >> 1),
 				sizeof(t_node *) * closed_list->capacity);
 	}
 	closed_list->nodes[closed_list->size] = node;

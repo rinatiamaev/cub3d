@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 01:13:03 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/21 10:58:35 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:36:34 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static bool	interact_with_sorted_entities(t_game *game)
 {
 	t_entity	*entity;
 	double		interaction_range;
+	double		dist;
 	int			i;
 
 	interaction_range = 2.0;
@@ -23,8 +24,7 @@ static bool	interact_with_sorted_entities(t_game *game)
 	while (++i < game->entity_count)
 	{
 		entity = &game->entities[i];
-		double dist = ft_euclidean_dist_dpoint(game->player.pos, entity->pos);
-
+		dist = ft_euclidean_dist_dpoint(game->player.pos, entity->pos);
 		if (dist > interaction_range)
 			continue ;
 		if (!is_facing_target(&game->player, entity->pos))

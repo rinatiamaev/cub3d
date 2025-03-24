@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 23:57:31 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/21 12:55:46 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:31:57 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	update_npc_follow_path(t_game *game, t_player *player, t_npc *npc)
 	goal = (t_point){(int)player->last_pos.x, (int)player->last_pos.y};
 	a_star_path(game, npc, start, goal);
 }
-
 
 static bool	is_follow_path_valid(t_npc *npc)
 {
