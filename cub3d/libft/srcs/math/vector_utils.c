@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 23:25:23 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 23:25:26 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:44:17 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,3 @@ t_dpoint	get_unit_direction_vector(t_dpoint from, t_dpoint to)
 	unit_vector = get_normalized_vector(direction_vector);
 	return (unit_vector);
 }
-

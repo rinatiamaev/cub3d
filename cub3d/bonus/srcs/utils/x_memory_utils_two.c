@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:57:43 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/28 13:04:33 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 19:52:39 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,14 @@ int	**x_create_matrix(t_game *game, int row_count, int col_count)
 	if (!matrix)
 		error(game, "ft_create_matrix() failed");
 	return (matrix);
+}
+
+char	*x_itoa(t_game *game, int n)
+{
+	char	*str;
+
+	str = ft_itoa(n);
+	if (!str)
+		error(game, "ft_itoa() failed");
+	return (str);
 }

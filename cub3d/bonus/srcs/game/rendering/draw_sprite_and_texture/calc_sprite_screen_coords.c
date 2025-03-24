@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 21:42:27 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 21:53:44 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:16:29 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	get_sprite_screen_x(double transform_x, double transform_y)
 {
 	int	screen_center_x;
 
-	screen_center_x = WIN_W / 2;
+	screen_center_x = WIN_W >> 1;
 	return ((int)(screen_center_x * (1 + transform_x / transform_y)));
 }
 
@@ -48,9 +48,9 @@ static t_point	get_horizontal_bounds(int screen_x, int width)
 
 bool	calc_sprite_screen_coords(t_sprite_draw *data)
 {
-	t_point vertical;
-	t_point horizontal;
-	
+	t_point	vertical;
+	t_point	horizontal;
+
 	data->screen_x = get_sprite_screen_x(data->transform.x, data->transform.y);
 	data->width = get_sprite_scaled_dimension(data->transform.y);
 	data->height = data->width;
@@ -63,4 +63,3 @@ bool	calc_sprite_screen_coords(t_sprite_draw *data)
 	return (data->draw_start.x < data->draw_end.x
 		&& data->draw_start.y < data->draw_end.y);
 }
-

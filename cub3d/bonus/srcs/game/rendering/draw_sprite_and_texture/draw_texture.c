@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:16:45 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 22:34:31 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:15:36 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static bool	init_texture_as_sprite(t_sprite_draw *data, t_player player,
 	temp_sprite.anim_start = 0;
 	temp_sprite.idle_frames_count = 1;
 	temp_sprite.idle_frames = texture;
-	
 	return (init_sprite_draw_data(data, player, &temp_sprite));
 }
 
@@ -39,4 +38,3 @@ void	draw_texture(t_game *game, t_texture *texture,
 		data.stripe_x++;
 	}
 }
-

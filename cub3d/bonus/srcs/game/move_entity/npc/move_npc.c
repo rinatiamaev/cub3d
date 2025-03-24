@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:23:15 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/22 14:43:17 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:30:44 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,3 @@ bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time)
 	npc->pos.y += npc->move_vec.y * step;
 	return (false);
 }
-

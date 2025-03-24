@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 20:42:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 11:04:35 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:33:07 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static void	move_player(t_game *game, t_player *player,
 	t_dpoint	step;
 	t_dpoint	next_pos;
 
+	if (delta_time > 0.1)
+		delta_time = 0.1;
 	step.x = direction.x * player->move_speed * delta_time;
 	step.y = direction.y * player->move_speed * delta_time;
 	next_pos.x = player->pos.x + step.x;
@@ -28,7 +30,6 @@ static void	move_player(t_game *game, t_player *player,
 		player->pos = next_pos;
 	}
 }
-
 
 void	move_player_forward(t_game *game, t_player *player,
 											double delta_time)

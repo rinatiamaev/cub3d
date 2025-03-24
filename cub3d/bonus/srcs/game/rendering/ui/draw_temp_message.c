@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:35:20 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/19 10:44:30 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:27:48 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	draw_temp_message(t_game *game)
 
 	if (!game->temp_msg_visible)
 		return ;
-	x = (WIN_W / 2 - 128);
+	x = ((WIN_W >> 1) - 128);
 	y = (WIN_H - (WIN_H / 5));
 	color = 0x141B1B;
 	mlx_put_image_to_window

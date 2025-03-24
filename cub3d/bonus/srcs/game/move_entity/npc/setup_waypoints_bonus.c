@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 08:04:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/22 21:34:15 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:32:27 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static bool	is_patrol_point_valid(t_game *game, t_dpoint pos)
 {
 	t_point	check_pos;
-	int 	cell;
+	int		cell;
 
 	check_pos = (t_point){(int)pos.x, (int)pos.y};
 	if (!is_within_bounds(game, check_pos))
@@ -57,7 +57,6 @@ static t_dpoint	generate_point(t_dpoint npc_pos, int range)
 	patrol_point.y = npc_pos.y + offset.y;
 	return (patrol_point);
 }
-
 
 static void	allocate_npc_waypoints(t_npc *npc, t_game *game)
 {

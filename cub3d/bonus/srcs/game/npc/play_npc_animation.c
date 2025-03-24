@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 10:19:32 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 11:17:01 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:30:08 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,3 @@ void	play_fire_spirit_hit_animation(t_npc *npc, double delta_time)
 			npc->sprite.anim_index = 0;
 	}
 }
-

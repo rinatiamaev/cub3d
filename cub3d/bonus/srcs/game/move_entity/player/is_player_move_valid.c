@@ -16,7 +16,7 @@ static bool	is_position_near_npc(t_game *game, t_dpoint next_pos)
 {
 	t_npc	*npc;
 	double	npc_distance;
-	double 	minimum_distance;
+	double	minimum_distance;
 	int		i;
 
 	i = 0;
@@ -52,7 +52,7 @@ static bool	is_position_near_item(t_game *game, t_dpoint next_pos)
 	return (false);
 }
 
-static bool is_door_walkable_player(t_game *game, t_point grid_pos)
+static bool	is_door_walkable_player(t_game *game, t_point grid_pos)
 {
 	t_door	*door;
 
@@ -65,7 +65,7 @@ static bool is_door_walkable_player(t_game *game, t_point grid_pos)
 bool	is_player_move_valid(t_game *game, t_dpoint next_pos)
 {
 	t_point	grid_pos;
-	
+
 	grid_pos = (t_point){(int)next_pos.x, (int)next_pos.y};
 	if (!is_map_position_valid_player(game, next_pos))
 		return (false);

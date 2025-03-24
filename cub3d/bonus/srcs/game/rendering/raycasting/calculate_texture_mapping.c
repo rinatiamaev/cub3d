@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 10:52:46 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 23:13:59 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:19:09 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static double	get_exact_wall_position(t_game *game, t_ray *ray)
 	}
 	return (wall_position);
 }
-
 
 static double	adjust_for_door_offset(t_game *game, t_ray *ray, double wall_x)
 {
@@ -55,13 +54,6 @@ static int	flip_texture_x_if_needed(t_ray *ray, int tex_x)
 	return (tex_x);
 }
 
-// 1. Figure out where exactly we hit the wall
-// 2. Extract fractional part for horizontal texture mapping
-// 3. Adjust for door offset if needed, wrapping into [0, 1]
-// 4. Determine which pixel in the texture we should sample
-// 5. If needed, flip the X coordinate (avoids mirrored textures)
-// 6. Vertical step: how many texture pixels per screen pixel
-// 7. Initial texture position (starting offset in the texture)
 void	calculate_texture_mapping(t_game *game, t_ray *ray)
 {
 	double	exact_pos;
@@ -74,6 +66,5 @@ void	calculate_texture_mapping(t_game *game, t_ray *ray)
 	ray->tex.x = flip_texture_x_if_needed(ray, ray->tex.x);
 	ray->step = (double)TEX_H / ray->line_height;
 	ray->tex_pos
-		= (ray->draw_start - (WIN_H / 2) + (ray->line_height / 2)) * ray->step;
+		= (ray->draw_start - (WIN_H >> 1) + (ray->line_height / 2)) * ray->step;
 }
-

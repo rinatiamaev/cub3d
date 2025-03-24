@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 07:55:29 by nlouis            #+#    #+#             */
-/*   Updated: 2025/02/25 11:06:19 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:43:16 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static bool	is_in_longlong_range(const char *str, bool negative)
  * - The function allows an optional '+' or '-' sign at the beginning.
  * - It ensures that the string is not empty after the sign and 
  *   that all characters are digits.
- * - It prevents numeric overflows by checking against `LLONG_MAX` and `LLONG_MIN`.
+ * - It prevents numeric overflows by checking `LLONG_MAX` and `LLONG_MIN`.
  */
 bool	ft_is_valid_integer(const char *str)
 {
@@ -87,4 +87,3 @@ bool	ft_is_valid_integer(const char *str)
 		return (false);
 	return (true);
 }
-

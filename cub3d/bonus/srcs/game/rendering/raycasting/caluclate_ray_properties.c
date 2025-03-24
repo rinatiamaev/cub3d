@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:08:33 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 23:11:33 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:19:38 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static double	compute_perpendicular_wall_distance(t_game *game, t_ray *ray)
 	return (distance);
 }
 
-
 static int	compute_wall_line_height(double perp_distance)
 {
 	double	scaled_height;
@@ -44,19 +43,18 @@ static int	compute_wall_line_height(double perp_distance)
 
 static void	compute_wall_bounds_on_screen(t_ray *ray)
 {
-	double min;
-	double max;
-	double top_boundary;
-	double bottom_boundary;
+	double	min;
+	double	max;
+	double	top_boundary;
+	double	bottom_boundary;
 
 	min = 0;
 	max = WIN_H - 1;
-	top_boundary = -ray->line_height / 2 + WIN_H / 2;
-	bottom_boundary = ray->line_height / 2 + WIN_H / 2;
+	top_boundary = -ray->line_height / 2 + (WIN_H >> 1);
+	bottom_boundary = ray->line_height / 2 + (WIN_H >> 1);
 	ray->draw_start = (int)clamp(top_boundary, min, max);
 	ray->draw_end = (int)clamp(bottom_boundary, min, max);
 }
-
 
 void	calculate_ray_properties(t_game *game, t_ray *ray)
 {
@@ -65,4 +63,3 @@ void	calculate_ray_properties(t_game *game, t_ray *ray)
 	compute_wall_bounds_on_screen(ray);
 	calculate_texture_mapping(game, ray);
 }
-

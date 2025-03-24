@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:38:38 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/21 10:52:28 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:14:06 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	sort_entities(t_entity *entities, int count, t_player *player)
 
 void	update_entities_sort(t_game *game)
 {
-	int i;
+	int	i;
 
 	if (game->entities)
 		free(game->entities);

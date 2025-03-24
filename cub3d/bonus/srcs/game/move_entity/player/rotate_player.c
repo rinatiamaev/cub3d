@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:18 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 18:50:51 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:33:16 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	rotate_player(t_player *player, double angle_delta)
 
 void	rotate_player_left(t_player *player, double delta_time)
 {
-	double angle_delta;
+	double	angle_delta;
 
 	angle_delta = player->rot_speed * delta_time;
 	rotate_player(player, angle_delta);
@@ -31,7 +31,7 @@ void	rotate_player_left(t_player *player, double delta_time)
 
 void	rotate_player_right(t_player *player, double delta_time)
 {
-	double angle_delta;
+	double	angle_delta;
 
 	angle_delta = -player->rot_speed * delta_time;
 	rotate_player(player, angle_delta);

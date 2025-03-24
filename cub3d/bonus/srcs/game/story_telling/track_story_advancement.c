@@ -6,16 +6,17 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:08:04 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 16:15:01 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:41:39 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static void update_key_story(t_game *game, t_item *key)
+static void	update_key_story(t_game *game, t_item *key)
 {
-	t_story_state *story = &game->story;
+	t_story_state	*story;
 
+	story = &game->story;
 	if (story->key == NOT_STARTED
 		&& has_line_of_sight(game, game->player.pos, key->pos))
 		story->key = LOCATED;
@@ -23,10 +24,11 @@ static void update_key_story(t_game *game, t_item *key)
 		story->key = FOUND;
 }
 
-static void update_exit_story(t_game *game)
+static void	update_exit_story(t_game *game)
 {
-	t_story_state *story = &game->story;
+	t_story_state	*story;
 
+	story = &game->story;
 	if (story->exit == NOT_STARTED
 		&& has_line_of_sight(game, game->player.pos, game->exit_pos))
 		story->exit = FOUND;
@@ -35,8 +37,9 @@ static void update_exit_story(t_game *game)
 static void	update_npc_references(t_game *game, t_npc **calico, t_npc **witch,
 														t_npc **fire_spirit)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (i < game->npc_count)
 	{
 		if (ft_strcmp(game->npcs[i]->name, "calico kitty") == 0)
@@ -51,8 +54,9 @@ static void	update_npc_references(t_game *game, t_npc **calico, t_npc **witch,
 
 static void	update_item_references(t_game *game, t_item **key)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (i < game->item_count)
 	{
 		if (ft_strcmp(game->items[i]->name, "key") == 0)
@@ -81,6 +85,7 @@ void	update_story(t_game *game)
 		calico->dialogue.phase = get_calico_phase(&game->story);
 		fire_spirit->dialogue.phase = get_fire_spirit_phase(&game->story);
 	}
-	update_key_story(game, key);
+	if (key)
+		update_key_story(game, key);
 	update_exit_story(game);
 }

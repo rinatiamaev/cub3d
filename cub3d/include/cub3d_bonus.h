@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 22:34:07 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:53:05 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <time.h>
 # include <sys/time.h>
 # include <math.h>
+# include <stdint.h>
+# include <string.h>
 
 # define MINIMAP_SIZE		250
 # define MINIMAP_OFFSET_X	20
@@ -50,6 +52,8 @@
 # define STRUCTURE_NOTIFY_MASK	131072
 
 # define FOV				0.66
+// fov_threshold = cos(FOV / 2.0);
+# define FOV_THRESHOLD		0.943956
 # define INFINITY_DIST		1e6
 
 # define UP				122
@@ -209,7 +213,7 @@ typedef struct s_sprite_draw
 	int			current_frame;			// Chosen animation frame
 	t_texture	*texture;				// Pointer to the sprite texture
 	int			stripe_x;				// Current vert stripe in screen space
-	t_point 	tex_pixel;				// Current pixel in texture
+	t_point		tex_pixel;				// Current pixel in texture
 	int			color;					// Final color from texture
 }	t_sprite_draw;
 
@@ -292,13 +296,13 @@ typedef enum e_dial_phase
 
 typedef struct s_story_state
 {
-	bool has_spoken_to_witch;
-	bool has_spoken_to_calico;
-	bool has_spoken_to_fire_spirit;
-	int	sibling;
-	int	fireball;
-	int	key;
-	int	exit;
+	bool	has_spoken_to_witch;
+	bool	has_spoken_to_calico;
+	bool	has_spoken_to_fire_spirit;
+	int		sibling;
+	int		fireball;
+	int		key;
+	int		exit;
 } t_story_state;
 
 typedef struct s_dial
@@ -353,7 +357,7 @@ typedef enum e_door_type
 {
 	NORMAL_DOOR,
 	EXIT_DOOR_TYPE
-} t_door_type;
+}	t_door_type;
 
 typedef struct s_door
 {
@@ -435,6 +439,7 @@ typedef struct s_game
 	t_player		player;
 	t_tex			tex;
 	t_img			img;
+	t_img			bg_img;
 	t_npc			**npcs;
 	int				npc_count;
 	t_door			**doors;
@@ -449,6 +454,9 @@ typedef struct s_game
 	bool			temp_msg_visible;
 	char			temp_msg[50];
 	double			temp_msg_timer;
+	double			fps;
+	int				frame_count;
+	double			fps_time_acc;
 }	t_game;
 
 // UTILS
@@ -468,6 +476,7 @@ void	draw_win_message(t_game *game);
 bool	is_facing_target(t_player *player, t_dpoint target_pos);
 void	update_entities_sort(t_game *game);
 int		handle_game_state(t_game *game);
+void	init_background(t_game *game);
 
 // PARSING
 void	extract_file_content(t_game *game, t_map *map);
@@ -542,18 +551,15 @@ t_door	*find_closest_door(t_game *game, double range);
 void	calculate_texture_mapping(t_game *game, t_ray *ray);
 void	calculate_ray_properties(t_game *game, t_ray *ray);
 void	put_pixel(t_img *img, int x, int y, int color);
-int		get_tex_color(t_texture *tex, int x, int y);
 int		get_current_frame(double anim_start, int num_frames,
-			int frame_duration_ms);
+		int frame_duration_ms);
 void	init_ray(t_game *game, t_ray *ray, int x);
 void	init_dda_ray(t_game *game, t_ray *ray);
-void	fill_ceiling_and_floor(t_img *img, int ceiling_color,
-			int floor_color);
 void	raycast(t_game *game, t_ray *ray, int *x, double *z_buffer);
 void	perform_dda(t_game *game, t_ray *ray);
 void	render_scene(t_game *game, double delta_time);
 bool	init_sprite_draw_data(t_sprite_draw *data, t_player player,
-			t_sprite *sprite);
+		t_sprite *sprite);
 void	draw_minimap(t_game *game);
 void	draw_pause_message(t_game *game);
 void	draw_follow_state(t_game *game);
@@ -638,6 +644,7 @@ char	*x_strjoin_free(t_game *game, char *s1, char *s2);
 char	*x_strdup(t_game *game, const char *s);
 char	**x_copy_strarray(t_game *game, char **array);
 int		**x_create_matrix(t_game *game, int row_count, int col_count);
+char	*x_itoa(t_game *game, int n);
 
 t_dial_phase	get_witch_kitty_phase(t_story_state *story);
 t_dial_phase	get_calico_phase(t_story_state *story);

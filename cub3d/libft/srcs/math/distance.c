@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 23:08:07 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/22 14:15:04 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:44:01 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_manhattan_dist_point(t_point a, t_point b)
 
 double	ft_cab_dist_dpoint(t_dpoint a, t_dpoint b)
 {
-	return	(fabs(a.x - b.x) + fabs(a.y - b.y));
+	return (fabs(a.x - b.x) + fabs(a.y - b.y));
 }
 
 int	ft_euclidean_dist_point(t_point a, t_point b)

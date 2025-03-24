@@ -6,20 +6,20 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:50:36 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/21 12:40:05 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:14:39 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static void 	init_key_animation(t_game *game, t_sprite *sprite, t_dpoint pos)
+static void	init_key_animation(t_game *game, t_sprite *sprite, t_dpoint pos)
 {
 	struct timeval	tv;
 	static char		*idle_frames[] = {
 		KEY00, KEY01, KEY02, KEY03, KEY04, KEY05, KEY06, KEY07, KEY08, KEY09,
 		KEY10, KEY11, KEY12, KEY13, KEY14, KEY15, KEY16, KEY17, KEY18
 	};
-	
+
 	sprite->size = (t_point){128, 128};
 	sprite->pos = pos;
 	sprite->idle_paths = idle_frames;

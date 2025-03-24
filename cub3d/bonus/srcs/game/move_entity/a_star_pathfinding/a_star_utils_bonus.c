@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 07:18:04 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/22 20:34:04 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:32:51 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ static t_node	*create_child_node(t_game *game, t_astar *astar, t_point pos)
 	return (child_node);
 }
 
-static void	process_single_child(t_game *game, t_npc *npc, t_astar *astar, int direction)
+static void	process_single_child(t_game *game, t_npc *npc, t_astar *astar,
+															int direction)
 {
 	t_node	*child_node;
 	t_point	new_pos;

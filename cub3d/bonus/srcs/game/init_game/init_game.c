@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:19:05 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/18 10:12:28 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 01:45:01 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_game	*init_game(char *filename)
 	init_window(game, game->window);
 	load_game_textures(game, game->map->conf);
 	init_player(game, &game->player);
+	init_background(game);
 	game->state = RUNNING;
 	return (game);
 }

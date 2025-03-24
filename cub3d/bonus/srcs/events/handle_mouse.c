@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:59:48 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 11:03:22 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 00:51:27 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	handle_mouse_movement(t_game *game, t_window *window)
 	t_mouse_data	m;
 
 	m.sensitivity = 0.000009;
-	m.center.x = window->size.x / 2;
-	m.center.y = window->size.y / 2;
+	m.center.x = window->size.x >> 1;
+	m.center.y = window->size.y >> 1;
 	mlx_mouse_get_pos(game->mlx, window->ptr, &m.position.x, &m.position.y);
 	m.rotation_speed = stored_rotation_speed;
 	update_rotation_speed(&m, game, window);

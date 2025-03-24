@@ -6,32 +6,36 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 15:47:15 by riamaev           #+#    #+#             */
-/*   Updated: 2025/03/23 20:43:24 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:23:44 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-// Draw a single square block on minimap
 static void	draw_square_block(t_game *game, t_point pos, int size, int color)
 {
-	t_point	offset;
+	int		y;
+	int		x;
+	char	*row_start;
+	char	*dst;
 
-	offset.y = 0;
-	while (offset.y < size)
+	y = 0;
+	while (y < size)
 	{
-		offset.x = 0;
-		while (offset.x < size)
+		row_start = game->img.addr + ((pos.y + y) * game->img.line_size)
+			+ (pos.x * (game->img.bpp >> 3));
+		x = 0;
+		dst = row_start;
+		while (x < size)
 		{
-			put_pixel(&game->img, pos.x + offset.x,
-				pos.y + offset.y, color);
-			offset.x++;
+			*(unsigned int *)dst = color;
+			dst += (game->img.bpp >> 3);
+			x++;
 		}
-		offset.y++;
+		y++;
 	}
 }
 
-// Draw all walls on minimap
 static void	draw_minimap_walls(t_game *game, int tile_size)
 {
 	t_point	map_pos;
@@ -54,12 +58,13 @@ static void	draw_minimap_walls(t_game *game, int tile_size)
 	}
 }
 
-// Draw the player's token on minimap
-static void	draw_player_on_minimap(t_game *game, int tile_size, int player_radius)
+static void	draw_player_on_minimap(t_game *game, int tile_size,
+														int player_radius)
 {
 	t_point	player_center;
 	t_point	offset;
 	t_point	draw_pos;
+	char	*dst;
 
 	player_center.x = MINIMAP_OFFSET_X + game->player.pos.x * tile_size;
 	player_center.y = MINIMAP_OFFSET_Y + game->player.pos.y * tile_size;
@@ -73,7 +78,9 @@ static void	draw_player_on_minimap(t_game *game, int tile_size, int player_radiu
 			{
 				draw_pos.x = player_center.x + offset.x;
 				draw_pos.y = player_center.y + offset.y;
-				put_pixel(&game->img, draw_pos.x, draw_pos.y, PLAYER_COLOR);
+				dst = game->img.addr + (draw_pos.y * game->img.line_size)
+					+ (draw_pos.x * (game->img.bpp >> 3));
+				*(unsigned int *)dst = PLAYER_COLOR;
 			}
 			offset.x++;
 		}
@@ -81,7 +88,6 @@ static void	draw_player_on_minimap(t_game *game, int tile_size, int player_radiu
 	}
 }
 
-// Main minimap drawing function
 void	draw_minimap(t_game *game)
 {
 	int	tile_size;
@@ -94,4 +100,3 @@ void	draw_minimap(t_game *game)
 	draw_minimap_walls(game, tile_size);
 	draw_player_on_minimap(game, tile_size, player_radius);
 }
-

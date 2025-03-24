@@ -6,13 +6,13 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 23:07:56 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 11:08:14 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:31:42 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static bool is_door_walkable_npc(t_game *game, t_npc *npc, t_point pos)
+static bool	is_door_walkable_npc(t_game *game, t_npc *npc, t_point pos)
 {
 	t_door	*door;
 
@@ -54,12 +54,11 @@ static bool	is_map_position_valid_npc(t_game *game, t_dpoint pos)
 bool	is_position_valid_npc(t_game *game, t_npc *npc, t_astar *astar,
 																t_point pos)
 {
-	
 	if (!is_map_position_valid_npc(game,
-		(t_dpoint){(double)pos.x, (double)pos.y}))
+			(t_dpoint){(double)pos.x, (double)pos.y}))
 		return (false);
 	if (astar && astar->open_list[pos.y][pos.x])
-		return (false);	
+		return (false);
 	if (is_occupied_by_any_npc(game, pos))
 		return (false);
 	if (!is_door_walkable_npc(game, npc, pos))

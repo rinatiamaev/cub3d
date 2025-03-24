@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 01:23:16 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 23:27:38 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:42:36 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <fcntl.h>
 # include <sys/time.h>
 # include <math.h>
+# include <stddef.h>
+# include <stdint.h>
 
 # define BUFFER_SIZE 1024
 # define MAX_FD 1024
@@ -177,7 +179,6 @@ double		get_vector_angle_between(t_dpoint from, t_dpoint to);
 t_dpoint	get_direction_vector(t_dpoint from, t_dpoint to);
 t_dpoint	get_unit_direction_vector(t_dpoint from, t_dpoint to);
 double		get_dot_product(t_dpoint vec1, t_dpoint vec2);
-
 
 int			ft_printf(const char *format, ...);
 int			initialize_printf_structs(t_pf *pf);

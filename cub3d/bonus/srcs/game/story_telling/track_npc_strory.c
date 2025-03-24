@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 16:11:14 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 16:13:00 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:39:53 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 
 static void	update_sibling_progression(t_game *game, t_npc *calico)
 {
-	t_story_state	*story = &game->story;
+	t_story_state	*story;
 
+	story = &game->story;
 	if (story->sibling == NOT_STARTED && story->has_spoken_to_witch)
 		story->sibling = SEARCHING;
-
 	if (story->sibling == SEARCHING
 		&& has_line_of_sight(game, game->player.pos, calico->pos))
 		story->sibling = LOCATED;
-
 	if (story->sibling == LOCATED && story->fireball >= LOCATED
 		&& story->has_spoken_to_calico)
 		story->sibling = FOUND;
-
 	if (story->sibling == FOUND)
 		story->sibling = WAITING;
 }
@@ -34,8 +32,9 @@ static void	update_sibling_progression(t_game *game, t_npc *calico)
 static void	handle_sibling_events(t_game *game, t_npc *calico, t_npc *witch,
 														t_npc *fire_spirit)
 {
-	t_story_state	*story = &game->story;
+	t_story_state	*story;
 
+	story = &game->story;
 	if (story->sibling < HELPED && fire_spirit->is_hit)
 	{
 		story->sibling = HELPED;
@@ -57,11 +56,13 @@ static void	handle_sibling_events(t_game *game, t_npc *calico, t_npc *witch,
 	}
 }
 
-static void update_fireball_story(t_game *game, t_npc *fire_spirit)
+static void	update_fireball_story(t_game *game, t_npc *fire_spirit)
 {
-	t_story_state *story = &game->story;
-	t_player *player = &game->player;
+	t_story_state	*story;
+	t_player		*player;
 
+	story = &game->story;
+	player = &game->player;
 	if (story->fireball == NOT_STARTED
 		&& has_line_of_sight(game, player->pos, fire_spirit->pos))
 		story->fireball = LOCATED;

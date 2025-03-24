@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 18:50:27 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/20 23:02:21 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:13:54 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	calculate_step_and_side_dist(t_los *los, t_dpoint src)
 static bool	perform_los_dda(t_game *game, t_los *los, t_dpoint target)
 {
 	int	cell;
-	
+
 	while (true)
 	{
 		if (los->side_dist.x < los->side_dist.y)

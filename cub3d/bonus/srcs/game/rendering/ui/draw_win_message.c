@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 20:17:25 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 20:50:56 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:24:23 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	draw_win_title(t_game *game, t_point *pos)
 {
-	pos->y = game->window->size.y / 2;
-	pos->x = game->window->size.x / 2 - 60;
+	pos->y = game->window->size.y >> 1;
+	pos->x = (game->window->size.x >> 1) - 60;
 	mlx_clear_window(game->mlx, game->window->ptr);
 	mlx_string_put(game->mlx, game->window->ptr, pos->x, pos->y, 0xFFFFFF,
 		"CONGRATULATIONS, YOU WON!");
@@ -24,9 +24,10 @@ static void	draw_win_title(t_game *game, t_point *pos)
 
 static bool	draw_saved_npcs(t_game *game, t_point *pos)
 {
-	bool any_saved;
-	int  i = 0;
+	bool	any_saved;
+	int		i;
 
+	i = 0;
 	any_saved = false;
 	while (i < game->npc_count)
 	{

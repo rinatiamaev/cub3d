@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:34:03 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 22:36:05 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:27:56 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	draw_npc(t_game *game, t_npc *npc, double *z_buffer)
 		draw_fire_spirit(game, npc, z_buffer);
 }
 
-static void draw_item(t_game *game, t_item *item, double *z_buffer)
+static void	draw_item(t_game *game, t_item *item, double *z_buffer)
 {
 	if (ft_strcmp(item->name, "key") == 0)
 		draw_key(game, item, z_buffer);

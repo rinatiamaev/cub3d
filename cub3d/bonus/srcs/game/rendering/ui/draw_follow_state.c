@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 11:51:15 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/20 14:02:27 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 19:55:15 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static int	count_following_npcs(t_game *game)
 	return (count);
 }
 
-static void	get_follow_message(int following_count, char *message, size_t size)
+static void	get_follow_message(t_game *game, int following_count,
+										char *message, size_t size)
 {
 	char	*count_str;
 
@@ -36,9 +37,7 @@ static void	get_follow_message(int following_count, char *message, size_t size)
 		ft_strlcpy(message, "You are followed by someone!", size);
 	else
 	{
-		count_str = ft_itoa(following_count);
-		if (!count_str)
-			return ;
+		count_str = x_itoa(game, following_count);
 		ft_strlcpy(message, "You are followed by ", size);
 		ft_strlcat(message, count_str, size);
 		ft_strlcat(message, " people!", size);
@@ -69,6 +68,6 @@ void	draw_follow_state(t_game *game)
 	following_count = count_following_npcs(game);
 	if (following_count == 0)
 		return ;
-	get_follow_message(following_count, message, sizeof(message));
+	get_follow_message(game, following_count, message, sizeof(message));
 	draw_follow_message(game, message);
 }

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:06:19 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/19 10:39:58 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 01:52:31 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ void	render_scene(t_game *game, double delta_time)
 	game->img.ptr = mlx_new_image(game->mlx, WIN_W, WIN_H);
 	game->img.addr = mlx_get_data_addr(game->img.ptr, &game->img.bpp,
 			&game->img.line_size, &game->img.endian);
-	fill_ceiling_and_floor(&game->img, game->map->conf.ceiling_color,
-		game->map->conf.floor_color);
+	ft_memcpy(game->img.addr,
+		game->bg_img.addr,
+		WIN_W * WIN_H * (game->img.bpp / 8));
 	x = 0;
 	while (x < WIN_W)
 		raycast(game, &ray, &x, z_buffer);

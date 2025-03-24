@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 12:13:27 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 11:07:41 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:33:37 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static bool	is_blocked(t_game *game, t_dpoint pos)
 {
-	t_point grid_pos;
+	t_point	grid_pos;
 
 	grid_pos = (t_point){(int)pos.x, (int)pos.y};
 	return (!is_within_bounds(game, grid_pos) || is_wall(game, grid_pos));

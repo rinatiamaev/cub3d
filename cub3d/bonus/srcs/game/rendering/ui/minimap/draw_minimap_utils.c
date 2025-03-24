@@ -6,13 +6,12 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 20:43:45 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 20:45:31 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:23:56 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-// Get size of each minimap tile
 int	get_tile_size(t_map *map)
 {
 	int	tile_width;
@@ -25,11 +24,10 @@ int	get_tile_size(t_map *map)
 	return (tile_size);
 }
 
-// Calculate pixel position on minimap from map coordinates
 t_point	get_minimap_position(t_point map_pos, int tile_size)
 {
-	t_point		minimap_pos;
-	t_point 	offset;
+	t_point	minimap_pos;
+	t_point	offset;
 
 	offset.x = map_pos.x * tile_size;
 	offset.y = map_pos.y * tile_size;
@@ -38,7 +36,6 @@ t_point	get_minimap_position(t_point map_pos, int tile_size)
 	return (minimap_pos);
 }
 
-// Check if a point is within a circle (for player drawing)
 bool	is_point_in_circle(t_point offset, int radius)
 {
 	int	distance_squared;
