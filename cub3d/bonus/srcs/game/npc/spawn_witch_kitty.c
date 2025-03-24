@@ -11,54 +11,12 @@
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
+#include "witch_kitty_dialogues.h"
 
 void	init_witch_kitty_dialogues(t_game *game, t_npc *npc)
 {
-	static char	*dialogues[][11] = {
-	{"At least we have a well nearby to drink from...", NULL },
-	{"Hi! Finally awake!",
-		"My sibling and I are trapped in this Labyrinth!",
-		"He left to find an exit but never came back!",
-		"He told me to wait here...",
-		"could you look for him past this door?",
-		"Please, I'm worried about him...",
-		"thank you! I'll wait here for you!", NULL
-	},
-	{"...",
-		"What a giant fireball is wandering around!?",
-		"Oh my godferatu! I hope Calico is alright...",
-		"will you still help me find him?",
-		"Thank you, you're so brave!", NULL
-	},
-	{"...",
-		"You found him! I am relieved...",
-		"bring him back please!", NULL
-	},
-	{"...",
-		"You found him! I am relieved but scared...",
-		"at the same time, I hope you can get rid of...",
-		"that fireball! It sounds dangerous!", NULL
-	},
-	{"...",
-		"The fireball was an angry spirit!?",
-		"Good thing you cooled it down!",
-		"Hopefully, it won't get mad again...",
-		"Could you still bring Calico back to me?", NULL
-	},
-	{"...",
-		"Thank you so much for bringing him back!",
-		"We just have to find a way out now...", NULL
-	},
-	{"...",
-		"We are ready to leave this place?",
-		"Oh my Ladferatu!",
-		"What are we waiting for let's go!"
-	}, {NULL}, {NULL}, {NULL}
-	};
-
-	npc->dialogue.phase_count = sizeof(dialogues) / sizeof(dialogues[0]);
-	allocate_dialogues
-		(game, &npc->dialogue, dialogues, npc->dialogue.phase_count);
+	npc->dialogue.phase_count = sizeof(witch_kitty_dialogues) / sizeof(witch_kitty_dialogues[0]);
+	allocate_dialogues(game, &npc->dialogue, witch_kitty_dialogues, npc->dialogue.phase_count);
 }
 
 static void	init_witch_kitty_sprites(t_npc *npc)
