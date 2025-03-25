@@ -282,7 +282,7 @@ typedef enum e_dial_phase
 	PHASE_6,
 	PHASE_7,
 	PHASE_8
-}	t_dial_phase;
+}	t_dp;
 
 # define NOT_STARTED	0
 # define SEARCHING		1
@@ -303,15 +303,15 @@ typedef struct s_story_state
 	int		fireball;
 	int		key;
 	int		exit;
-} t_story_state;
+}	t_story_state;
 
 typedef struct s_dial
 {
 	char			***dialogues;
 	int				*dialogue_count;
 	int				current_line;
-	int 			phase_count;
-	t_dial_phase	phase;
+	int				phase_count;
+	t_dp			phase;
 }	t_dial;
 
 typedef struct s_npc
@@ -421,8 +421,8 @@ typedef struct s_player
 	t_dpoint	view_plane;		// Camera plane vector: perp to facing_dir
 	double		rot_speed;		// (in radians)
 	double		move_speed;
-	double		facing_angle; 	// (in radians)
-	bool 		has_bucket;
+	double		facing_angle;	// (in radians)
+	bool		has_bucket;
 	bool		has_water;
 	bool		is_splashing;
 	bool		has_key;
@@ -448,7 +448,7 @@ typedef struct s_game
 	t_item			**items;
 	int				item_count;
 	t_entity		*entities;
-    int				entity_count;
+	int				entity_count;
 	bool			minimap_visible;
 	bool			keys[66000];
 	bool			temp_msg_visible;
@@ -551,14 +551,14 @@ t_door	*find_closest_door(t_game *game, double range);
 void	calculate_texture_mapping(t_game *game, t_ray *ray);
 void	calculate_ray_properties(t_game *game, t_ray *ray);
 void	put_pixel(t_img *img, int x, int y, int color);
-int		get_current_frame(double anim_start, int num_frames,
+int		get_current_frame(double anim_start, int num_frames, \
 		int frame_duration_ms);
 void	init_ray(t_game *game, t_ray *ray, int x);
 void	init_dda_ray(t_game *game, t_ray *ray);
 void	raycast(t_game *game, t_ray *ray, int *x, double *z_buffer);
 void	perform_dda(t_game *game, t_ray *ray);
 void	render_scene(t_game *game, double delta_time);
-bool	init_sprite_draw_data(t_sprite_draw *data, t_player player,
+bool	init_sprite_draw_data(t_sprite_draw *data, t_player player, \
 		t_sprite *sprite);
 void	draw_minimap(t_game *game);
 void	draw_pause_message(t_game *game);
@@ -568,9 +568,9 @@ void	draw_splash(t_game *game, t_player *player, double delta_time);
 void	draw_bucket_state(t_game *game);
 void	init_player(t_game *game, t_player *player);
 void	set_frame_sizes(t_texture *frames, int count, t_point size);
-void	load_sprite_animation(t_game *game, t_texture **frames,
+void	load_sprite_animation(t_game *game, t_texture **frames, \
 		char **paths, int frame_count);
-void	draw_texture(t_game *game, t_texture *texture,
+void	draw_texture(t_game *game, t_texture *texture, \
 		t_dpoint texture_pos, double *z_buffer);
 void	draw_entities(t_game *game, double *z_buffer);
 void	draw_key(t_game *game, t_item *item, double *z_buffer);
@@ -580,9 +580,9 @@ double	compute_transform_x(t_player player, t_dpoint rel, double inv_det);
 double	compute_transform_y(t_player player, t_dpoint rel, double inv_det);
 bool	is_sprite_in_front(double transform_y);
 bool	calc_sprite_screen_coords(t_sprite_draw *data);
-void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
+void	draw_sprite(t_game *game, t_player player, t_sprite *sprite, \
 		double *z_buffer);
-void	draw_sprite_column(t_game *game, t_sprite_draw *data,
+void	draw_sprite_column(t_game *game, t_sprite_draw *data, \
 		double *z_buffer);
 int		get_tile_size(t_map *map);
 t_point	get_minimap_position(t_point map_pos, int tile_size);
@@ -610,18 +610,19 @@ bool	is_map_position_valid_player(t_game *game, t_dpoint pos);
 bool	is_within_bounds(t_game *game, t_point pos);
 bool	is_any_npc_talking(t_game *game);
 bool	is_player_move_valid(t_game *game, t_dpoint pos);
-bool	is_position_valid_npc(t_game *game, t_npc *npc, t_astar *astar, t_point pos);
+bool	is_position_valid_npc(t_game *game, t_npc *npc, t_astar *astar, \
+		t_point pos);
 bool	is_wall(t_game *game, t_point pos);
 void	handle_player_moves(t_game *game, double delta_time);
 void	rotate_player_left(t_player *player, double delta_time);
 void	rotate_player_right(t_player *player, double delta_time);
-void	move_player_forward(t_game *game, t_player *player,
+void	move_player_forward(t_game *game, t_player *player, \
 		double delta_time);
-void	move_player_backward(t_game *game, t_player *player,
+void	move_player_backward(t_game *game, t_player *player, \
 		double delta_time);
-void	strafe_player_left(t_game *game, t_player *player,
+void	strafe_player_left(t_game *game, t_player *player, \
 		double delta_time);
-void	strafe_player_right(t_game *game, t_player *player,
+void	strafe_player_right(t_game *game, t_player *player, \
 		double delta_time);
 
 // A_STAR_SEARCH
@@ -646,16 +647,17 @@ char	**x_copy_strarray(t_game *game, char **array);
 int		**x_create_matrix(t_game *game, int row_count, int col_count);
 char	*x_itoa(t_game *game, int n);
 
-t_dial_phase	get_witch_kitty_phase(t_story_state *story);
-t_dial_phase	get_calico_phase(t_story_state *story);
-t_dial_phase	get_fire_spirit_phase(t_story_state *story);
-void			allocate_dialogues(t_game *game, t_dial *dialog,
+void	allocate_dialogues(t_game *game, t_dial *dialog, \
 				char *dialogues[][11], int phase_count);
-void			update_npc_story(t_game *game, t_npc *calico, t_npc *witch,
+void	update_npc_story(t_game *game, t_npc *calico, t_npc *witch, \
 				t_npc *fire_spirit);
 
 // MUSIC
 void	start_background_music(const char *music_file);
 void	stop_background_music(void);
+
+t_dp	get_witch_kitty_phase(t_story_state *story);
+t_dp	get_calico_phase(t_story_state *story);
+t_dp	get_fire_spirit_phase(t_story_state *story);
 
 #endif
