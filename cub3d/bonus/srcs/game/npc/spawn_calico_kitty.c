@@ -15,9 +15,12 @@
 
 void	init_calico_kitty_dialogues(t_game *game, t_npc *npc)
 {
-	npc->dialogue.phase_count = sizeof(calico_kitty_dialogues) / sizeof(calico_kitty_dialogues[0]);
-	allocate_dialogues(game, &npc->dialogue, calico_kitty_dialogues, npc->dialogue.phase_count);
+	npc->dialogue.phase_count = sizeof(g_calico_kitty_dialogues) / \
+	sizeof(g_calico_kitty_dialogues[0]);
+	allocate_dialogues(game, &npc->dialogue, g_calico_kitty_dialogues, \
+		npc->dialogue.phase_count);
 }
+
 static void	init_calico_kitty_sprites(t_npc *npc)
 {
 	static char	*idle_frames[] = {

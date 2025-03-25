@@ -15,11 +15,10 @@
 
 # include "cub3d_bonus.h"
 
-static char	*witch_kitty_dialogues[][11] = {
+static char	*g_witch_kitty_dialogues[][11] = {
 {"At least we have a well nearby to drink from...", NULL },
 {"Hi! Finally awake!",
 	"My sibling and I are trapped in this Labyrinth!",
-	"He left to find an exit but never came back!",
 	"He told me to wait here...",
 	"could you look for him past this door?",
 	"Please, I'm worried about him...",

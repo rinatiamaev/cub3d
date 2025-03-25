@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_dial_phase.c                                   :+:      :+:    :+:   */
+/*   get_dp.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "cub3d_bonus.h"
 
-t_dial_phase	get_witch_kitty_phase(t_story_state *story)
+t_dp	get_witch_kitty_phase(t_story_state *story)
 {
 	if (!story->has_spoken_to_witch)
 		return (PHASE_0);
@@ -32,7 +32,7 @@ t_dial_phase	get_witch_kitty_phase(t_story_state *story)
 	return (IDLE);
 }
 
-t_dial_phase	get_calico_phase(t_story_state *story)
+t_dp	get_calico_phase(t_story_state *story)
 {
 	if (!story->has_spoken_to_calico)
 		return (PHASE_0);
@@ -49,7 +49,7 @@ t_dial_phase	get_calico_phase(t_story_state *story)
 	return (IDLE);
 }
 
-t_dial_phase	get_fire_spirit_phase(t_story_state *story)
+t_dp	get_fire_spirit_phase(t_story_state *story)
 {
 	if (!story->has_spoken_to_fire_spirit)
 		return (PHASE_0);

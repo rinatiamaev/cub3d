@@ -15,7 +15,7 @@
 
 # include "cub3d_bonus.h"
 
-static char	*calico_kitty_dialogues[][11] = {
+static char	*g_calico_kitty_dialogues[][11] = {
 {"What a maze...", NULL},
 {"Oh, someone godferdumpin' help me!",
 	"My sibling and I are trapped here...",

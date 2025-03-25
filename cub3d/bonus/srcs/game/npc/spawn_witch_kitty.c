@@ -15,8 +15,10 @@
 
 void	init_witch_kitty_dialogues(t_game *game, t_npc *npc)
 {
-	npc->dialogue.phase_count = sizeof(witch_kitty_dialogues) / sizeof(witch_kitty_dialogues[0]);
-	allocate_dialogues(game, &npc->dialogue, witch_kitty_dialogues, npc->dialogue.phase_count);
+	npc->dialogue.phase_count = sizeof(g_witch_kitty_dialogues) / \
+	sizeof(g_witch_kitty_dialogues[0]);
+	allocate_dialogues(game, &npc->dialogue, g_witch_kitty_dialogues, \
+		npc->dialogue.phase_count);
 }
 
 static void	init_witch_kitty_sprites(t_npc *npc)
