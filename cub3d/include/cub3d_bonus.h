@@ -6,29 +6,42 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/04/02 03:24:38 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/02 14:51:04 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file cub3d_bonus.h
+ * @brief Main header file for the bonus version of the Cub3D project.
+ * 
+ * This header centralizes all declarations and definitions required
+ * for the extended version of the Cub3D game, including:
+ * 
+ * - Game constants and key definitions
+ * - Core structures for game elements (player, map, doors, items, NPCs...)
+ * - Entity systems (NPCs, items, doors, and general entities)
+ * - Storyline and dialogue systems
+ * - Raycasting and rendering logic
+ * - Event handling and interactions
+ * - Pathfinding via A* algorithm
+ * - Texture and sprite loading
+ * - Utility functions for memory management and parsing
+ * 
+ * It also includes all non static function prototypes 
+ * grouped by functionality (e.g. NPC handling, item logic, rendering...)
+ * 
+ * 
+ * @author nlouis (nicolas.lovis@hotmail.fr)
+ * @date 2025/04/02
+ */
 #ifndef CUB3D_BONUS_H
 # define CUB3D_BONUS_H
 
 # include "libft.h"
+# include "mlx.h"
 # include "assets_path.h"
 # include "calico_kitty_dialogues.h"
 # include "witch_kitty_dialogues.h"
-
-# include <mlx.h>
-# include <errno.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <fcntl.h>
-# include <time.h>
-# include <sys/time.h>
-# include <math.h>
-# include <stdint.h>
-# include <string.h>
 
 # define MINIMAP_SIZE		250
 # define MINIMAP_OFFSET_X	20
@@ -62,10 +75,6 @@
 # define DOWN			115
 # define LEFT			113
 # define RIGHT			100
-/* # define UP				119
-# define DOWN			115
-# define LEFT			100
-# define RIGHT			97 */
 # define ARR_RIGHT		65361
 # define ARR_LEFT		65363
 # define PAUSE			32
@@ -82,21 +91,6 @@
 # define TEX_H		128
 
 # define DEAD_ZONE	1.0
-
-# define MAX_LINE_LENGTH	40
-# define MAX_LINES			4
-
-typedef enum e_char_value
-{
-	FREE_SPACE,
-	WALL,
-	CONF_DIR,
-	EMPTY,
-	WELL,
-	BUCKET,
-	DOOR,
-	EXIT_DOOR
-}	t_char_value;
 
 typedef struct s_node
 {
@@ -125,14 +119,26 @@ typedef struct s_astar
 	t_point				direction[4];
 }	t_astar;
 
-typedef struct s_mouse_data
+typedef struct s_los
 {
-	t_point	position;
-	t_point	center;
-	double	delta_x;
-	double	rotation_speed;
-	double	sensitivity;
-}	t_mouse_data;
+	t_point		map_check;
+	t_point		step;
+	t_dpoint	ray_dir;
+	t_dpoint	side_dist;
+	t_dpoint	delta_dist;
+}	t_los;
+
+typedef enum e_char_value
+{
+	FREE_SPACE,
+	WALL,
+	CONF_DIR,
+	EMPTY,
+	WELL,
+	BUCKET,
+	DOOR,
+	EXIT_DOOR
+}	t_char_value;
 
 typedef struct s_conf
 {
@@ -156,13 +162,14 @@ typedef struct s_map
 	int		**matrix;
 }	t_map;
 
-typedef struct s_window
+typedef struct s_mouse_data
 {
-	void	*ptr;
-	char	*name;
-	t_point	size;
-	t_point	offset;
-}	t_window;
+	t_point	position;
+	t_point	center;
+	double	delta_x;
+	double	rotation_speed;
+	double	sensitivity;
+}	t_mouse_data;
 
 typedef struct s_img
 {
@@ -192,6 +199,14 @@ typedef struct s_ray
 	double		tex_pos;		// Initial texture coordinate position
 }	t_ray;
 
+typedef enum e_walk_block
+{
+	WALK_AWAY,
+	WALK_TOWARD,
+	WALK_LEFT,
+	WALK_RIGHT
+}	t_walk_block;
+
 typedef struct s_texture
 {
 	void	*ptr;
@@ -219,25 +234,6 @@ typedef struct s_sprite_draw
 	int			color;					// Final color from texture
 }	t_sprite_draw;
 
-typedef enum e_npc_state
-{
-	WAIT,
-	PATROL,
-	FOLLOW,
-	SPEAK,
-	CHASE,
-	HIT,
-	BLOCKED
-}	t_npc_state;
-
-typedef enum e_walk_block
-{
-	WALK_AWAY,
-	WALK_TOWARD,
-	WALK_LEFT,
-	WALK_RIGHT
-}	t_walk_block;
-
 typedef struct s_sprite
 {
 	t_dpoint	pos;
@@ -263,15 +259,6 @@ typedef struct s_sprite
 	double		anim_timer;
 }	t_sprite;
 
-typedef struct s_los
-{
-	t_point		map_check;
-	t_point		step;
-	t_dpoint	ray_dir;
-	t_dpoint	side_dist;
-	t_dpoint	delta_dist;
-}	t_los;
-
 // Dialogue phases
 typedef enum e_dp
 {
@@ -287,27 +274,6 @@ typedef enum e_dp
 	PHASE_8
 }	t_dp;
 
-# define NOT_STARTED	0
-# define SEARCHING		1
-# define FOUND			2
-# define LOCATED		3
-# define WAITING		4
-# define HELPED			5
-# define SAVED			6
-# define EXIT_SEARCH	7
-# define UNLOCKED		8
-
-typedef struct s_story_state
-{
-	bool	has_spoken_to_witch;
-	bool	has_spoken_to_calico;
-	bool	has_spoken_to_fire_spirit;
-	int		sibling;
-	int		fireball;
-	int		key;
-	int		exit;
-}	t_story_state;
-
 typedef struct s_dial
 {
 	char			***dialogues;
@@ -316,6 +282,17 @@ typedef struct s_dial
 	int				phase_count;
 	t_dp			phase;
 }	t_dial;
+
+typedef enum e_npc_state
+{
+	WAIT,
+	PATROL,
+	FOLLOW,
+	SPEAK,
+	CHASE,
+	HIT,
+	BLOCKED
+}	t_npc_state;
 
 typedef struct s_npc
 {
@@ -347,6 +324,47 @@ typedef struct s_npc
 	bool		is_saved;
 }	t_npc;
 
+typedef struct s_item
+{
+	char		*type;
+	char		*name;
+	t_dpoint	pos;
+	t_texture	texture;
+	t_sprite	sprite;
+	bool		is_collectible;
+	bool		is_collected;
+}	t_item;
+
+typedef enum e_entity_type
+{
+	NPC,
+	ITEM
+}	t_entity_type;
+
+typedef struct s_entity
+{
+	t_entity_type	type;
+	t_dpoint		pos;
+	void			*ptr;
+}	t_entity;
+
+typedef struct s_player
+{
+	char		conf_dir;
+	t_dpoint	pos;
+	t_dpoint	last_pos;
+	t_dpoint	facing_dir;		// Direction vector
+	t_dpoint	view_plane;		// Camera plane vector: perp to facing_dir
+	double		rot_speed;		// (in radians)
+	double		move_speed;
+	double		facing_angle;	// (in radians)
+	bool		has_bucket;
+	bool		has_water;
+	bool		is_splashing;
+	bool		has_key;
+	t_sprite	sprite;
+}	t_player;
+
 typedef enum e_door_state
 {
 	DOOR_CLOSED,
@@ -372,30 +390,6 @@ typedef struct s_door
 	double			open_timer;
 }	t_door;
 
-typedef struct s_item
-{
-	char		*type;
-	char		*name;
-	t_dpoint	pos;
-	t_texture	texture;
-	t_sprite	sprite;
-	bool		is_collectible;
-	bool		is_collected;
-}	t_item;
-
-typedef enum e_entity_type
-{
-	NPC,
-	ITEM
-}	t_entity_type;
-
-typedef struct s_entity
-{
-	t_entity_type	type;
-	t_dpoint		pos;
-	void			*ptr;
-}	t_entity;
-
 typedef struct s_tex
 {
 	t_texture	no;
@@ -415,22 +409,34 @@ typedef enum e_game_state
 	WIN
 }	t_game_state;
 
-typedef struct s_player
+# define NOT_STARTED	0
+# define SEARCHING		1
+# define FOUND			2
+# define LOCATED		3
+# define WAITING		4
+# define HELPED			5
+# define SAVED			6
+# define EXIT_SEARCH	7
+# define UNLOCKED		8
+
+typedef struct s_story_state
 {
-	char		conf_dir;
-	t_dpoint	pos;
-	t_dpoint	last_pos;
-	t_dpoint	facing_dir;		// Direction vector
-	t_dpoint	view_plane;		// Camera plane vector: perp to facing_dir
-	double		rot_speed;		// (in radians)
-	double		move_speed;
-	double		facing_angle;	// (in radians)
-	bool		has_bucket;
-	bool		has_water;
-	bool		is_splashing;
-	bool		has_key;
-	t_sprite	sprite;
-}	t_player;
+	bool	has_spoken_to_witch;
+	bool	has_spoken_to_calico;
+	bool	has_spoken_to_fire_spirit;
+	int		sibling;
+	int		fireball;
+	int		key;
+	int		exit;
+}	t_story_state;
+
+typedef struct s_window
+{
+	void	*ptr;
+	char	*name;
+	t_point	size;
+	t_point	offset;
+}	t_window;
 
 typedef struct s_game
 {
@@ -563,7 +569,7 @@ void	spawn_door(t_game *game, double x, double y);
 t_door	*find_door_at(t_game *game, t_point pos);
 t_door	*find_closest_door(t_game *game, double range);
 
-// RENDERING
+// RAYCASTING
 void	calculate_texture_mapping(t_game *game, t_ray *ray);
 void	calculate_ray_properties(t_game *game, t_ray *ray);
 void	put_pixel(t_img *img, int x, int y, int color);
