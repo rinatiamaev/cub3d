@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calico_kitty_dialogues.h                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: riamaev <riamaev@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:13:30 by riamaev           #+#    #+#             */
-/*   Updated: 2025/03/24 22:13:34 by riamaev          ###   ########.fr       */
+/*   Updated: 2025/04/02 02:16:43 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,45 +15,47 @@
 
 # include "cub3d_bonus.h"
 
-static char	*calico_kitty_dialogues[][11] = {
-{"What a maze...", NULL},
-{"Oh, someone godferdumpin' help me!",
-	"My sibling and I are trapped here...",
-	"I tried to find a way out...",
-	"but a giant fire ball is wandering around!",
-	"I'm too scared to get back to my...",
-	"sibling or continue my search for an exit.",
-	"Could you get rid of it for me?",
-	"That's so kind of you...",
-	"Thank you! I'll wait here for you!", NULL
-},
-{"...",
-	"You saw the fireball!?",
-	"I hope you can get rid of it...", NULL
-},
-{"...",
-	"The fireball was an angry spirit!?",
-	"Good thing you cooled it down!",
-	"Hopefully, it won't get mad again...",
-	"Could you escort me to my sibling ?", NULL
-},
-{"...",
-	"You got rid of the fireball!?",
-	"It turned into a nice blue fireball ?!",
-	"Weeeeiiiirrrd! But cool!",
-	"Thank you so much for your help!",
-	"Could you escort me to my sibling ?", NULL
-},
-{"I should look for an exit, but you are so...",
-	"fearless, that we'll just rely on you!", NULL
-},
-{"...",
-	"You find a way out!?",
-	"Let's get the heaven out of here!",
-	NULL
-}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}
-};
+// Dialogue 0
+# define CKD_0_0 "What a maze..."
 
-void	init_calico_kitty_dialogues(t_game *game, t_npc *npc);
+// Dialogue 1
+# define CKD_1_0 "Oh, someone godferdumpin' help me!"
+# define CKD_1_1 "My sibling and I are trapped here..."
+# define CKD_1_2 "I tried to find a way out..."
+# define CKD_1_3 "but a giant fire ball is wandering around!"
+# define CKD_1_4 "I'm too scared to get back to my..."
+# define CKD_1_5 "sibling or continue my search for an exit."
+# define CKD_1_6 "Could you get rid of it for me?"
+# define CKD_1_7 "That's so kind of you..."
+# define CKD_1_8 "Thank you! I'll wait here for you!"
+
+// Dialogue 2
+# define CKD_2_0 "..."
+# define CKD_2_1 "You saw the fireball!?"
+# define CKD_2_2 "I hope you can get rid of it..."
+
+// Dialogue 3
+# define CKD_3_0 "..."
+# define CKD_3_1 "The fireball was an angry spirit!?"
+# define CKD_3_2 "Good thing you cooled it down!"
+# define CKD_3_3 "Hopefully, it won't get mad again..."
+# define CKD_3_4 "Could you escort me to my sibling ?"
+
+// Dialogue 4
+# define CKD_4_0 "..."
+# define CKD_4_1 "You got rid of the fireball!?"
+# define CKD_4_2 "It turned into a nice blue fireball ?!"
+# define CKD_4_3 "Weeeeiiiirrrd! But cool!"
+# define CKD_4_4 "Thank you so much for your help!"
+# define CKD_4_5 "Could you escort me to my sibling ?"
+
+// Dialogue 5
+# define CKD_5_0 "I should look for an exit, but you are so..."
+# define CKD_5_1 "fearless, that we'll just rely on you!"
+
+// Dialogue 6
+# define CKD_6_0 "..."
+# define CKD_6_1 "You find a way out!?"
+# define CKD_6_2 "Let's get the heaven out of here!"
 
 #endif

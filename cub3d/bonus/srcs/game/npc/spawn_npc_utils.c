@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 00:26:00 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/22 14:33:57 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/02 02:25:01 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	update_npc_list(t_game *game, t_npc *npc)
 	game->npc_count++;
 }
 
-void	allocate_dialogues(t_game *game, t_dial *dialog, char *dialogues[][11],
+void	allocate_dialogues(t_game *game, t_dial *dialog, char *dialogues[][10],
 															int phase_count)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:51:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/21 09:48:15 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/02 02:24:54 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_fire_spirit_dialogues(t_game *game, t_npc *npc)
 {
-	static char	*dialogues[][11] = {
+	static char	*dialogues[][10] = {
 	{"I have to keep calm and not burn everything...",
 		"Aaaaahuuuummmmmmm...", NULL
 	},
@@ -29,7 +29,7 @@ void	init_fire_spirit_dialogues(t_game *game, t_npc *npc)
 	},
 	{"You found a way out!?",
 		"Lead the way, I am right behind you!", NULL
-	}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}
+	}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}, {NULL}
 	};
 
 	npc->dialogue.phase_count = sizeof(dialogues) / sizeof(dialogues[0]);

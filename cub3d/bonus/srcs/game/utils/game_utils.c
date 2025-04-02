@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 11:08:10 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 16:28:52 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/02 02:01:09 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ bool	is_within_bounds(t_game *game, t_point pos)
 {
 	return (pos.x >= 0 && pos.x < game->map->size.x
 		&& pos.y >= 0 && pos.y < game->map->size.y);
+}
+
+bool	is_wall(t_game *game, t_point pos)
+{
+	return (game->map->matrix[(int)(pos.y)][(int)pos.x] == WALL);
 }
 
 int	handle_game_state(t_game *game)

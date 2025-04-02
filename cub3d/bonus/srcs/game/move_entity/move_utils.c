@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 23:50:07 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 11:05:28 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/02 02:00:55 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,4 @@ bool	is_any_npc_talking(t_game *game)
 		i++;
 	}
 	return (false);
-}
-
-bool	is_wall(t_game *game, t_point pos)
-{
-	return (game->map->matrix[(int)(pos.y)][(int)pos.x] == WALL);
 }

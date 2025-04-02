@@ -6,18 +6,33 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:05:57 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/21 11:41:00 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/02 02:24:44 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
-#include "calico_kitty_dialogues.h"
 
 void	init_calico_kitty_dialogues(t_game *game, t_npc *npc)
 {
-	npc->dialogue.phase_count = sizeof(calico_kitty_dialogues) / sizeof(calico_kitty_dialogues[0]);
-	allocate_dialogues(game, &npc->dialogue, calico_kitty_dialogues, npc->dialogue.phase_count);
+	static char	*calico_kitty_dialogues[][10] = {
+	{CKD_0_0, NULL},
+	{CKD_1_0, CKD_1_1, CKD_1_2, CKD_1_3, CKD_1_4,
+		CKD_1_5, CKD_1_6, CKD_1_7, CKD_1_8, NULL},
+	{CKD_2_0, CKD_2_1, CKD_2_2, NULL},
+	{CKD_3_0, CKD_3_1, CKD_3_2, CKD_3_3, CKD_3_4, NULL},
+	{CKD_4_0, CKD_4_1, CKD_4_2, CKD_4_3, CKD_4_4, CKD_4_5, NULL},
+	{CKD_5_0, CKD_5_1, NULL},
+	{CKD_6_0, CKD_6_1, CKD_6_2, NULL},
+	{NULL}, {NULL}, {NULL}
+	};
+
+	npc->dialogue.phase_count
+		= sizeof(calico_kitty_dialogues) / sizeof(calico_kitty_dialogues[0]);
+	allocate_dialogues
+		(game, &npc->dialogue, calico_kitty_dialogues,
+			npc->dialogue.phase_count);
 }
+
 static void	init_calico_kitty_sprites(t_npc *npc)
 {
 	static char	*idle_frames[] = {

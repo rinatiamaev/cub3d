@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 00:23:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/21 11:40:04 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/02 02:43:20 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,23 @@
 
 void	init_witch_kitty_dialogues(t_game *game, t_npc *npc)
 {
-	npc->dialogue.phase_count = sizeof(witch_kitty_dialogues) / sizeof(witch_kitty_dialogues[0]);
-	allocate_dialogues(game, &npc->dialogue, witch_kitty_dialogues, npc->dialogue.phase_count);
+	static char	*witch_kitty_dialogues[][10] = {
+	{WKD_0_0, NULL},
+	{WKD_1_0, WKD_1_1, WKD_1_2, WKD_1_3, WKD_1_4, WKD_1_5, WKD_1_6, NULL},
+	{WKD_2_0, WKD_2_1, WKD_2_2, WKD_2_3, WKD_2_4, NULL},
+	{WKD_3_0, WKD_3_1, WKD_3_2, NULL},
+	{WKD_4_0, WKD_4_1, WKD_4_2, WKD_4_3, NULL},
+	{WKD_5_0, WKD_5_1, WKD_5_2, WKD_5_3, WKD_5_4, NULL},
+	{WKD_6_0, WKD_6_1, WKD_6_2, NULL},
+	{WKD_7_0, WKD_7_1, WKD_7_2, WKD_7_3, NULL},
+	{NULL}
+	};
+
+	npc->dialogue.phase_count
+		= sizeof(witch_kitty_dialogues) / sizeof(witch_kitty_dialogues[0]);
+	allocate_dialogues
+		(game, &npc->dialogue, witch_kitty_dialogues,
+			npc->dialogue.phase_count);
 }
 
 static void	init_witch_kitty_sprites(t_npc *npc)

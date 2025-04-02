@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:17:07 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 16:42:46 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/02 02:44:36 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static int	close_game(t_game *game)
 {
-	stop_background_music();
 	free_game(game);
 	exit(EXIT_SUCCESS);
 	return (SUCCESS);
