@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:08:40 by nlouis            #+#    #+#             */
-/*   Updated: 2025/04/02 02:45:03 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/02 03:24:38 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -464,22 +464,30 @@ typedef struct s_game
 
 // UTILS
 void	error(t_game *game, char *err_msg);
+double	get_delta_time(void);
+void	draw_win_message(t_game *game);
+void	draw_lose_message(t_game *game);
+void	check_win_condition(t_game *game);
+int		handle_game_state(t_game *game);
+bool	has_line_of_sight(t_game *game, t_dpoint src, t_dpoint target);
+
+// LOAD_TEXTURES
+void	load_game_textures(t_game *game, t_conf conf);
+void	load_sprite_frames_npc(t_game *game, t_sprite *sprite);
+void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx);
+
+// FREE MEMORY
 void	free_game(t_game *game);
+
 void	free_tex_frames(t_game *game, t_texture *frames, int count);
+
+void	free_npc_textures(t_game *game, t_sprite *sprite);
 void	free_npc_waypoints(t_npc *npc);
 void	free_single_npc(t_game *game, t_npc *npc);
 void	free_npcs(t_game *game);
+
 void	free_single_item(t_game *game, t_item *item);
 void	free_items(t_game *game);
-void	load_single_xpm(t_game *game, t_texture *tex, char *path, void *mlx);
-double	get_delta_time(void);
-void	draw_lose_message(t_game *game);
-void	check_win_condition(t_game *game);
-void	draw_win_message(t_game *game);
-bool	is_facing_target(t_player *player, t_dpoint target_pos);
-void	update_entities_sort(t_game *game);
-int		handle_game_state(t_game *game);
-void	init_background(t_game *game);
 
 // FPS
 void	update_fps(t_game *game, double delta_time);
@@ -501,13 +509,8 @@ void	parse_map(t_game *game, t_map *map);
 
 // INITIALIZATION
 t_game	*init_game(char *filename);
-void	load_game_textures(t_game *game, t_conf conf);
-void	load_sprite_frames_npc(t_game *game, t_sprite *sprite);
-void	update_enemy_npc(t_game *game, t_npc *npc, double delta_time);
-void	update_all_npcs(t_game *game, double delta_time);
-bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time);
-void	move_npc_patrol(t_game *game, t_npc *npc, double delta_time);
-void	move_npc_follow(t_game *game, t_npc *npc, double delta_time);
+void	init_player(t_game *game, t_player *player);
+void	init_background(t_game *game);
 
 // TEMP_MESSAGE
 void	update_temp_message(t_game *game, double delta_time);
@@ -515,28 +518,34 @@ void	show_temp_message(t_game *game, double duration, const char *message);
 void	draw_temp_message(t_game *game);
 
 // NPC
+void	update_npc_list(t_game *game, t_npc *npc);
+void	set_frame_sizes(t_texture *frames, int count, t_point size);
+void	load_sprite_animation(t_game *game, t_texture **frames,
+			char **paths, int frame_count);
 void	init_npc_animation(t_game *game, t_sprite *sprite);
 void	init_npc_pathfinding(t_game *game, t_npc *npc);
 void	generate_npc_waypoints(t_npc *npc, t_game *game);
-void	update_npc_list(t_game *game, t_npc *npc);
 void	spawn_witch_kitty(t_game *game, double x, double y);
 void	spawn_calico_kitty(t_game *game, double x, double y);
-int		get_walk_animation_base_index(int walk_block);
-int		get_walk_block(t_npc *npc, t_player *player);
-void	draw_kitty_npc(t_game *game, t_npc *npc, double *z_buffer);
-void	draw_fire_spirit(t_game *game, t_npc *npc, double *z_buffer);
+void	change_fire_spirit_behavior(t_game *game, t_npc *npc);
+void	spawn_fire_spirit(t_game *game, double x, double y);
+
 void	play_movement_animation(t_npc *npc, double delta_time);
 void	play_wait_animation(t_npc *npc, double delta_time);
 void	play_speak_animation(t_npc *npc, double delta_time);
 void	play_fire_spirit_idle_animation(t_npc *npc, double delta_time);
 void	play_fire_spirit_hit_animation(t_npc *npc, double delta_time);
-void	change_fire_spirit_behavior(t_game *game, t_npc *npc);
-void	free_npc_textures(t_game *game, t_sprite *sprite);
-void	free_npc_waypoints(t_npc *npc);
-void	spawn_fire_spirit(t_game *game, double x, double y);
-bool	has_line_of_sight(t_game *game, t_dpoint src, t_dpoint target);
+
+int		get_walk_animation_base_index(int walk_block);
+int		get_walk_block(t_npc *npc, t_player *player);
+void	draw_kitty_npc(t_game *game, t_npc *npc, double *z_buffer);
+void	draw_fire_spirit(t_game *game, t_npc *npc, double *z_buffer);
+
 void	update_npc_follow_path(t_game *game, t_player *player, t_npc *npc);
 void	update_npc(t_game *game, t_npc *npc, double delta_time);
+void	update_enemy_npc(t_game *game, t_npc *npc, double delta_time);
+void	update_all_npcs(t_game *game, double delta_time);
+void	update_entities_sort(t_game *game);
 
 // ITEM
 void	spawn_well(t_game *game, double x, double y);
@@ -562,62 +571,78 @@ void	init_ray(t_game *game, t_ray *ray, int x);
 void	init_dda_ray(t_game *game, t_ray *ray);
 void	raycast(t_game *game, t_ray *ray, int *x, double *z_buffer);
 void	perform_dda(t_game *game, t_ray *ray);
-void	render_scene(t_game *game, double delta_time);
-bool	init_sprite_draw_data(t_sprite_draw *data, t_player player,
-			t_sprite *sprite);
+
+// DRAW ELEMENTS
 void	draw_minimap(t_game *game);
 void	draw_pause_message(t_game *game);
 void	draw_follow_state(t_game *game);
 void	draw_npc_dialogue(t_game *game);
 void	draw_splash(t_game *game, t_player *player, double delta_time);
 void	draw_bucket_state(t_game *game);
-void	init_player(t_game *game, t_player *player);
-void	set_frame_sizes(t_texture *frames, int count, t_point size);
-void	load_sprite_animation(t_game *game, t_texture **frames,
-			char **paths, int frame_count);
-void	draw_texture(t_game *game, t_texture *texture,
-			t_dpoint texture_pos, double *z_buffer);
-void	draw_entities(t_game *game, double *z_buffer);
 void	draw_key(t_game *game, t_item *item, double *z_buffer);
+void	draw_entities(t_game *game, double *z_buffer);
+
+// DRAW_SPRITE
+bool	init_sprite_draw_data(t_sprite_draw *data, t_player player,
+			t_sprite *sprite);
 double	compute_determinant(t_player player);
 double	compute_inverse_determinant(double det);
 double	compute_transform_x(t_player player, t_dpoint rel, double inv_det);
 double	compute_transform_y(t_player player, t_dpoint rel, double inv_det);
-bool	is_sprite_in_front(double transform_y);
 bool	calc_sprite_screen_coords(t_sprite_draw *data);
-void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
-			double *z_buffer);
+bool	is_sprite_in_front(double transform_y);
 void	draw_sprite_column(t_game *game, t_sprite_draw *data,
 			double *z_buffer);
+void	draw_sprite(t_game *game, t_player player, t_sprite *sprite,
+			double *z_buffer);
+void	draw_texture(t_game *game, t_texture *texture,
+			t_dpoint texture_pos, double *z_buffer);
+
+// MINIMAP
 int		get_tile_size(t_map *map);
 t_point	get_minimap_position(t_point map_pos, int tile_size);
 bool	is_point_in_circle(t_point offset, int radius);
 
 // HOOKS
+void	handle_event_hooks(t_game *game, t_window *window);
+void	handle_mouse_movement(t_game *game, t_window *window);
+int		pause_game(t_game *game);
+
+// INTERACTION
+bool	is_facing_target(t_player *player, t_dpoint target_pos);
+
+void	handle_interaction(t_game *game);
+
 bool	interact_with_door(t_game *game);
 bool	interact_with_item(t_game *game);
+
 t_npc	*find_closest_npc(t_game *game, double max_distance);
 bool	interact_with_npc(t_game *game);
 bool	advance_npc_dialogue(t_npc *npc, t_story_state *story);
-void	update_story(t_game *game);
 bool	handle_npc_chase(t_game *game);
 bool	handle_npc_dialogue(t_game *game);
 bool	continue_npc_dialogue(t_game *game);
-void	handle_interaction(t_game *game);
 void	make_closest_npc_follow(t_game *game, double max_distance);
-int		pause_game(t_game *game);
-void	handle_event_hooks(t_game *game, t_window *window);
 
 // GAME LOOP
 int		game_loop(t_game *game);
-void	handle_mouse_movement(t_game *game, t_window *window);
-bool	is_map_position_valid_player(t_game *game, t_dpoint pos);
+void	render_scene(t_game *game, double delta_time);
+
+// MOVE_HELPERS
+bool	is_wall(t_game *game, t_point pos);
 bool	is_within_bounds(t_game *game, t_point pos);
 bool	is_any_npc_talking(t_game *game);
+bool	is_map_position_valid_player(t_game *game, t_dpoint pos);
 bool	is_player_move_valid(t_game *game, t_dpoint pos);
 bool	is_position_valid_npc(t_game *game, t_npc *npc, t_astar *astar,
 			t_point pos);
-bool	is_wall(t_game *game, t_point pos);
+
+// MOVE_NPC
+bool	move_npc(t_game *game, t_npc *npc, t_dpoint target, double delta_time);
+void	move_npc_patrol(t_game *game, t_npc *npc, double delta_time);
+void	move_npc_follow(t_game *game, t_npc *npc, double delta_time);
+
+// MOVE_PLAYER
 void	handle_player_moves(t_game *game, double delta_time);
 void	rotate_player_left(t_player *player, double delta_time);
 void	rotate_player_right(t_player *player, double delta_time);
@@ -640,7 +665,16 @@ void	setup_astar_struct(t_game *game, t_astar *astar, t_point start,
 void	spread_child_node(t_game *game, t_npc *npc, t_astar *astar);
 void	reset_astar_struct(t_game *game, t_astar *astar);
 void	a_star_path(t_game *game, t_npc *npc, t_point start, t_point goal);
-void	handle_event_hooks(t_game *game, t_window *window);
+
+// STORY_LINE
+t_dp	get_witch_kitty_phase(t_story_state *story);
+t_dp	get_calico_phase(t_story_state *story);
+t_dp	get_fire_spirit_phase(t_story_state *story);
+void	allocate_dialogues(t_game *game, t_dial *dialog, char *dialogues[][10],
+			int phase_count);
+void	update_npc_story(t_game *game, t_npc *calico, t_npc *witch,
+			t_npc *fire_spirit);
+void	update_story(t_game *game);
 
 // MEMORY UTILS
 void	*x_malloc(t_game *game, size_t size);
@@ -651,13 +685,5 @@ char	*x_strdup(t_game *game, const char *s);
 char	**x_copy_strarray(t_game *game, char **array);
 int		**x_create_matrix(t_game *game, int row_count, int col_count);
 char	*x_itoa(t_game *game, int n);
-
-t_dp	get_witch_kitty_phase(t_story_state *story);
-t_dp	get_calico_phase(t_story_state *story);
-t_dp	get_fire_spirit_phase(t_story_state *story);
-void	allocate_dialogues(t_game *game, t_dial *dialog,
-			char *dialogues[][10], int phase_count);
-void	update_npc_story(t_game *game, t_npc *calico, t_npc *witch,
-			t_npc *fire_spirit);
 
 #endif
