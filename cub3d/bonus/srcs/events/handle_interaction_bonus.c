@@ -1,17 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_interaction.c                               :+:      :+:    :+:   */
+/*   handle_interaction_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 01:13:03 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/24 20:36:34 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/03 22:42:56 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
+/**
+ * @brief Tries to interact with nearby entities sorted by proximity.
+ *
+ * Iterates over all entities (NPCs and items), checking if they are within
+ * interaction range (2.0 units) and in the player's line of sight. If a valid
+ * interaction is possible, the corresponding function is called.
+ *
+ * @param game Pointer to the game structure.
+ * @return true if any entity interaction was successful, false otherwise.
+ */
 static bool	interact_with_sorted_entities(t_game *game)
 {
 	t_entity	*entity;
@@ -37,6 +47,17 @@ static bool	interact_with_sorted_entities(t_game *game)
 	return (false);
 }
 
+/**
+ * @brief Handles player interaction logic with NPCs, items, and doors.
+ *
+ * Attempts to continue an ongoing NPC dialogue first. If not applicable,
+ * checks for nearby interactable entities (NPCs or items) and handles them.
+ * If no interaction occurs and the player is chased by an enemy NPC,
+ * applies the splash effect if water is available. Finally, tries to
+ * interact with nearby doors.
+ *
+ * @param game Pointer to the game structure.
+ */
 void	handle_interaction(t_game *game)
 {
 	if (continue_npc_dialogue(game))

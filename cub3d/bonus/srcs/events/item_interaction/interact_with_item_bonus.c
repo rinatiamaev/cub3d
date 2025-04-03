@@ -1,17 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   interact_with_item.c                               :+:      :+:    :+:   */
+/*   interact_with_item_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 12:48:46 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/24 20:36:16 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/03 22:14:00 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
+/**
+ * @brief Finds the closest item within a given range that the player is facing
+ *
+ * This function iterates through all items in the game and returns the closest
+ * one that is within the specified range and in the player's field of view.
+ *
+ * @param game Pointer to the game context.
+ * @param range Maximum distance within which the item can be considered.
+ * @return Pointer to the closest valid item, or NULL if none is found.
+ */
 static t_item	*find_closest_item(t_game *game, double range)
 {
 	t_item	*closest_item;
@@ -37,6 +47,15 @@ static t_item	*find_closest_item(t_game *game, double range)
 	return (closest_item);
 }
 
+/**
+ * @brief Handles removal of the last remaining item from the item list.
+ *
+ * This function frees the specified item, then resets the item list
+ * by freeing the array and setting the count to zero.
+ *
+ * @param game Pointer to the game context.
+ * @param item_to_remove Pointer to the item to be removed.
+ */
 static void	handle_single_item_removal(t_game *game, t_item *item_to_remove)
 {
 	free_single_item(game, item_to_remove);
@@ -45,6 +64,16 @@ static void	handle_single_item_removal(t_game *game, t_item *item_to_remove)
 	game->item_count = 0;
 }
 
+/**
+ * @brief Creates a new item list excluding the specified item.
+ *
+ * This function allocates memory for a new list of items, copies all items
+ * from the original list except the specified one, and frees the original list.
+ *
+ * @param game Pointer to the game context.
+ * @param item_to_remove Pointer to the item to be removed.
+ * @return Pointer to the new list of items.
+ */
 static t_item	**create_new_item_list(t_game *game, t_item *item_to_remove)
 {
 	t_item	**new_list;
@@ -68,6 +97,16 @@ static t_item	**create_new_item_list(t_game *game, t_item *item_to_remove)
 	return (new_list);
 }
 
+/**
+ * @brief Removes an item from the game item list.
+ *
+ * This function handles the removal of an item from the game. If the item
+ * is the last one in the list, it frees the list and resets the count.
+ * Otherwise, it creates a new list without the specified item.
+ *
+ * @param game Pointer to the game context.
+ * @param item_to_remove Pointer to the item to be removed.
+ */
 static void	remove_item_from_list(t_game *game, t_item *item_to_remove)
 {
 	t_item	**new_list;
@@ -83,6 +122,19 @@ static void	remove_item_from_list(t_game *game, t_item *item_to_remove)
 	game->item_count--;
 }
 
+/**
+ * @brief Handles the interaction between the player and the closest item.
+ *
+ * Checks if the player is close enough to an item and facing it.
+ * If the item is collectible and hasn't been collected, it's added to the
+ * player’s inventory and removed from the world.
+ * Special interaction is handled for the "well" item, allowing the player
+ * to fill a bucket with water.
+ *
+ * @param game Pointer to the game context.
+ * @return true If the player successfully interacted with an item.
+ * @return false If no valid interaction occurred.
+ */
 bool	interact_with_item(t_game *game)
 {
 	t_item	*item;
