@@ -1,17 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   spawn_calico_kitty.c                               :+:      :+:    :+:   */
+/*   spawn_calico_kitty_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:05:57 by nlouis            #+#    #+#             */
-/*   Updated: 2025/04/02 02:24:44 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/03 10:37:35 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
+/**
+ * @brief Initializes the dialogue lines for the calico kitty NPC.
+ *
+ * This function defines a set of prewritten dialogue lines organized by
+ * phases for the calico kitty character. Each phase corresponds to a
+ * different stage of interaction or game progress. The dialogues are
+ * then allocated and stored in the NPC's `dialogue` structure using
+ * `allocate_dialogues`.
+ *
+ * The number of phases is determined automatically based on the size
+ * of the `calico_kitty_dialogues` array.
+ *
+ * @param game Pointer to the game context (used for memory management).
+ * @param npc Pointer to the NPC whose dialogue structure will be filled.
+ */
 void	init_calico_kitty_dialogues(t_game *game, t_npc *npc)
 {
 	static char	*calico_kitty_dialogues[][10] = {
@@ -33,6 +48,18 @@ void	init_calico_kitty_dialogues(t_game *game, t_npc *npc)
 			npc->dialogue.phase_count);
 }
 
+/**
+ * @brief Initializes the sprite paths and sizes for the calico kitty NPC.
+ *
+ * This function assigns predefined animation frame paths to the `t_sprite`
+ * structure of the NPC for different states: idle, moving, and speaking.
+ * The number of frames for each animation is automatically calculated.
+ * The sprite size is also set to a fixed resolution (64x64 pixels).
+ *
+ * These sprite paths are later used for texture loading and animation rendering.
+ *
+ * @param npc Pointer to the NPC structure whose sprite data is initialized.
+ */
 static void	init_calico_kitty_sprites(t_npc *npc)
 {
 	static char	*idle_frames[] = {
@@ -60,6 +87,22 @@ static void	init_calico_kitty_sprites(t_npc *npc)
 		= sizeof(speak_frames) / sizeof(speak_frames[0]);
 }
 
+/**
+ * @brief Initializes a calico kitty NPC with predefined attributes.
+ *
+ * This function sets the base parameters of a calico kitty NPC, including
+ * its type, name, position, movement speed, pathfinding data, sprite animations,
+ * and dialogue phases. The position is adjusted to center the NPC in its tile.
+ *
+ * It prepares the NPC for logic and rendering by calling setup functions for:
+ * - pathfinding (`init_npc_pathfinding`, `generate_npc_waypoints`)
+ * - sprite loading (`init_calico_kitty_sprites`, `init_npc_animation`)
+ * - dialogue data (`init_calico_kitty_dialogues`)
+ *
+ * @param game Pointer to the game structure.
+ * @param npc Pointer to the NPC structure to initialize.
+ * @param pos Initial tile-based position of the NPC.
+ */
 static void	init_calico_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 {
 	npc->type = "kitty";
@@ -75,6 +118,17 @@ static void	init_calico_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 	init_calico_kitty_dialogues(game, npc);
 }
 
+/**
+ * @brief Spawns a calico kitty NPC at the specified map coordinates.
+ *
+ * This function allocates memory for a new NPC of type "calico kitty",
+ * initializes its attributes (position, animations, dialogues, etc.)
+ * using `init_calico_kitty`, and adds it to the global NPC list.
+ *
+ * @param game Pointer to the main game structure.
+ * @param x X-coordinate (tile-based) where the kitty should be spawned.
+ * @param y Y-coordinate (tile-based) where the kitty should be spawned.
+ */
 void	spawn_calico_kitty(t_game *game, double x, double y)
 {
 	t_npc		*npc;

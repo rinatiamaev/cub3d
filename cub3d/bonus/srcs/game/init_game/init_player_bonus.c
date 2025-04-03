@@ -1,17 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_player.c                                      :+:      :+:    :+:   */
+/*   init_player_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:38:34 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 16:34:00 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/03 10:01:59 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
+/**
+ * @brief Initializes the splash animation frames for the player.
+ *
+ * Loads a sequence of full-screen splash textures used for displaying
+ * animated effects (water splash). These are assigned to the player's
+ * sprite structure and will be used when `is_splashing` is active.
+ *
+ * @param game Pointer to the game context.
+ * @param player Pointer to the player.
+ * @param sprite Pointer to the player's sprite data to store splash frames.
+ */
 static void	init_splash_animation(t_game *game, t_player *player,
 															t_sprite *sprite)
 {
@@ -29,6 +40,15 @@ static void	init_splash_animation(t_game *game, t_player *player,
 		sprite->splash_frames_count);
 }
 
+/**
+ * @brief Sets the player's facing angle based on the map configuration.
+ *
+ * Converts the character representing the direction (`N`, `S`, `E`, `W`)
+ * into a corresponding angle in radians, used to determine the direction
+ * the player is initially looking at.
+ *
+ * @param player Pointer to the player.
+ */
 static void	set_player_facing_angle(t_player *player)
 {
 	if (player->conf_dir == 'N')
@@ -41,6 +61,14 @@ static void	set_player_facing_angle(t_player *player)
 		player->facing_angle = 0;
 }
 
+/**
+ * @brief Calculates and sets the player's direction and camera plane.
+ *
+ * Uses the player's facing angle to derive the direction vector and
+ * view plane vector (used for raycasting field of view).
+ *
+ * @param player Pointer to the player.
+ */
 static void	set_player_direction_and_view_plane(t_player *player)
 {
 	player->facing_dir.x = cos(player->facing_angle);
@@ -49,6 +77,16 @@ static void	set_player_direction_and_view_plane(t_player *player)
 	player->view_plane.y = cos(player->facing_angle) * FOV;
 }
 
+/**
+ * @brief Initializes the player's position, movement parameters and visuals.
+ *
+ * Centers the player in the map tile, sets rotation/movement speed,
+ * initializes direction and camera plane based on config, and loads
+ * the splash animation textures.
+ *
+ * @param game Pointer to the game context.
+ * @param player Pointer to the player to initialize.
+ */
 void	init_player(t_game *game, t_player *player)
 {
 	player->pos.x += 0.5;

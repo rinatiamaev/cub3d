@@ -1,17 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   spawn_key.c                                        :+:      :+:    :+:   */
+/*   spawn_key_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:50:36 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/24 20:14:39 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/03 09:59:40 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
+/**
+ * @brief Initializes the animation frames and properties for a key sprite.
+ *
+ * Sets the sprite's size, position, animation frame paths, and frame count.
+ * Loads all animation frames into memory and records the animation start time.
+ *
+ * @param game Pointer to the game context.
+ * @param sprite Pointer to the sprite structure to initialize.
+ * @param pos Position of the key in world coordinates (centered in tile).
+ */
 static void	init_key_animation(t_game *game, t_sprite *sprite, t_dpoint pos)
 {
 	struct timeval	tv;
@@ -34,6 +44,14 @@ static void	init_key_animation(t_game *game, t_sprite *sprite, t_dpoint pos)
 	sprite->anim_start = tv.tv_sec * 1000000L + tv.tv_usec;
 }
 
+/**
+ * @brief Initializes the key item with its basic properties.
+ *
+ * Sets the type, name, collectible status, and position of the key item.
+ *
+ * @param item Pointer to the item structure to initialize.
+ * @param pos Position of the key in world coordinates (centered in tile).
+ */
 static void	init_key(t_item *item, t_dpoint pos)
 {
 	item->type = "animated";
@@ -42,6 +60,16 @@ static void	init_key(t_item *item, t_dpoint pos)
 	item->pos = pos;
 }
 
+/**
+ * @brief Spawns a key item into the game world with animation.
+ *
+ * Allocates and initializes a new key item at the specified tile position,
+ * centers it in the tile, initializes its animation, and adds it to the item list.
+ *
+ * @param game Pointer to the game context.
+ * @param x Tile-based x-coordinate for key placement.
+ * @param y Tile-based y-coordinate for key placement.
+ */
 void	spawn_key(t_game *game, double x, double y)
 {
 	t_item		*item;

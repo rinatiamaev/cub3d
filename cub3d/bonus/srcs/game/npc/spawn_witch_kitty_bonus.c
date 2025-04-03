@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   spawn_witch_kitty.c                                :+:      :+:    :+:   */
+/*   spawn_witch_kitty_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 00:23:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/04/02 02:43:20 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/03 10:44:29 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
-#include "witch_kitty_dialogues.h"
 
+/**
+ * @brief Initializes dialogue lines for the witch kitty NPC.
+ *
+ * Sets up a multi-phase dialogue sequence using predefined constants for each
+ * line of dialogue. The dialogues are organized in phases (rows of the array),
+ * allowing the NPC to progress through different conversation stages.
+ *
+ * The dialogue data is allocated dynamically using `allocate_dialogues`.
+ *
+ * @param game Pointer to the game context, used for memory allocation.
+ * @param npc Pointer to the NPC whose dialogue is being initialized.
+ */
 void	init_witch_kitty_dialogues(t_game *game, t_npc *npc)
 {
 	static char	*witch_kitty_dialogues[][10] = {
@@ -34,6 +45,15 @@ void	init_witch_kitty_dialogues(t_game *game, t_npc *npc)
 			npc->dialogue.phase_count);
 }
 
+/**
+ * @brief Initializes the sprite animation frame paths and size
+ *        for the witch kitty NPC.
+ *
+ * Sets the frame paths for idle, movement, and speaking animations using
+ * predefined constants. Also sets the default sprite size.
+ *
+ * @param npc Pointer to the NPC structure whose sprite should be configured.
+ */
 static void	init_witch_kitty_sprites(t_npc *npc)
 {
 	static char	*idle_frames[] = {
@@ -62,6 +82,18 @@ static void	init_witch_kitty_sprites(t_npc *npc)
 		= sizeof(speak_frames) / sizeof(speak_frames[0]);
 }
 
+/**
+ * @brief Initializes the properties, pathfinding, and animations
+ *        of a witch kitty NPC.
+ *
+ * Sets the NPC's type, name, position, movement speed, and following speed.
+ * Also initializes pathfinding parameters, waypoints, sprite animations,
+ * and dialogue for the witch kitty NPC.
+ *
+ * @param game Pointer to the main game structure.
+ * @param npc Pointer to the NPC structure to initialize.
+ * @param pos The initial spawn position of the NPC (tile-based).
+ */
 static void	init_witch_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 {
 	npc->type = "kitty";
@@ -76,6 +108,17 @@ static void	init_witch_kitty(t_game *game, t_npc *npc, t_dpoint pos)
 	init_witch_kitty_dialogues(game, npc);
 }
 
+/**
+ * @brief Spawns a new witch kitty NPC in the game world.
+ *
+ * This function allocates and initializes a new NPC representing a witch kitty
+ * at the specified map coordinates. It sets up its properties, dialogue,
+ * pathfinding, and sprite animation, and adds it to the game's NPC list.
+ *
+ * @param game Pointer to the main game context.
+ * @param x X-coordinate of the spawn position (tile-based).
+ * @param y Y-coordinate of the spawn position (tile-based).
+ */
 void	spawn_witch_kitty(t_game *game, double x, double y)
 {
 	t_npc		*npc;
