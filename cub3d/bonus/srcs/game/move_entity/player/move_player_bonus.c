@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 20:42:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/04/04 11:12:15 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/05 20:00:17 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,6 @@ void	move_player_forward(t_game *game, t_player *player,
 											double delta_time)
 {
 	move_player(game, player, player->facing_dir, delta_time);
-}
-
-/**
- * @brief Moves the player backward from their facing direction.
- *
- * @param game Pointer to the game structure.
- * @param player Pointer to the player structure.
- * @param delta_time Time elapsed since last frame.
- */
-void	move_player_backward(t_game *game, t_player *player,
-	double delta_time)
-{
-	t_dpoint	backward_direction;
-
-	backward_direction.x = -player->facing_dir.x;
-	backward_direction.y = -player->facing_dir.y;
-	move_player(game, player, backward_direction, delta_time);
 }
 
 /**
