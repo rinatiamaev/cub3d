@@ -1,17 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_npcs.c                                        :+:      :+:    :+:   */
+/*   free_npcs_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:30:22 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/23 16:40:41 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/04 11:54:15 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
+/**
+ * @brief Frees an array of texture frames.
+ *
+ * Iterates through the given array of t_texture frames and destroys each
+ * texture using MiniLibX. Then frees the array itself.
+ *
+ * @param game Pointer to the game instance (for mlx context).
+ * @param frames Array of t_texture to be destroyed.
+ * @param count Number of textures in the array.
+ */
 void	free_tex_frames(t_game *game, t_texture *frames, int count)
 {
 	int	j;
@@ -26,6 +36,15 @@ void	free_tex_frames(t_game *game, t_texture *frames, int count)
 	free(frames);
 }
 
+/**
+ * @brief Frees all animation frames associated with an NPC sprite.
+ *
+ * Releases memory for idle, move, speak, and optionally hit animations
+ * using `free_tex_frames`.
+ *
+ * @param game Pointer to the game instance (for mlx context).
+ * @param sprite Pointer to the NPC's sprite structure.
+ */
 void	free_npc_textures(t_game *game, t_sprite *sprite)
 {
 	free_tex_frames(game, sprite->idle_frames, sprite->idle_frames_count);
@@ -35,6 +54,15 @@ void	free_npc_textures(t_game *game, t_sprite *sprite)
 		free_tex_frames(game, sprite->hit_frames, sprite->hit_frames_count);
 }
 
+/**
+ * @brief Frees dynamically allocated NPC dialogue data.
+ *
+ * Frees each string array representing a phase of dialogue,
+ * then frees the top-level dialogue arrays: `dialogues` and
+ * `dialogue_count`.
+ *
+ * @param dialog Pointer to the t_dial structure.
+ */
 static void	free_dialogues(t_dial *dialog)
 {
 	int	i;
@@ -49,6 +77,20 @@ static void	free_dialogues(t_dial *dialog)
 	free(dialog->dialogue_count);
 }
 
+/**
+ * @brief Frees all resources related to a single NPC.
+ *
+ * Deallocates:
+ * - NPC waypoints
+ * - Texture animations
+ * - Pathfinding data (path and A* structure)
+ * - Dialogue data
+ *
+ * Also safely handles null pointers.
+ *
+ * @param game Pointer to the game context.
+ * @param npc Pointer to the NPC to free.
+ */
 void	free_single_npc(t_game *game, t_npc *npc)
 {
 	if (!npc)
@@ -69,6 +111,14 @@ void	free_single_npc(t_game *game, t_npc *npc)
 	free(npc);
 }
 
+/**
+ * @brief Frees all NPCs in the game.
+ *
+ * Iterates through the NPC array, calling `free_single_npc` on each one,
+ * and then frees the NPC list.
+ *
+ * @param game Pointer to the game structure containing the NPC array.
+ */
 void	free_npcs(t_game *game)
 {
 	int	i;

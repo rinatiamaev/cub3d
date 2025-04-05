@@ -1,17 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_map.c                                        :+:      :+:    :+:   */
+/*   parse_map_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 16:06:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/01 01:44:20 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/04 12:06:22 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
+/**
+ * @brief Validates that all texture and color configurations are present.
+ *
+ * Ensures that north, south, west, and east texture paths are defined, and that
+ * both floor and ceiling colors have been set. Triggers an error if any of
+ * these are missing.
+ *
+ * @param game Pointer to the game context.
+ * @param map Pointer to the map structure containing configuration data.
+ */
 static void	validate_config(t_game *game, t_map *map)
 {
 	if (!map->conf.tex_no || !map->conf.tex_so
@@ -21,6 +31,17 @@ static void	validate_config(t_game *game, t_map *map)
 		error(game, "Missing color configuration");
 }
 
+/**
+ * @brief Parses the 2D map layout and processes each cell.
+ *
+ * First calculates the map dimensions and normalizes the layout. Then it
+ * iterates over every character in the map and calls process_map_cell()
+ * to interpret it (e.g., wall, player, door). Finally, it checks that only
+ * one player start position was defined.
+ *
+ * @param game Pointer to the game context.
+ * @param map Pointer to the map structure containing the layout.
+ */
 static void	parse_map_layout(t_game *game, t_map *map)
 {
 	int	row;
@@ -43,6 +64,17 @@ static void	parse_map_layout(t_game *game, t_map *map)
 		error(game, "Map must have exactly one player starting position");
 }
 
+/**
+ * @brief Parses the configuration section and extracts the map layout.
+ *
+ * Iterates through the file content to process configuration lines (textures,
+ * colors). Once the layout start is detected, it validates the configuration
+ * and copies the layout portion into map->map_layout. It then parses the
+ * layout using parse_map_layout().
+ *
+ * @param game Pointer to the game context.
+ * @param map Pointer to the map structure.
+ */
 static void	parse_content(t_game *game, t_map *map)
 {
 	int	i;
@@ -63,6 +95,16 @@ static void	parse_content(t_game *game, t_map *map)
 	parse_map_layout(game, map);
 }
 
+/**
+ * @brief Converts the character-based map layout into an integer matrix.
+ *
+ * Each map character is translated into an integer using
+ * convert_map_char_to_value(). This matrix is later used for collision,
+ * raycasting, and pathfinding logic.
+ *
+ * @param game Pointer to the game context.
+ * @param map Pointer to the map structure.
+ */
 static void	map_layout_to_matrix(t_game *game, t_map *map)
 {
 	int	i;
@@ -82,6 +124,15 @@ static void	map_layout_to_matrix(t_game *game, t_map *map)
 	}
 }
 
+/**
+ * @brief Master map parsing function. Orchestrates the full map load.
+ *
+ * This function extracts file content, parses both the config and layout,
+ * and converts the layout to a numerical matrix. Used during game startup.
+ *
+ * @param game Pointer to the game context.
+ * @param map Pointer to the map structure to populate.
+ */
 void	parse_map(t_game *game, t_map *map)
 {
 	extract_file_content(game, map);

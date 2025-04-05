@@ -12,6 +12,17 @@
 
 #include "cub3d_bonus.h"
 
+/**
+ * @brief Checks if a position is too close to any NPC.
+ *
+ * Prevents the player from moving into a position that is too close
+ * to a non-player character (NPC). Uses cab (Manhattan) distance
+ * for the proximity check.
+ *
+ * @param game Pointer to the game structure.
+ * @param next_pos The position to check for proximity to NPCs.
+ * @return true if too close to an NPC, false otherwise.
+ */
 static bool	is_position_near_npc(t_game *game, t_dpoint next_pos)
 {
 	t_npc	*npc;
@@ -32,6 +43,16 @@ static bool	is_position_near_npc(t_game *game, t_dpoint next_pos)
 	return (false);
 }
 
+/**
+ * @brief Checks if a position is too close to any item.
+ *
+ * Prevents the player from moving into a position that is too close to
+ * an item. Uses cab (Manhattan) distance for the proximity check.
+ *
+ * @param game Pointer to the game structure.
+ * @param next_pos The position to check for proximity to items.
+ * @return true if too close to an item, false otherwise.
+ */
 static bool	is_position_near_item(t_game *game, t_dpoint next_pos)
 {
 	t_item	*item;
@@ -52,6 +73,16 @@ static bool	is_position_near_item(t_game *game, t_dpoint next_pos)
 	return (false);
 }
 
+/**
+ * @brief Checks if the player can walk through a door at the given grid pos.
+ *
+ * If there is no door at the position, the function returns true.
+ * If a door exists, it must be in the open state to be walkable.
+ *
+ * @param game Pointer to the game structure.
+ * @param grid_pos The grid position to check for a door.
+ * @return true if walkable, false if blocked by a closed or locked door.
+ */
 static bool	is_door_walkable_player(t_game *game, t_point grid_pos)
 {
 	t_door	*door;
@@ -62,6 +93,19 @@ static bool	is_door_walkable_player(t_game *game, t_point grid_pos)
 	return (door->state == DOOR_OPEN);
 }
 
+/**
+ * @brief Checks if the player's next position is valid for movement.
+ *
+ * A position is valid if:
+ * - it is within the map bounds,
+ * - it does not collide with an NPC,
+ * - it does not collide with an item,
+ * - it is not blocked by a closed or locked door.
+ *
+ * @param game Pointer to the game structure.
+ * @param next_pos The next position the player wants to move to.
+ * @return true if the move is allowed, false otherwise.
+ */
 bool	is_player_move_valid(t_game *game, t_dpoint next_pos)
 {
 	t_point	grid_pos;

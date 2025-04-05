@@ -1,17 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_player_move.c                               :+:      :+:    :+:   */
+/*   handle_player_move_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:28:44 by nlouis            #+#    #+#             */
-/*   Updated: 2025/03/24 20:34:16 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/04 11:14:41 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
+/**
+ * @brief Handles player movement based on key inputs.
+ *
+ * This function checks the state of various keys and moves the player
+ * accordingly. It also ensures that the player cannot move while an NPC
+ * is talking.
+ *
+ * @param game Pointer to the game structure.
+ * @param delta_time Time elapsed since last frame.
+ */
 void	handle_player_moves(t_game *game, double delta_time)
 {
 	t_player	*player;
