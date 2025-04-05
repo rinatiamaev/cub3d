@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:51:01 by nlouis            #+#    #+#             */
-/*   Updated: 2025/04/03 10:35:09 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/05 19:56:03 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,11 @@ static void	init_fire_spirit_sprites(t_npc *npc)
 /**
  * @brief Initializes a fire spirit NPC with default parameters and assets.
  *
- * This function sets up the fire spirit's new identity, position, movement behavior,
- * pathfinding data, sprites, animations, and dialogues. It prepares the NPC to
- * be updated and rendered in the game loop.
+ * This function sets up the fire spirit's new identity, position, movement
+ * behavior, pathfinding data, sprites, animations, and dialogues. It prepares
+ * the NPC to be updated and rendered in the game loop.
  *
- * @param game Pointer to the game context (used for asset loading and allocation).
+ * @param game Pointer to the game context (for asset loading and allocation).
  * @param npc Pointer to the NPC structure to initialize.
  * @param pos Initial position of the fire spirit (centered in the map cell).
  */

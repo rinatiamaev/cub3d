@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 22:22:21 by nlouis            #+#    #+#             */
-/*   Updated: 2025/04/02 18:19:36 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/05 19:56:39 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ static inline bool	is_sprite_stripe_visible(t_sprite_draw *data,
 static inline int	calc_tex_pixel_x(int stripe_x, int screen_x,
 										int sprite_width, int texture_width)
 {
-int	relative_x;
+	int	relative_x;
 
-relative_x = stripe_x - (-sprite_width / 2 + screen_x);
-return ((relative_x * texture_width) / sprite_width);
+	relative_x = stripe_x - (-sprite_width / 2 + screen_x);
+	return ((relative_x * texture_width) / sprite_width);
 }
 
 /**

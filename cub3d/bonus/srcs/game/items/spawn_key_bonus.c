@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:50:36 by nlouis            #+#    #+#             */
-/*   Updated: 2025/04/03 09:59:40 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/05 19:57:23 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ static void	init_key(t_item *item, t_dpoint pos)
  * @brief Spawns a key item into the game world with animation.
  *
  * Allocates and initializes a new key item at the specified tile position,
- * centers it in the tile, initializes its animation, and adds it to the item list.
+ * centers it in the tile, initializes its animation,
+ * and adds it to the item list.
  *
  * @param game Pointer to the game context.
  * @param x Tile-based x-coordinate for key placement.

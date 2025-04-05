@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 20:32:30 by nlouis            #+#    #+#             */
-/*   Updated: 2025/04/02 18:38:11 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/05 19:57:43 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ static inline t_texture	*get_hit_texture(t_npc *npc)
  * @param npc Pointer to the NPC providing position and size.
  * @param tex Pointer to the texture frame to assign as the idle frame.
  */
-static inline void	setup_temp_sprite(t_sprite *temp, t_npc *npc, t_texture *tex)
+static inline void	setup_temp_sprite(t_sprite *temp, t_npc *npc,
+														t_texture *tex)
 {
 	ft_memset(temp, 0, sizeof(t_sprite));
 	temp->pos = npc->pos;
