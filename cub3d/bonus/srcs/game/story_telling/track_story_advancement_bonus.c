@@ -6,7 +6,7 @@
 /*   By: nlouis <nlouis@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:08:04 by nlouis            #+#    #+#             */
-/*   Updated: 2025/04/04 12:17:49 by nlouis           ###   ########.fr       */
+/*   Updated: 2025/04/07 14:18:32 by nlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,15 @@ static void	update_key_story(t_game *game, t_item *key)
 	story = &game->story;
 	if (story->key == NOT_STARTED
 		&& has_line_of_sight(game, game->player.pos, key->pos))
-		story->key = LOCATED;
-	if (game->player.has_key)
+		{
+			story->key = LOCATED;
+			printf("Key located!\n");
+		}
+	if (game->player.has_key && story->key != FOUND)
+	{
 		story->key = FOUND;
+		printf("Key found!\n");
+	}
 }
 
 /**
@@ -51,7 +57,10 @@ static void	update_exit_story(t_game *game)
 	story = &game->story;
 	if (story->exit == NOT_STARTED
 		&& has_line_of_sight(game, game->player.pos, game->exit_pos))
+	{
 		story->exit = FOUND;
+		printf("Exit found!\n");
+	}
 }
 
 /**
@@ -141,7 +150,6 @@ void	update_story(t_game *game)
 		calico->dialogue.phase = get_calico_phase(&game->story);
 		fire_spirit->dialogue.phase = get_fire_spirit_phase(&game->story);
 	}
-	if (key)
-		update_key_story(game, key);
+	update_key_story(game, key);
 	update_exit_story(game);
 }
